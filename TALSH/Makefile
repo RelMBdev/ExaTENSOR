@@ -104,13 +104,16 @@ export PATH_CUTENSOR ?= /usr/local/cutensor
 #export PATH_ROCM ?= /sw/spock/spack-envs/views/rocm-4.2.0
 export PATH_ROCM ?= /opt/rocm
 # Only reset these if HIP files are spread in system directories:
- export PATH_HIP_INC ?= $(PATH_ROCM)/include
- export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
- export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
- export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
- export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
+export PATH_HIP_INC ?= $(PATH_ROCM)/include
+export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
+export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
+export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
+export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
 
 #YOU ARE DONE! MAKE IT!
+ifeq ($(USE_HIP),YES)
+PATH_CUDA_INC = .
+endif
 
 
 #=======================
@@ -389,7 +392,12 @@ NO_GPU = -DCUDA_ARCH=$(GPU_ARCH)
 else
 NO_GPU = -DNO_GPU
 endif
+ifeq ($(GPU_CUDA),HIP)
+NO_GPU = 
+NO_AMD = 
+else
 NO_AMD = -DNO_AMD
+endif
 NO_PHI = -DNO_PHI
 
 #C FLAGS:
