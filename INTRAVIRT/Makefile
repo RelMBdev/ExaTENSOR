@@ -16,6 +16,8 @@ export BLASLIB ?= NONE
 export GPU_CUDA ?= NOCUDA
 #NVIDIA GPU architecture (two digits, >=35):
 export GPU_SM_ARCH ?= 35
+#HIP portability layer [YES|NO]:
+export USE_HIP ?= NO
 #Operating system: [LINUX|NO_LINUX]:
 export EXA_OS ?= LINUX
 #Only for Linux DEV builds with GNU: [YES|NO]:
@@ -87,6 +89,21 @@ export PATH_CUDA ?= /usr/local/cuda
 export PATH_CUTT ?= /home/dima/src/cutt
 # cuTensor path (only if you use cuTensor library):
 export PATH_CUTENSOR ?= /home/dima/src/cutensor
+
+#HIP (set these only if you build with HIP):
+#export PATH_ROCM ?= /sw/spock/spack-envs/views/rocm-4.2.0
+export PATH_ROCM ?= /opt/rocm
+# Only reset these if HIP files are spread in system directories:
+export PATH_HIP_INC ?= $(PATH_ROCM)/include
+export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
+export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
+export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
+export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
+
+#YOU ARE DONE! MAKE IT!
+ifeq ($(USE_HIP),YES)
+PATH_CUDA_INC = .
+endif
 
 #YOU ARE DONE! MAKE IT!
 
@@ -296,6 +313,24 @@ else
 CUDA_FLAGS = -D_FORCE_INLINES
 endif
 
+#HIP INCLUDES:
+ifeq ($(USE_HIP),YES)
+HIP_INC = -D__HIP_PLATFORM_AMD__ -DUSE_HIP -I$(PATH_HIP_INC) -I$(PATH_HIPBLAS_INC)
+else
+HIP_INC = -I.
+endif
+
+CUDA_INC += $(HIP_INC)
+
+#HIP LIBS:
+ifeq ($(USE_HIP),YES)
+HIP_LINK = -fPIC -L$(PATH_HIP_LIB) -L$(PATH_HIPBLAS_LIB) -lhipblas -lamdhip64
+else
+HIP_LINK = -L.
+endif
+
+CUDA_LINK += $(HIP_LINK)
+
 #Accelerator support:
 ifeq ($(TOOLKIT),IBM)
 DF := -WF,
@@ -377,7 +412,11 @@ LTHREAD_IBM   = -lxlsmp
 LTHREAD = $(LTHREAD_$(TOOLKIT))
 
 #LINKING:
+ifeq ($(USE_HIP),YES)
+LFLAGS = $(MPI_LINK) $(LA_LINK) $(LTHREAD) $(HIP_LINK) $(LIB)
+else
 LFLAGS = $(LTHREAD) $(MPI_LINK) $(LA_LINK) $(CUDA_LINK) $(LIB)
+endif
 
 OBJS = ./OBJ/subspaces.o ./OBJ/hardware.o ./OBJ/tensor_recursive.o ./OBJ/virta.o
 
