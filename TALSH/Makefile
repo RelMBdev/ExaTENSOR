@@ -104,7 +104,7 @@ export PATH_CUTENSOR ?= /usr/local/cutensor
 #export PATH_ROCM ?= /sw/spock/spack-envs/views/rocm-4.2.0
 export PATH_ROCM ?= /opt/rocm
 # Only reset these if HIP files are spread in system directories:
- export PATH_HIP_INC ?= $(PATH_ROCM)/hip/include
+ export PATH_HIP_INC ?= $(PATH_ROCM)/include
  export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
  export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
  export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
