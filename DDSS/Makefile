@@ -335,11 +335,12 @@ lib$(NAME).a: $(OBJS)
 ./OBJ/sys_service.o: sys_service.c sys_service.h
 	$(CCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CFLAGS) sys_service.c -o ./OBJ/sys_service.o
 
-./OBJ/c2fortran.o: c2fortran.cu
 ifeq ($(USE_HIP),YES)
-	$(HIP_COMP) $(INC) $(MPI_INC) $(HIP_INC) $(HIP_FLAGS) c2fortran.cu -o ./OBJ/c2fortran.o
+./OBJ/c2fortran.o: c2fortran.hip.cu
+	$(HIP_COMP) $(INC) $(MPI_INC) $(HIP_INC) $(HIP_FLAGS) c2fortran.hip.cu -o ./OBJ/c2fortran.o
 else
 ifeq ($(GPU_CUDA),CUDA)
+./OBJ/c2fortran.o: c2fortran.cu
 	$(CUDA_COMP) -ccbin $(CUDA_HOST_COMPILER) $(INC) $(MPI_INC) $(CUDA_INC) $(CUDA_FLAGS) c2fortran.cu -o ./OBJ/c2fortran.o
 else
 	cp c2fortran.cu c2fortran.c
