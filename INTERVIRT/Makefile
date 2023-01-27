@@ -357,8 +357,8 @@ FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap 
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
 
-export GNUVERSIONGTEQ10=$(expr `gcc -dumpversion | cut -f1 -d.` \>= 10)
-ifeq "$(GCCVERSIONGTEQ10)" "1"
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+ifneq ($(GCC_VERSION_GE_100),)
     FFLAGS_GNU_DEV += -fallow-argument-mismatch
     FFLAGS_GNU_OPT += -fallow-argument-mismatch
     FFLAGS_GNU_PRF += -fallow-argument-mismatch
