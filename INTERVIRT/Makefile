@@ -347,15 +347,23 @@ FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=paral
 FFLAGS_CRAY_DEV = -c -g -fopenmp -J OBJ
 FFLAGS_CRAY_OPT = -c -O3 -fopenmp -J OBJ
 FFLAGS_CRAY_PRF = -c -g -O3 -fopenmp -J OBJ
-FFLAGS_GNU_DEV = -c -fopenmp -g -Og -fbacktrace -fcheck=bounds -fcheck=array-temps -fcheck=pointer -ffpe-trap=invalid,zero,overflow $(ASAN_COMPILE) -fallow-argument-mismatch
-FFLAGS_GNU_OPT = -c -fopenmp -O3 -fallow-argument-mismatch
-FFLAGS_GNU_PRF = -c -fopenmp -g -O3 -fallow-argument-mismatch
+FFLAGS_GNU_DEV = -c -fopenmp -g -Og -fbacktrace -fcheck=bounds -fcheck=array-temps -fcheck=pointer -ffpe-trap=invalid,zero,overflow $(ASAN_COMPILE) 
+FFLAGS_GNU_OPT = -c -fopenmp -O3 
+FFLAGS_GNU_PRF = -c -fopenmp -g -O3 
 FFLAGS_PGI_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0
 FFLAGS_PGI_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3
 FFLAGS_PGI_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3
 FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap -qstackprotect=all
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
+
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+ifneq ($(GCC_VERSION_GE_100),)
+    FFLAGS_GNU_DEV += -fallow-argument-mismatch
+    FFLAGS_GNU_OPT += -fallow-argument-mismatch
+    FFLAGS_GNU_PRF += -fallow-argument-mismatch
+endif
+
 FFLAGS = $(FFLAGS_$(TOOLKIT)_$(BUILD_TYPE)) $(DF)$(NO_GPU) $(DF)$(NO_AMD) $(DF)$(NO_PHI) $(DF)$(NO_BLAS) $(DF)-D$(EXA_OS) $(PIC_FLAG)
 
 #ExaTensor includes:
