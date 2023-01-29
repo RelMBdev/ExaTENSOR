@@ -29,7 +29,7 @@ export LINUX_GNU_ASAN ?= NO
 #ADJUST EXTRAS (optional):
 
 #LAPACK: [YES|NO]:
-export WITH_LAPACK ?= YES
+export WITH_LAPACK ?= NO
 #Fast GPU tensor transpose (cuTT library): [YES|NO]:
 export WITH_CUTT ?= NO
 #In-place GPU tensor contraction (cuTensor library): [YES|NO]:
