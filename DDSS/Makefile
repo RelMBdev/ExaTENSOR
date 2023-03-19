@@ -343,6 +343,7 @@ ifeq ($(GPU_CUDA),CUDA)
 ./OBJ/c2fortran.o: c2fortran.cu
 	$(CUDA_COMP) -ccbin $(CUDA_HOST_COMPILER) $(INC) $(MPI_INC) $(CUDA_INC) $(CUDA_FLAGS) c2fortran.cu -o ./OBJ/c2fortran.o
 else
+./OBJ/c2fortran.o: c2fortran.cu
 	cp c2fortran.cu c2fortran.c
 	$(CCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CFLAGS) c2fortran.c -o ./OBJ/c2fortran.o
 	rm -f c2fortran.c
