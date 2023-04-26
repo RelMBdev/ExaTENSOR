@@ -1,0 +1,40 @@
+   *** ExaTENSOR v.18.02.05 by Dmitry I. Lyakh ***
+MPI number of processes            :          4
+Current process rank               :          2
+MPI threading level                :          3 (Multiple)
+Max number of threads/process      :          1
+My processor name                  : nid005272
+Number of MPI processes per node   :          1
+Total amount of GPUs found on node :          1
+Info on GPU device                 :            0:
+ GPU major revision number         :            9
+ GPU minor revision number         :            0
+ GPU total global memory (B)       :  68702699520
+ GPU shared memory per SM (B)      :        65536
+ GPU constant memory (B)           :   2147483647
+ GPU registers per block           :        65536
+ GPU warp size                     :           64
+ GPU max threads per block         :         1024
+ GPU max threads along each dim    :         1024         1024         1024
+ GPU max blocks along each dim     :   2147483647   2147483647   2147483647
+ GPU amount of multiprocessors     :          110
+ GPU max threads per multiprocessor:         2048
+ GPU copy/computation overlap      :            0
+ GPU number of transfer engines    :            0
+ GPU kernel concurrency            :            1
+ GPU ECC status                    :            0
+ GPU clock rate (KHz)              :      1700000
+ GPU memory clock rate (KHz)       :      1600000
+ GPU memory bus width (b)          :         4096
+Range of GPUs assigned to process  :    0 -   0
+Ok
+###EXATENSOR LAUNCHED PROCESS         2/        4: Syncing ... Ok
+#MSG(exatensor): Building the process hierarchy and determining roles:
+#MSG(exatensor): Building the Node Aggregation Tree (NAT) ... Done
+Printing the HPC platform Node Aggregation Tree (NAT): Phys/Virt nodes =      2        3
+ NAT level    0:
+  Virt Node        2: Phys node range [     1:     2]
+ NAT level    1:
+  Virt Node        0: Phys node range [     1:     1]
+  Virt Node        1: Phys node range [     2:     2]
+Done: Status         0
