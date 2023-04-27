@@ -103,8 +103,13 @@ FC_PGI = pgf90
 FC_INTEL = ifort
 FC_CRAY = ftn
 FC_IBM  = xlf2008_r
+ifeq ($(TOOLKIT),INTEL)
+FC_MPICH = $(PATH_MPICH_BIN)/mpiifort
+FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpiifort
+else
 FC_MPICH = $(PATH_MPICH_BIN)/mpif90
 FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpifort
+endif
 ifeq ($(MPILIB),NONE)
 FC_NOWRAP = $(FC_$(TOOLKIT))
 else
@@ -118,8 +123,13 @@ CC_PGI = pgcc
 CC_INTEL = icc
 CC_CRAY = cc
 CC_IBM = xlc_r
+ifeq ($(TOOLKIT),INTEL)
+CC_MPICH = $(PATH_MPICH_BIN)/mpiicc
+CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpiicc
+else
 CC_MPICH = $(PATH_MPICH_BIN)/mpicc
 CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpicc
+endif
 ifeq ($(MPILIB),NONE)
 CC_NOWRAP = $(CC_$(TOOLKIT))
 else
@@ -133,8 +143,13 @@ CPP_PGI = pgc++
 CPP_INTEL = icc
 CPP_CRAY = CC
 CPP_IBM = xlC_r
+ifeq ($(TOOLKIT),INTEL)
+CPP_MPICH = $(PATH_MPICH_BIN)/mpiicpc
+CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpiicpc
+else
 CPP_MPICH = $(PATH_MPICH_BIN)/mpicxx
 CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpicxx
+endif
 ifeq ($(MPILIB),NONE)
 CPP_NOWRAP = $(CPP_$(TOOLKIT))
 else
