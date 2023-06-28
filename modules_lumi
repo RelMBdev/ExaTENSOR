@@ -1,0 +1,38 @@
+#!\bin\bash
+
+module purge
+module load LUMI/22.08
+module load partition/G
+module load buildtools/22.08
+module load PrgEnv-gnu
+module load amd-mixed
+module load cray-mpich
+module load cray-libsci
+module load cray-libsci_acc
+module load cray-python
+module load craype-network-ofi
+module load cray-hdf5-parallel
+module load craype-x86-trento
+module load rocm
+module load craype-accel-amd-gfx90a
+module load craype-hugepages2M
+
+export WRAP=WRAP
+export TOOLKIT=GNU
+export MPILIB=MPICH
+export PATH_MPICH=/opt/cray/pe/mpich/8.1.18/ofi/gnu/9.1
+export BUILD_TYPE=OPT
+export BLASLIB=LIBSCI
+export EXA_OS=LINUX
+export PATH_BLAS_LIBSCI=${CRAY_LIBSCI_PREFIX_DIR}/lib
+export MATH_ROOT=${CRAY_LIBSCI_PREFIX_DIR}
+export WITH_LAPACK=NO
+export GPU_CUDA=CUDA
+export GPU_SM_ARCH=90
+export USE_HIP=YES
+export PATH_ROCM=${ROCM_PATH}
+#export EXA_TALSH_ONLY=NO
+
+export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source modules
+source modules_frontier
 
 make clean
 make
