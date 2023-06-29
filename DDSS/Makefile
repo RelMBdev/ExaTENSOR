@@ -247,7 +247,7 @@ else
 CUDA_FLAGS = -D_FORCE_INLINES
 endif
 
-HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
+HIP_FLAGS = -c -g -O1 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
 
 #Accelerator support:
 ifeq ($(TOOLKIT),IBM)
