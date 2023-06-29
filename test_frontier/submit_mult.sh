@@ -1,10 +1,12 @@
 #!/bin/bash
+#SBATCH -A CHM191
 #SBATCH -J exatensor_test
 #SBATCH -o job_%j.out
 #SBATCH -e job_%j.err
 #SBATCH -t 00:10:00
 #SBATCH -p batch
 #SBATCH -N 2
+#SBATCH --reservation=frontier-hackathon
 
 echo "Starting job $SLURM_JOB_ID at `date`"
 
@@ -29,10 +31,10 @@ export QF_HOST_BUFFER_SIZE=15000  #host buffer size per MPI process in MB (less 
 #export QF_GPUS_PER_PROCESS=0      #number of discrete NVIDIA GPUs per MPI process (optional)
 #export QF_MICS_PER_PROCESS=0      #number of discrete Intel Xeon Phis per MPI process (optional)
 export QF_AMDS_PER_PROCESS=1      #number of discrete AMD GPUs per MPI process (optional)
-export QF_NUM_THREADS=${SLURM_CPUS_PER_TASK}          #initial number of CPU threads per MPI process (irrelevant)
+export QF_NUM_THREADS=${QF_CORES_PER_PROCESS}          #initial number of CPU threads per MPI process (irrelevant)
 
 # OpenMP environment
-export OMP_NUM_THREADS=$QF_NUM_THREADS     #initial number of OpenMP threads per MPI process (=QF_NUM_THREADS)
+export OMP_NUM_THREADS=${QF_NUM_THREADS}    #initial number of OpenMP threads per MPI process (=QF_NUM_THREADS)
 #export OMP_DYNAMIC=false                   #no OpenMP dynamic threading
 #export OMP_NESTED=true                     #OpenMP nested parallelism is mandatory
 #export OMP_MAX_ACTIVE_LEVELS=3             #max number of OpenMP nesting levels (at least 3)
@@ -95,9 +97,9 @@ cp ${SLURM_SUBMIT_DIR}/../Qforce.x .
 ulimit -c unlimited
 ulimit -s unlimited
 
-time srun -N${SLURM_NNODES} -n${SLURM_NTASKS} -c${OMP_NUM_THREADS} --cpu-bind=threads --threads-per-core=1 -m block:cyclic --gpus-per-node=4 --gpu-bind=closest  ./Qforce.x >& qforce.output
+time srun -N${SLURM_NNODES} -n${QF_NUM_PROCS} -c${OMP_NUM_THREADS} -m block:cyclic --gpus-per-node=4 --gpu-bind=closest  ./Qforce.x >& qforce.output
 
-
+echo "             submit command=time srun -N${SLURM_NNODES} -n${SLURM_NTASKS} -c${OMP_NUM_THREADS} -m block:cyclic --gpus-per-node=4 --gpu-bind=closest  ./Qforce.x >& qforce.output"
 echo "            OMP_NUM_THREADS=${OMP_NUM_THREADS}"
 echo "      MPICH_GPU_IPC_ENABLED=${MPICH_GPU_IPC_ENABLED}"
 echo " MPICH_SMP_SINGLE_COPY_MODE=${MPICH_SMP_SINGLE_COPY_MODE}"
