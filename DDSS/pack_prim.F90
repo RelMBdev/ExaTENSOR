@@ -113,6 +113,8 @@
         integer(INTL), parameter, private:: DEFAULT_PACKET_TAG=0 !default packet tag
  !MPI:
         integer(INT_MPI), parameter, private:: DEFAULT_MPI_TAG=0
+!        integer(OMP_LOCK_KIND), private :: LOCK
+!        integer(INTD), public:: LOCK_INITIALIZED=0
 !TYPES:
  !Packet (local):
         type, public:: obj_pack_t
@@ -1131,8 +1133,10 @@
          integer(INTD):: errc
          integer(INTL):: cap
          integer(INT_MPI):: rk,tg,cm,rh,ml,hl,err_mpi
+         integer(INT_MPI):: tag2,src
 
-!$OMP CRITICAL (PROBE)
+
+!$OMP CRITICAL
          delivered=.FALSE.; cap=this%get_capacity(errc)
          if(cap.gt.0.and.errc.eq.PACK_SUCCESS) then
           if(this%get_length(errc).eq.0) then
@@ -1147,19 +1151,37 @@
                  if(present(tag)) then; tg=tag; else; tg=MPI_ANY_TAG; endif
                  if(present(comm)) then; cm=comm; else; cm=MPI_COMM_WORLD; endif
                  !call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
+
+                 ! OMP mutex lock (acquire) here, named
+!critical
+!                 if(LOCK_INITIALIZED.eq.0) then 
+!                 OMP_INIT_LOCK(LOCK)
+!                  LOCK_INITIALIZED=1
+!                 endif
+!end critical
+!                 CALL OMP_SET_LOCK(LOCK)
                  call MPI_Iprobe(rk,tg,cm,delivered,comm_handle%stat,err_mpi)
                  if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
+                  tag2 = comm_handle%stat(MPI_TAG)
+                  src = comm_handle%stat(MPI_SOURCE)
                   call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
                   if(err_mpi.eq.MPI_SUCCESS) then
                    if(cap.lt.int(ml,INTL)) call this%resize(errc,buf_size=int(ml,INTL))
                    if(errc.eq.PACK_SUCCESS) then
-                    call receive_mpi_message(rk,tg,cm,ml,this%buffer,rh,errc)
-                    if(errc.eq.PACK_SUCCESS) call comm_handle%construct(cm,rh,errc,this)
+                    call receive_mpi_message(src,tag2,cm,ml,this%buffer,comm_handle%stat,errc)
+                    ! if(errc.eq.PACK_SUCCESS) call comm_handle%construct(cm,rh,errc,this)
+                    if(errc.eq.PACK_SUCCESS) then
+                      call comm_handle%construct(cm,MPI_REQUEST_NULL,errc,this)
+                    endif
                    endif
                   else
+                    ! OMP unlock (release) (got the packet but err occured)
+!                 CALL OMP_UNSET_LOCK(LOCK)
                    errc=PACK_MPI_ERR
                   endif
                  else
+                    ! OMP unlock (didn't get the packet)
+!                 CALL OMP_UNSET_LOCK(LOCK)
                   if(err_mpi.ne.MPI_SUCCESS) errc=PACK_MPI_ERR
                  endif
                 endif
@@ -1180,24 +1202,28 @@
          else
           if(errc.eq.PACK_SUCCESS) errc=PACK_NULL
          endif
-!$OMP END CRITICAL (PROBE)
+!$OMP END CRITICAL
          if(present(ierr)) ierr=errc
          return
 
          contains
 
-          subroutine receive_mpi_message(rk,tg,cm,jl,buf,jreq,jerr)
+          subroutine receive_mpi_message(rk,tg,cm,jl,buf,stat,jerr)
            implicit none
            integer(INT_MPI), intent(in):: rk,tg,cm
            integer(INT_MPI), intent(in):: jl           !length of the buffer
            character(C_CHAR), intent(inout):: buf(1:*) !buffer
-           integer(INT_MPI), intent(inout):: jreq      !MPI request handle
+     !      integer(INT_MPI), intent(inout):: jreq      !MPI request handle
+           integer(INT_MPI), intent(inout):: stat(MPI_STATUS_SIZE)
+!MPI status size
            integer(INTD), intent(out):: jerr           !error code
            integer(INT_MPI):: jer
 
            jerr=PACK_SUCCESS
            if(jl.ge.0) then
-            call MPI_Irecv(buf,jl,MPI_CHARACTER,rk,tg,cm,jreq,jer)
+            ! call MPI_Irecv(buf,jl,MPI_CHARACTER,rk,tg,cm,jreq,jer)
+             call MPI_Recv(buf,jl,MPI_CHARACTER,rk,tg,cm,stat,jer)
+
             if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
            else
             jerr=PACK_OVERFLOW
@@ -1425,8 +1451,14 @@
           if(errc.eq.PACK_SUCCESS) then
            if(this%is_active(errc)) then !an active communication handle
             if(errc.eq.PACK_SUCCESS) then
-             call MPI_Wait(this%req,this%stat,err_mpi)
+             if(this%req.ne.MPI_REQUEST_NULL) then
+              call MPI_Wait(this%req,this%stat,err_mpi)
+             else
+              err_mpi=MPI_SUCCESS
+             endif 
+            ! call MPI_Wait(this%req,this%stat,err_mpi)
              if(err_mpi.eq.MPI_SUCCESS) then
+!                OMP_UNSET_LOCK(LOCK)
               if(associated(this%recv_pack_env)) then !receive operation required decoding
                call MPI_Get_Count(this%stat,MPI_CHARACTER,ml,err_mpi)
                if(err_mpi.eq.MPI_SUCCESS) then
@@ -2456,6 +2488,7 @@
           if(errc.ne.PACK_SUCCESS) then; ierr=42; return; endif
   !Wait upon the completion of the receive:
           call comm_hl(1)%wait(errc); if(errc.ne.PACK_SUCCESS) then; ierr=43; return; endif
+  !        OMP_UNSET_LOCK(LOCK)
   !Unpack packets from the envelope (10 packets):
           n=0; n=envelope%get_num_packets(errc); if(errc.ne.PACK_SUCCESS) then; ierr=44; return; endif
           if(n.ne.10) then; ierr=45; errc=-777; return; endif
