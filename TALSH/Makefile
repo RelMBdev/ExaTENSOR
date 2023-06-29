@@ -376,9 +376,9 @@ endif
 
 ifdef CRAY_ACCEL_TARGET
 HIP_TARGET=$(shell echo $(CRAY_ACCEL_TARGET) | sed -e s/amd_//g )
-HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=$(HIP_TARGET)
+HIP_FLAGS = -c -g -O1 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=$(HIP_TARGET)
 else
-HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
+HIP_FLAGS = -c -g -O1 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
 endif
 
 #Accelerator support:
