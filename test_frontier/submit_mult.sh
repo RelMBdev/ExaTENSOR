@@ -6,7 +6,6 @@
 #SBATCH -t 00:10:00
 #SBATCH -p batch
 #SBATCH -N 2
-#SBATCH --reservation=frontier-hackathon
 
 echo "Starting job $SLURM_JOB_ID at `date`"
 
@@ -24,7 +23,7 @@ echo ${MEMBERWORK}
 export QF_PATH=${SLURM_SUBMIT_DIR}/..
 export QF_NUM_PROCS=8             #total number of MPI processes
 export QF_PROCS_PER_NODE=4        #number of MPI processes per node
-export QF_CORES_PER_PROCESS=4     #number of physical CPU cores per MPI process (no less than 1)
+export QF_CORES_PER_PROCESS=7     #number of physical CPU cores per MPI process (no less than 1)
 export QF_MEM_PER_PROCESS=10000   #host RAM memory limit per MPI process in MB
 export QF_NVMEM_PER_PROCESS=0     #non-volatile memory limit per MPI process in MB
 export QF_HOST_BUFFER_SIZE=15000  #host buffer size per MPI process in MB (less than QF_MEM_PER_PROCESS!)
