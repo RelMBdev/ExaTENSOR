@@ -3,4 +3,4 @@
 source modules_frontier
 
 make clean
-make
+make VERBOSE=1

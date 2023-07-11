@@ -3,29 +3,44 @@
 module purge
 module load DefApps/default
 module load libfabric
+module load craype-network-ofi
 module load PrgEnv-gnu
-module load amd-mixed
-module load cray-mpich
+module load gcc
+# This loads cray-mpich/8.1.25
+module load cpe/23.03
+
+# libraries for graphic card
+module load craype-x86-trento
+module load craype-accel-amd-gfx90a
 module load cray-libsci
 module load cray-libsci_acc
-module load cray-python
-module load craype-network-ofi
-module load cray-hdf5-parallel
-module load craype-x86-trento
 module load rocm
-module load craype-accel-amd-gfx90a
-module load craype-hugepages2M
-module load gdb4hpc
-module load darshan-runtime
-module load perftools-base
+
 module load xpmem
 module load cray-pmi
+module load craype-hugepages2M
+module load cray-python
+#module load amd-mixed
+
+#module load cray-hdf5-parallel
+#module load darshan-runtime
+
+# Debugging / Performance
+#module load perftools-base
+#module load valgrind4hpc
+#module load gdb4hpc
+#module load forge
+
+# Required for non-default CPE modules 
+export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
+
+export BUILD_TYPE=DEV #for debugging
+#export BUILD_TYPE=OPT
 
 export WRAP=WRAP
 export TOOLKIT=GNU
 export MPILIB=MPICH
 export PATH_MPICH=${CRAY_MPICH_PREFIX}
-export BUILD_TYPE=OPT
 export BLASLIB=LIBSCI
 export EXA_OS=LINUX
 export PATH_BLAS_LIBSCI=${CRAY_LIBSCI_PREFIX_DIR}/lib
@@ -35,18 +50,7 @@ export GPU_SM_ARCH=90
 export USE_HIP=YES
 export PATH_ROCM=${ROCM_PATH}
 
-#missing linking?
+#missing linking - seems to be included
 #-I${MPICH_DIR}/include
-#-L${MPICH_DIR}/lib -lmpi \
-#  ${CRAY_XPMEM_POST_LINK_OPTS} -lxpmem \
-#  ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}
-
-
-
-#additional env
-export HIPFLAGS='--amdgpu-target=gfx90a'
-export CXX='CC –x hip'
-export LDFLAGS=" –L${ROCM_PATH}/lib"
-export LIB=' -lamdhip64'
-
+#-L${MPICH_DIR}/lib -lmpi ${CRAY_XPMEM_POST_LINK_OPTS} -lxpmem ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}
 

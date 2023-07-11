@@ -1135,8 +1135,7 @@
          integer(INT_MPI):: rk,tg,cm,rh,ml,hl,err_mpi
          integer(INT_MPI):: tag2,src
 
-
-!$OMP CRITICAL
+!$OMP CRITICAL (PROBE)
          delivered=.FALSE.; cap=this%get_capacity(errc)
          if(cap.gt.0.and.errc.eq.PACK_SUCCESS) then
           if(this%get_length(errc).eq.0) then
@@ -1202,7 +1201,7 @@
          else
           if(errc.eq.PACK_SUCCESS) errc=PACK_NULL
          endif
-!$OMP END CRITICAL
+!$OMP END CRITICAL (PROBE)
          if(present(ierr)) ierr=errc
          return
 
