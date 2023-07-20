@@ -1,0 +1,205 @@
+
+OPENMP DISPLAY ENVIRONMENT BEGIN
+  _OPENMP = '201511'
+  OMP_DYNAMIC = 'FALSE'
+  OMP_NESTED = 'FALSE'
+  OMP_NUM_THREADS = '1'
+  OMP_SCHEDULE = 'DYNAMIC'
+  OMP_PROC_BIND = 'CLOSE'
+  OMP_PLACES = '{1}'
+  OMP_STACKSIZE = '209715200'
+  OMP_WAIT_POLICY = 'PASSIVE'
+  OMP_THREAD_LIMIT = '4294967295'
+  OMP_MAX_ACTIVE_LEVELS = '1'
+  OMP_CANCELLATION = 'FALSE'
+  OMP_DEFAULT_DEVICE = '0'
+  OMP_MAX_TASK_PRIORITY = '0'
+  OMP_DISPLAY_AFFINITY = 'FALSE'
+  OMP_AFFINITY_FORMAT = 'level %L thread %i affinity %A'
+  OMP_ALLOCATOR = 'omp_default_mem_alloc'
+  OMP_TARGET_OFFLOAD = 'DEFAULT'
+  GOMP_CPU_AFFINITY = ''
+  GOMP_STACKSIZE = '209715200'
+  GOMP_SPINCOUNT = '300000'
+OPENMP DISPLAY ENVIRONMENT END
+Testing TAL-SH C/C++ API warm up ...
+ Number of NVIDIA GPU found on node = 1
+ TAL-SH has been initialized: Status 0: Host buffer size = 1072693248
+ Three TAL-SH tensor blocks have been constructed: Volumes: 640000, 2560000, 640000: GFlops = 2.048000
+ Tensor contraction has been scheduled for execution: Status 0
+ Tensor contraction has completed successfully: Status 2000005: Time 4.488769 sec
+ Tensor contraction total time = 4.776440: GFlop/s = 0.428771
+ Tensor result was moved back to Host: Norm1 = 6.877679E-03: Correct = 2.048000E+04
+ Three external tensor blocks have been unregistered with TAL-SH
+ TAL-SH has been shut down: Status 0
+Done: Status     0
+ 
+Testing TAL-SH C/C++ API ...
+ Number of NVIDIA GPU found on node = 1
+ TAL-SH has been initialized: Status 0: Host buffer size = 1072693248
+ Three TAL-SH tensor blocks have been constructed: Volumes: 640000, 2560000, 640000: GFlops = 2.048000
+ Tensor contraction has been scheduled for execution: Status 0
+ Tensor contraction has completed successfully: Status 2000005: Time 0.004097 sec
+ Tensor contraction total time = 0.001800: GFlop/s = 1137.564144
+ Tensor result was moved back to Host: Norm1 = 6.877679E-03: Correct = 2.048000E+04
+ Three external tensor blocks have been unregistered with TAL-SH
+ TAL-SH has been shut down: Status 0
+Done: Status     0
+ 
+Testing TAL-SH C++11 API ...
+ Max buffer size on Host             = 2146959360
+ Max tensor size on Host             = 715653120
+ Max buffer size on execution device = 61800972288
+ Max tensor size on execution device = 10300162048
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x100005093f8
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+First tensor contraction completion status = 1; Error 0
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x100005093f8
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+Destination tensor first element value = -1.83255e-06 (reference = 0.008)
+Second tensor contraction completion status = 1; Error 0
+Destination tensor first element value = -1.83255e-06 (reference = 0.016)
+Destination tensor first element value via view = -1.83255e-06 (reference = 0.016)
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x100005093f8
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+D(a,b,c,d)+=L(a,b,e,f)*R(e,f,c,d)
+libhugetlbfs [nid006097:119209]: WARNING: New heap segment map at 0x1003fc00000 failed: Cannot allocate memory
+libhugetlbfs [nid006097:119209]: WARNING: New heap segment map at 0x100bfc00000 failed: Cannot allocate memory
+libhugetlbfs [nid006097:119209]: WARNING: New heap segment map at 0x101bfe00000 failed: Cannot allocate memory
+Matrix multiplication completion status = 1; Error 0
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x100005093f8
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+Slice extraction completion status = 1; Error 0
+Slice value reset completion status = 1; Error 0
+Slice insertion completion status = 1; Error 0
+Done: Status     0
+ 
+Testing TAL-SH C/C++ XL API ...
+ Max buffer size on Host             = 4293918720
+ Max tensor size on Host             = 1431306240
+ Max buffer size on execution device = 61741203456
+ Max tensor size on execution device = 10290200576
+ Created tensor arguments (45,90,45,90) of size 131220000
+ Destination tensor 1-norm = 1640.25
+ Tensor contraction completion status = 1; Time (s) = 0.161977; Error 0
+ Performance (GFlop/s) = 3280.97
+ Destination tensor 1-norm = 8.64073e+06
+ Reference 1-norm          = 333791: Difference = 8306934
+ Max elementwise norm difference = 0.541372
+ Tensor reduction into scalar ...  Status = 1; Error 0
+TAL-SH Tensor {} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1000b9dd2c8
+ Tensor block shape:
+  Tensor block rank: 0
+
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|14|1]
+#END OF MESSAGE
+#MESSAGE: Printing tensor body: Error code = 0
+(-1.841812E-05,9.220188E+06)
+#END OF MESSAGE
+ Reference value = 164.025
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.20480000000000D+10
+ Average GEMM GFlop/s rate    :      0.77053684683389D+00
+ Number of Bytes permuted     :      0.10907200000000D+10
+ Average permute GB/s rate    :      0.19082113963793D+02
+ Average contract GFlop/s rate:      0.76861351949900D+00
+#END_MSG
+
+#MSG(TAL-SH::NV-TAL): Statistics on GPU #0:
+ Number of tasks submitted: 2
+ Number of tasks completed: 2
+ Number of tasks deferred : 0
+ Number of tasks failed   : 0
+ Number of Flops processed: 5.31572E+11
+ Number of Bytes to GPU   : 5.2488E+08
+ Number of Bytes from GPU : 1.3122E+08
+ Time active (sec)        : 0.341330
+#END_MSG
+
+#MSG(TAL-SH::NV-TAL): Statistics across all GPU devices:
+ Number of Flops processed   : 5.31572E+11
+ Number of Bytes to GPUs     : 5.2488E+08
+ Number of Bytes from GPUs   : 1.3122E+08
+ Average arithmetic intensity: 810.2
+#END_MSG
+Done: Status     0
+ 
+Testing TAL-SH C/C++ hyper-contraction API ...
+ Max buffer size on execution device = 4293918720
+ Max tensor size on execution device = 1431306240
+ Tensor hyper-contraction completion status = 1; Time (s) = 0.00808883; Error 0
+ Destination tensor 1-norm = 0 VS correct = 42.892
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.20586168320000D+10
+ Average GEMM GFlop/s rate    :      0.77453108194361D+00
+ Number of Bytes permuted     :      0.11331873280000D+10
+ Average permute GB/s rate    :      0.17475933616449D+02
+ Average contract GFlop/s rate:      0.77026372105019D+00
+#END_MSG
+
+#MSG(TAL-SH::NV-TAL): Statistics on GPU #0:
+ Number of tasks submitted: 0
+ Number of tasks completed: 0
+ Number of tasks deferred : 0
+ Number of tasks failed   : 0
+ Number of Flops processed: 0
+ Number of Bytes to GPU   : 0
+ Number of Bytes from GPU : 0
+ Time active (sec)        : 0.011317
+#END_MSG
+
+#MSG(TAL-SH::NV-TAL): Statistics across all GPU devices:
+ Number of Flops processed   : 0
+ Number of Bytes to GPUs     : 0
+ Number of Bytes from GPUs   : 0
+ Average arithmetic intensity: 0
+#END_MSG
+Done: Status     0
+ 
+Testing TAL-SH C/C++ SVD API ...
+ Max buffer size on Host             = 4293918720
+ Max tensor size on Host             = 1431306240
+ Max buffer size on execution device = 61741203456
+ Max tensor size on execution device = 10290200576
+ Creating tensor btens ... Success
+ Creating tensor dtens ... Success
+ Creating tensor ltens ... Success
+ Creating tensor rtens ... Success
+ Creating tensor stens ... Success
+ Initializing tensor btens ... Success
+ 1-norm of tensor btens = 7.0663e+06
+ Normalized 1-norm of tensor btens = 1
+ Copy-permuting tensor btens into dtens ...  Status 0: Success
+ 1-norm of tensor dtens = 197574
+ Performing tensor decomposition of tensor dtens via SVD: D(a,b,c,d,e)=L(c,i,e,j,a)*R(j,d,i,b) ... #ERROR(CP-TAL:tensor_block_decompose_svd): Error          -3
+ Status -666: Failed!
+Done: Status     4
+rocBLAS error during hipFree in handle destructor: rocblas_status_internal_error
+srun: error: nid006097: task 0: Aborted
+srun: launch/slurm: _step_signal: Terminating StepId=3419008.0
