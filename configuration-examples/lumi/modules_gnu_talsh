@@ -1,0 +1,53 @@
+#!\bin\bash
+# runs as: source 
+
+module purge
+module load LUMI/22.08
+module load partition/G
+module load buildtools/22.08
+module load PrgEnv-gnu
+#module load gcc/12.2.0
+module load amd-mixed
+module load cray-libsci
+module load cray-libsci_acc
+module load cray-python
+module load cray-hdf5-parallel
+module load craype-x86-trento
+module load rocm
+module load craype-accel-amd-gfx90a
+module load craype-hugepages2M
+
+export WRAP=WRAP
+export TOOLKIT=GNU
+export MPILIB=NONE
+#export MPILIB=MPICH
+export PATH_MPICH=${CRAY_MPICH_PREFIX}
+export BUILD_TYPE=OPT
+#export BLASLIB=NONE
+export BLASLIB=LIBSCI
+export PATH_BLAS_LIBSCI=${CRAY_LIBSCI_PREFIX_DIR}/lib
+export MATH_ROOT=${CRAY_LIBSCI_PREFIX_DIR}
+export WITH_LAPACK=NO
+export EXA_OS=LINUX
+export GPU_CUDA=CUDA
+export GPU_SM_ARCH=90
+export USE_HIP=YES
+export PATH_ROCM=${ROCM_PATH}
+export EXA_TALSH_ONLY=YES
+
+export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+
+export CMAKE_C_COMPILER=cc
+export CMAKE_CXX_COMPILER=CC
+export CMAKE_Fortran_COMPILER=ftn
+
+make clean
+make
+
+#python setup --mpi --fc=crayftn --cc=craycc --cxx=crayCC
+#--fc=gfortran --cc=gcc --cxx=g++
+
+#requires to change:
+#vim TALSH/device_algebra.hip.h
+# #include <hipblas\hipblas.h> >> #include <hipblas.h> 
+

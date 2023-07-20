@@ -1,0 +1,18 @@
+#Alternatively you can export all relevant environment variables such that this
+#
+
+module purge
+module load craype-accel-amd-gfx90a craype-x86-trento
+module load PrgEnv-gnu-amd/8.3.3
+module load amd-mixed
+module load cray-python/3.9.13.1
+
+export WRAP=NOWRAP
+export TOOLKIT=GNU
+export MPILIB=MPICH
+export PATH_MPICH=${CRAY_MPICH_PREFIX}
+export BUILD_TYPE=OPT
+export BLASLIB=LIBSCI
+export EXA_OS=LINUX
+export PATH_BLAS_LIBSCI=${CRAY_LIBSCI_PREFIX_DIR}/lib
+export GPU_CUDA=NOCUDA

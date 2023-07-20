@@ -60,7 +60,7 @@ FOR DEVELOPERS ONLY:
 
 #include <hip/hip_runtime.h>
 
-#include <hipblas.h>
+#include <hipblas/hipblas.h>
 
 #ifdef USE_CUTT
 #include "cutt.hip.h"

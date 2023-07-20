@@ -104,13 +104,16 @@ export PATH_CUTENSOR ?= /usr/local/cutensor
 #export PATH_ROCM ?= /sw/spock/spack-envs/views/rocm-4.2.0
 export PATH_ROCM ?= /opt/rocm
 # Only reset these if HIP files are spread in system directories:
- export PATH_HIP_INC ?= $(PATH_ROCM)/hip/include
- export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
- export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
- export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
- export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
+export PATH_HIP_INC ?= $(PATH_ROCM)/include
+export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
+export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
+export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
+export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
 
 #YOU ARE DONE! MAKE IT!
+ifeq ($(USE_HIP),YES)
+PATH_CUDA_INC = .
+endif
 
 
 #=======================
@@ -386,7 +389,12 @@ else
 CUDA_FLAGS = -D_FORCE_INLINES
 endif
 
-HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --amdgpu-target=gfx906,gfx908 #-fopenmp
+ifdef CRAY_ACCEL_TARGET
+HIP_TARGET=$(shell echo $(CRAY_ACCEL_TARGET) | sed -e s/amd_//g )
+HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=$(HIP_TARGET)
+else
+HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
+endif
 
 #Accelerator support:
 ifeq ($(TOOLKIT),IBM)
@@ -404,7 +412,12 @@ NO_GPU = -DCUDA_ARCH=$(GPU_ARCH)
 else
 NO_GPU = -DNO_GPU
 endif
+ifeq ($(GPU_CUDA),HIP)
+NO_GPU = 
+NO_AMD = 
+else
 NO_AMD = -DNO_AMD
+endif
 NO_PHI = -DNO_PHI
 
 #C FLAGS:
