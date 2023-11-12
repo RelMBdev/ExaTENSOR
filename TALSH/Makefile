@@ -530,7 +530,7 @@ endif
 	$(FCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(FFLAGS) timers.F90 -o ./OBJ/timers.o
 
 ./OBJ/nvtx_profile.o: nvtx_profile.c nvtx_profile.h
-	$(CPPCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CPPFLAGS) nvtx_profile.c -o ./OBJ/nvtx_profile.o
+	$(CCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CFLAGS) nvtx_profile.c -o ./OBJ/nvtx_profile.o
 
 ./OBJ/byte_packet.o: byte_packet.cpp byte_packet.h
 	$(CPPCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CPPFLAGS) byte_packet.cpp -o ./OBJ/byte_packet.o
