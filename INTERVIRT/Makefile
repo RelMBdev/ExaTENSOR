@@ -88,12 +88,19 @@ export PATH_CUTT ?= /home/dima/src/cutt
 # cuTensor path (only if you use cuTensor library):
 export PATH_CUTENSOR ?= /home/dima/src/cutensor
 
+# profiling tools
+export PRF_TOOLS ?= scorep
+
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif

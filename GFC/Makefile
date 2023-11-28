@@ -32,12 +32,19 @@ export PATH_OPENMPI ?= /usr/local/mpi/openmpi/3.1.0
  export PATH_OPENMPI_LIB ?= $(PATH_OPENMPI)/lib
  export PATH_OPENMPI_BIN ?= $(PATH_OPENMPI)/bin
 
+# profiling tools
+export PRF_TOOLS ?= scorep
+
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif

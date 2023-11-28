@@ -105,12 +105,19 @@ ifeq ($(USE_HIP),YES)
 PATH_CUDA_INC = .
 endif
 
+# profiling tools
+export PRF_TOOLS ?= scorep
+
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif

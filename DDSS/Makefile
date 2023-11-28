@@ -62,12 +62,19 @@ export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
 export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
 export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
 
+# profiling tools
+export PRF_TOOLS ?= scorep
+
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif
