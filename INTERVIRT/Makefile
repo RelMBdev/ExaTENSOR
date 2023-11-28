@@ -93,7 +93,8 @@ export PATH_CUTENSOR ?= /home/dima/src/cutensor
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
- COMP_PREF = scorep --thread=omp --cuda
+ #COMP_PREF = scorep --thread=omp --cuda
+ COMP_PREF =
 else
  COMP_PREF =
 endif

@@ -67,7 +67,8 @@ export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
- COMP_PREF = scorep --thread=omp --cuda
+ #COMP_PREF = scorep --thread=omp --cuda
+ COMP_PREF =
 else
  COMP_PREF =
 endif
