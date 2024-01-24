@@ -35,6 +35,14 @@ export PATH_OPENMPI ?= /usr/local/mpi/openmpi/3.1.0
 # profiling tools
 export PRF_TOOLS ?= scorep
 
+# toggles for definition of  intel parallel compiler wrapper names
+# some versions of intelmpi use the names below, other mpif90/mpicc/mpicxx
+# but it may also be we are using intel compilers as backends to mpich/openmpi 
+# and then mpiifort/mpiicc/mpiicp will be incorrect 
+export INTEL_MPI_WRAPPER_FC ?= mpiifort
+export INTEL_MPI_WRAPPER_CC ?= mpiicc
+export INTEL_MPI_WRAPPER_CPP ?= mpiicpc
+
 #YOU ARE DONE! MAKE IT!
 
 
@@ -55,8 +63,8 @@ FC_INTEL = ifort
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
 ifeq ($(TOOLKIT),INTEL)
-FC_MPICH = $(PATH_MPICH_BIN)/mpiifort
-FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpiifort
+FC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_FC)
+FC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_FC)
 else
 FC_MPICH = $(PATH_MPICH_BIN)/mpif90
 FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpifort
@@ -75,8 +83,8 @@ CC_INTEL = icc
 CC_CRAY = cc
 CC_IBM = xlc_r
 ifeq ($(TOOLKIT),INTEL)
-CC_MPICH = $(PATH_MPICH_BIN)/mpiicc
-CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpiicc
+CC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CC)
+CC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CC)
 else
 CC_MPICH = $(PATH_MPICH_BIN)/mpicc
 CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpicc
@@ -95,8 +103,8 @@ CPP_INTEL = icc
 CPP_CRAY = CC
 CPP_IBM = xlC_r
 ifeq ($(TOOLKIT),INTEL)
-CPP_MPICH = $(PATH_MPICH_BIN)/mpiicpc
-CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpiicpc
+CPP_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CPP)
+CPP_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CPP)
 else
 CPP_MPICH = $(PATH_MPICH_BIN)/mpicxx
 CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpicxx
