@@ -442,9 +442,9 @@ endif
 CPPFLAGS = $(CFLAGS) -std=c++11 $(ASAN_CXX)
 
 #FORTRAN FLAGS:
-FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
-FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
-FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
+FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
+FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
+FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
 FFLAGS_CRAY_DEV = -c -g -fopenmp -J OBJ $(LA_INC)
 FFLAGS_CRAY_OPT = -c -O3 -fopenmp -J OBJ $(LA_INC)
 FFLAGS_CRAY_PRF = -c -g -O3 -fopenmp -J OBJ $(LA_INC)
