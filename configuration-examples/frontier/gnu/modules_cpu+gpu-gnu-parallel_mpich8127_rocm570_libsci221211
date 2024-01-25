@@ -1,0 +1,40 @@
+#Alternatively you can export all relevant environment variables such that this
+#
+
+module load craype-accel-amd-gfx90a craype-x86-trento
+module load PrgEnv-gnu-amd/8.3.3
+module unload amd-mixed
+module load cray-python/3.9.13.1
+module load rocm/5.7.0
+module load gcc/12.2.0
+module load cray-libsci/22.12.1.1
+module load cray-mpich/8.1.27
+
+export MPICH_GPU_SUPPORT_ENABLED=0
+export EXA_GPU=AMD
+
+export WRAP=NOWRAP
+export TOOLKIT=GNU
+export MPILIB=MPICH
+export PATH_MPICH=${CRAY_MPICH_PREFIX}
+export BUILD_TYPE=OPT # can be changed to PRF for profiling builds
+export BLASLIB=LIBSCI
+export EXA_OS=LINUX
+export PATH_BLAS_LIBSCI=${CRAY_LIBSCI_PREFIX_DIR}/lib
+export USE_HIP=YES
+export GPU_CUDA=CUDA
+export GPU_SM_ARCH=90
+export PATH_ROCM=/opt/rocm-5.7.0
+
+# Frontier Hackathon tips for debugging
+MPICH_ENV_DISPLAY=1
+MPICH_VERSION_DISPLAY=1
+MPICH_GPU_MANAGED_MEMORY_SUPPORT_ENABLED=1
+MPI_OFI_NIC_POLICY=GPU
+#MPICH_SINGLE_HOST_ENABLED=0
+#MPICH_SMP_SINGLE_COPY_MODE=NONE
+#MPICH_GPU_IPC_ENABLED=0
+#
+
+export AMD_LOG_LEVEL=0
+
