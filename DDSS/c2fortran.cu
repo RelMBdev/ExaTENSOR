@@ -31,6 +31,7 @@ extern "C"{
  size_t c_ptr_value(void * c_ptr);
  void c_ptr_set(size_t cpval, void ** cptr);
  void print_c_ptr(void * c_ptr);
+ void gpu_device_init(int *err_code);
 #ifdef __cplusplus
 }
 #endif
@@ -98,6 +99,12 @@ void cudadevicesynchronize(int *err_code)
 {
  *err_code=0;
  cudaError_t err=cudaDeviceSynchronize(); if(err != cudaSuccess){*err_code=1;}
+ return;
+}
+
+void gpu_device_init(int *err_code)
+{
+ *err_code=0;
  return;
 }
 #endif

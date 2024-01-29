@@ -4,7 +4,6 @@
 #ifndef NO_GPU
 
 #include <hip/hip_runtime.h>
-#include <hip/hip_runtime.h>
 //Protect the C function names from name mangling:
 #ifdef __cplusplus
 extern "C"{
@@ -31,6 +30,7 @@ extern "C"{
  size_t c_ptr_value(void * c_ptr);
  void c_ptr_set(size_t cpval, void ** cptr);
  void print_c_ptr(void * c_ptr);
+ void gpu_device_init(int * err_code);
 #ifdef __cplusplus
 }
 #endif
@@ -93,6 +93,13 @@ void cudagetdeviceproperties(int device, size_t *totalGlobalMem_, size_t *shared
   *memoryBusWidth_=prop.memoryBusWidth;
   *maxThreadsPerMultiProcessor_=prop.maxThreadsPerMultiProcessor;
  };
+ return;
+}
+
+void gpu_device_init(int *err_code)
+{
+ *err_code=0;
+ hipInit(0);
  return;
 }
 

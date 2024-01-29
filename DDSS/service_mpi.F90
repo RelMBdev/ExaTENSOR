@@ -764,6 +764,19 @@
         return
         end subroutine quit
 !----------------------------------------------------------------------
+       subroutine gpu_hip_init(ierr)
+! - ierr - error code (0:Success).
+        use extern_names
+        implicit none
+        integer(C_INT), intent(inout):: ierr
+        ierr=87969
+#ifndef NO_GPU
+        ierr=0
+        call gpu_device_init(ierr)
+#endif
+        return
+       end subroutine gpu_hip_init
+!----------------------------------------------------------------------
 #ifndef NO_LINUX
         subroutine get_memory_status(total_ram,free_ram,used_swap,ierr)
 !This subroutine returns:

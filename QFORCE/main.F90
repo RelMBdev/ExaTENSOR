@@ -1578,6 +1578,7 @@
         integer(INT_MPI):: mpi_th_provided,ierr
 
 !Application initializes MPI:
+        call gpu_hip_init(ierr) 
         call MPI_Init_Thread(MPI_THREAD_MULTIPLE,mpi_th_provided,ierr)
         if(mpi_th_provided.eq.MPI_THREAD_MULTIPLE) then
          if(TEST_CORRECTNESS) then

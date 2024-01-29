@@ -37,6 +37,12 @@
           implicit none
           type(C_PTR), value:: c_pointer
          end subroutine print_c_ptr
+ !initialize GPU
+         subroutine gpu_device_init(err_code) bind(c,name='gpu_device_init')
+          import
+          implicit none
+          integer(C_INT):: err_code
+         end subroutine gpu_device_init
  !Get the Linux memory status:
          integer(C_INT) function get_memory_stat(total_ram,free_ram,used_swap) bind(C)
           import
