@@ -59,6 +59,7 @@
        public tens_dense_volume,tens_rcrsv_destruct
        public talsh_tens_signature_t,talsh_tens_shape_t,talsh_tens_data_t,talsh_tens_t
 !TYPES:
+
  !ExaTENSOR runtime status:
        type, public:: exatns_rt_status_t
         integer(INTD), public:: state=DSVP_STAT_OFF !state (see dsvp.F90)
@@ -152,6 +153,7 @@
        public exatns_ctrl_reset_logging   !resets logging level for TAVP-MNG and TAVP-WRK (called by All before exatns_start)
        public exatns_ctrl_zero_tensors    !activates mandatory initializaton to zero for all created tensors (called by All before exatns_start)
        public exatns_ctrl_reset_algorithm !resets the tensor contraction algorithm
+       public hip_start                   !startup for hip to fix segmentation fault
        public exatns_start                !starts the ExaTENSOR DSVP (called by All)
        public exatns_stop                 !stops the ExaTENSOR DSVP (Driver only)
        public exatns_sync                 !synchronizes the ExaTENSOR DSVP such that all previously issued tensor instructions will be completed (Driver only)
@@ -340,6 +342,18 @@
         endif
         return
        end subroutine exatns_ctrl_reset_algorithm
+!------------------------------------------------------
+       function hip_start() result(ierr)
+         !fix for hip interface
+         implicit none 
+         integer(INTD):: ierr
+         integer(C_INT):: errc
+
+         ierr=0
+         call gpu_hip_init(errc)
+         ierr=errc 
+         return
+       end function hip_start
 !----------------------------------------------------------
        function exatns_start(mpi_communicator) result(ierr) !called by all MPI processes
 !Starts the ExaTENSOR runtime within the given MPI communicator.
