@@ -51,7 +51,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
-        integer(INTD), private:: DEBUG=0    !debugging level
+        integer(INTD), private:: DEBUG=1    !debugging level
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
  !Error codes:
         integer(INTD), parameter, public:: TEREC_SUCCESS=SUCCESS

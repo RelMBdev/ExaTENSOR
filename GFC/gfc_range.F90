@@ -16,7 +16,7 @@
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
-        integer(INTD), private:: DEBUG=0    !debugging level (0:none)
+        integer(INTD), private:: DEBUG=1    !debugging level (0:none)
 !TYPES:
  !GFC multi-integer range:
         type, public:: gfc_range_t

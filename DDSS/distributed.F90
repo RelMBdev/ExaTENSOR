@@ -93,8 +93,8 @@
  !Output:
         integer, private:: CONS_OUT=6     !default output for this module
         logical, private:: VERBOSE=.TRUE. !verbosity for errors
-        integer, private:: DEBUG=0        !debugging mode
-        integer, private:: LOGGING=0      !logging mode
+        integer, private:: DEBUG=8        !debugging mode
+        integer, private:: LOGGING=8      !logging mode
  !MPI errors:
         logical, private:: DDSS_MPI_ERR_FATAL=.TRUE. !if .TRUE., MPI errors will cause termination, otherwise just error code
  !Packing/unpacking:
@@ -111,7 +111,7 @@
         integer(INT_MPI), parameter, private:: WRITE_SIGN=-1 !outgoing traffic sign (writing direction)
   !Messaging:
         logical, private:: LAZY_LOCKING=.TRUE.                !lazy MPI window locking
-        logical, private:: TEST_AND_FLUSH=.FALSE.             !MPI_Test() will call MPI_Win_flush() on completion when entry reference count becomes 0 (not always necessary)
+        logical, private:: TEST_AND_FLUSH=.TRUE.             !MPI_Test() will call MPI_Win_flush() on completion when entry reference count becomes 0 (not always necessary)
         logical, private:: NO_FLUSH_AFTER_READ_EPOCH=.TRUE.   !if TRUE, there will be no MPI_Win_flush() after the read epoch, thus mandating external synchronization
         logical, private:: NO_FLUSH_AFTER_WRITE_EPOCH=.FALSE. !if TRUE, there will be no MPI_Win_flush() after the write epoch, thus mandating external synchronization
         integer(INT_COUNT), parameter, private:: MAX_MPI_MSG_VOL=2**27    !max number of elements in a single MPI message (larger to be split)
@@ -2007,7 +2007,9 @@
               flush(jo)
              endif
              call MPI_Test(this%ReqHandle,compl,mpi_stat,errc)
+             call this%print_it(dev_out=jo)
              if(errc.eq.0) then
+              write(jo,*) '+++++++ errc, mpi_stat, compl:',errc,mpi_stat,compl
               if(compl) then
                this%TimeSynced=time_sys_sec()
                call ddss_update_stat(this)
@@ -2021,6 +2023,7 @@
                endif
               endif
              else
+              write(jo,*) '+++++++ MPI_STAT_ONESIDED_ERR:',errc,mpi_stat 
               this%StatMPI=MPI_STAT_ONESIDED_ERR; errc=1
              endif
             else

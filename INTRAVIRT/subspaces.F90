@@ -52,7 +52,7 @@
 !PARAMETERS:
  !Output:
         integer, private:: CONS_OUT=6     !default output for this module
-        integer, private:: DEBUG=0        !debugging mode level (0:none)
+        integer, private:: DEBUG=1        !debugging mode level (0:none)
         logical, private:: VERBOSE=.TRUE. !verbosity for errors
  !Basis set kind:
         integer(INTD), parameter, public:: BASIS_NONE=0      !no basis set

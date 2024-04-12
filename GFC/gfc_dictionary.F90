@@ -20,7 +20,7 @@
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
-        integer(INTD), private:: DEBUG=0    !debugging level (0:none)
+        integer(INTD), private:: DEBUG=1    !debugging level (0:none)
  !Directions:
         logical, parameter, public:: GFC_DICT_LEFT=.FALSE.
         logical, parameter, public:: GFC_DICT_RIGHT=.TRUE.

@@ -44,7 +44,7 @@ FOR DEVELOPERS ONLY:
 #define BLCK_BUF_BRANCH_GPU 2        //branching factor for each subsequent buffer level on GPU
 
 static int VERBOSE=1; //verbosity (for errors)
-static int DEBUG=0;   //debugging
+static int DEBUG=1;   //debugging
 static int LOGGING=0; //logging
 
 //DERIVED TYPES:

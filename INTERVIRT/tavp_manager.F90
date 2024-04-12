@@ -99,7 +99,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !default output device
-        integer(INTD), private:: DEBUG=0    !debugging mode
+        integer(INTD), private:: DEBUG=1    !debugging mode
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
         integer(INTD), private:: LOGGING=0  !logging mode: 0 - none, 1 - instruction dispatch
  !Bytecode:

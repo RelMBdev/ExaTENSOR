@@ -29,7 +29,7 @@
 !PARAMETERS:
  !Generic:
         integer(INTD), private:: CONS_OUT=6 !default output device for this module
-        integer(INTD), private:: DEBUG=0    !debugging mode for this module
+        integer(INTD), private:: DEBUG=1    !debugging mode for this module
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
  !Errors (keep consistent with "talsh.h"):
         integer(C_INT), parameter, public:: TALSH_SUCCESS=0                   !success

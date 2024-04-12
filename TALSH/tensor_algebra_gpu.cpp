@@ -79,7 +79,7 @@ TO BE FIXED:
 #include <ctime>
 
 static int VERBOSE=1; //verbosity for error messages
-static int DEBUG=0; //debugging mode
+static int DEBUG=1; //debugging mode
 
 size_t fortran_cptr_int(void * cptr)
 {

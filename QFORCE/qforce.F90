@@ -15,7 +15,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6
-        integer(INTD), private:: DEBUG=0
+        integer(INTD), private:: DEBUG=1
         logical, private:: VERBOSE=.true.
 !TYPES:
  !Nuclear vibration descriptor:

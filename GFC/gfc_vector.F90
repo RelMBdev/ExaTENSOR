@@ -16,7 +16,7 @@
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
-        integer(INTD), private:: DEBUG=0    !debugging level (0:none)
+        integer(INTD), private:: DEBUG=1    !debugging level (0:none)
  !Vector length:
         integer(INTL), parameter, public:: GFC_VECTOR_SEG_LENGTH=(2_INTL)**9              !default vector segment length
         integer(INTL), parameter, public:: GFC_VECTOR_MAX_LENGTH=GFC_VECTOR_SEG_LENGTH**4 !default max vector capacity

@@ -53,7 +53,7 @@
  !Default output for the module procedures:
         integer, private:: CONS_OUT=6        !default output device for this module (also used for INTEL MIC TAL)
         logical, private:: VERBOSE=.TRUE.    !verbosity (also used for INTEL MIC TAL)
-        integer, private:: DEBUG=0           !debugging mode
+        integer, private:: DEBUG=1           !debugging mode
         integer, private:: LOGGING=0         !logging mode
         logical, private:: CHECK_NAN=.FALSE. !NaN checking mode (check all tensor blocks for NaN)
 #ifndef NO_PHI

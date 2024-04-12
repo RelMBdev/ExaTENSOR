@@ -57,7 +57,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !default output for this module
-        integer(INTD), private:: DEBUG=0    !debugging mode
+        integer(INTD), private:: DEBUG=1    !debugging mode
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
  !Error codes:
         integer(INTD), parameter, public:: DSVP_SUCCESS=SUCCESS        !success

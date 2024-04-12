@@ -28,7 +28,7 @@
 !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
         logical, private:: VERBOSE=.TRUE.   !verbositiy for errors
-        integer(INTD), private:: DEBUG=0    !debugging level (0:none)
+        integer(INTD), private:: DEBUG=1    !debugging level (0:none)
 !TYPES:
  !Linked list element:
         type, extends(gfc_cont_elem_t), public:: list_elem_t

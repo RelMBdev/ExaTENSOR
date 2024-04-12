@@ -25,7 +25,7 @@
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
-        integer(INTD), private:: DEBUG=0    !debugging level (0:none)
+        integer(INTD), private:: DEBUG=1    !debugging level (0:none)
  !Link (edge) direction:
         integer(INTD), parameter, public:: GFC_GRAPH_DIR_NONE=0
         integer(INTD), parameter, public:: GFC_GRAPH_DIR_OUTWARD=-1
