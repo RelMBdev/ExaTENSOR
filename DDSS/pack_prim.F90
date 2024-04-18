@@ -1105,15 +1105,13 @@
 
 !int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
 
-           write ( *, '(a,i8,i8,a,2i8,2i14,i8)' ) 'SENDER: rank, pid:',rank,getpid(), &
-                   &' size, dest, tag, req, err', jcnt, jr, jtag, jreq, jer
-!           print *,"sender 1: rank, jr, jtag, jreq,jer ", rank, jr, jtag, jreq,jer
+           !write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Isend> rank:',rank,' pid:',getpid(), &
+           !        &' count:',jcnt,' dest:',jr,' tag:', jtag,'; out req:',jreq,' err:',jer
            call MPI_Isend(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jreq,jer)
-! this failed              call MPI_Send(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jer)
-!           print *,"sender :1 rank, jr, jtag, jreq,jer ", rank, jr, jtag, jreq,jer
-           write ( *, '(a,i8,i8,a,2i8,2i14,i8)' ) ':SENDER rank, pid:',rank,getpid(),& 
-                   &' size, dest, tag, req, err', jcnt, jr, jtag, jreq, jer
-              if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
+           write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',rank,' pid:',getpid(), &
+                   &' count:',jcnt,' dest:',jr,' tag:', jtag,'; out req:',jreq,' err:',jer
+
+             if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
              else
               jerr=PACK_OVERFLOW
              endif
@@ -1168,15 +1166,12 @@
 !int MPI_Improbe(int source, int tag, MPI_Comm comm,
 !    int *flag, MPI_Message *message, MPI_Status *status)
 
-!           write ( *, '(a,i5,i7,a,i5,2i12,i5)' ) 'prober: ',rank,getpid(),' rk tg hl err_mpi',rk, tg, hl, err_mpi
-
                  call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
 !                 call MPI_Mprobe(rk,tg,cm,hl,comm_handle%stat,err_mpi)
-!            write ( *, '(a,i5,i7,a,i5,2i12,i5)' ) ':prober ',rank,getpid(),' rk tg hl err_mpi',rk, tg, hl, err_mpi
 !            if(delivered)
-             write ( *, '(a,i8,i8,a,l,i8,2i14,i8)' ) ':probe: rank, pid:',rank,getpid(),&
-                     &'; delivered, source, tag, message, err:', delivered, rk, tg, hl, err_mpi
-                 if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
+                 !write ( *, '(a,i8,a,i8,a,i8,a,i14,a,l,a,i14,a,i8)' ) '>MPI_Improbe rank:',rank,' pid:',getpid(),&
+                 !    &' source:',rk,' tag:',tg,'; out delivered:',delivered,' message:',hl,' err:', err_mpi
+                if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
                   call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
                   if(err_mpi.eq.MPI_SUCCESS) then
                    if(cap.lt.int(ml,INTL)) call this%resize(errc,buf_size=int(ml,INTL))
@@ -1225,15 +1220,12 @@
 
            jerr=PACK_SUCCESS
            if(jl.ge.0) then
-           call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
-!           print *,"receiver 1: count message request ", rank, jl, jh, jreq
-           write ( *, '(a,i8,i8,a,i8,2i14,i8)' ) 'receiver: rank, pid:',rank,getpid(),&
-                   &' count, message, req, err:', jl, jh, jreq, jer
-!  MPI_Imrecv(void *buf, int count, MPI_Datatype datatype, MPI_Message *message, MPI_Request *request)
-            call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
-!            print *,"receiver :1 count message request ", rank, jl, jh, jreq
-           write ( *, '(a,i8,i8,a,i8,2i14,i8)' ) ':receiver rank, pid:',rank,getpid(),&
-                   &' count, message, req, err:', jl, jh, jreq, jer
+             call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
+             !write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Imrecv> rank:',rank,' pid:',getpid(), &
+             !      &' count:',jl,' message',jh,'; out req:',jreq,' err:',jer
+             call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
+             write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Imrecv> rank:',rank,' pid:',getpid(), &
+                   &' count:',jl,';out message',jh,' req:',jreq,' err:',jer
             if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
            else
             jerr=PACK_OVERFLOW
@@ -1417,6 +1409,8 @@
            if(this%is_active(errc)) then !an active communication handle
             if(errc.eq.PACK_SUCCESS) then
              call MPI_Test(this%req,answ,this%stat,err_mpi)
+             write ( *, '(a,i8,a,i14,a,l,a,i8)' ) '>MPI_Test pid:',getpid(), &
+                   &' handle:',this%req,' completed:',answ,' err:',err_mpi
              if(err_mpi.eq.MPI_SUCCESS) then
               if(answ) then
                if(associated(this%recv_pack_env)) then !receive operation required decoding
@@ -1461,6 +1455,8 @@
           if(errc.eq.PACK_SUCCESS) then
            if(this%is_active(errc)) then !an active communication handle
             if(errc.eq.PACK_SUCCESS) then
+             write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_WAIT pid:',getpid(), &
+                   &' handle:',this%req,' err:',err_mpi
              call MPI_Wait(this%req,this%stat,err_mpi)
              if(err_mpi.eq.MPI_SUCCESS) then
               if(associated(this%recv_pack_env)) then !receive operation required decoding
@@ -2325,6 +2321,10 @@
            endif
           enddo
           if(errc.eq.PACK_SUCCESS.and.active) then
+           do i=1,n
+             write ( *, '(a,i8,a,i8,a,i14,a,i8)' ) '>MPI_WAITall pid:',getpid(),' n:',n, &
+                   &' handle:',reqs(i),' err:',err_mpi
+           enddo
            call MPI_Waitall(n,reqs,stats,err_mpi)
            if(err_mpi.eq.MPI_SUCCESS) then
             do i=1,n

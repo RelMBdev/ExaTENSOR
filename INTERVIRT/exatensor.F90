@@ -1658,9 +1658,13 @@
         if(tensor%is_set(ierr,num_dims=n)) then
          if(ierr.eq.TEREC_SUCCESS.and.n.eq.0) then !only scalar tensors
           call MPI_Irecv(rl8,2,MPI_REAL8,MPI_ANY_SOURCE,TAVP_SCALAR_TAG,GLOBAL_MPI_COMM,req,ierr)
+          write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv pid:',getpid(), &
+                   &' count:',2,'source:',MPI_ANY_SOURCE,' tag:',TAVP_SCALAR_TAG,'; out req:',req,' err:',ierr
           if(ierr.eq.MPI_SUCCESS) then
            ierr=exatns_tensor_traverse(tensor,'_RetrieveScalar_',sync=.FALSE.)
            if(ierr.eq.EXA_SUCCESS) then
+            write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_WAIT pid:',getpid(), &
+                   &' handle:',req,' err:',ierr
             call MPI_Wait(req,stats,ierr)
             if(ierr.eq.MPI_SUCCESS) then
              scalar=cmplx(rl8(1),rl8(2),8)
@@ -2091,10 +2095,14 @@
           outstanding=.FALSE.; over=(ierr.ne.EXA_SUCCESS)
           do while(.not.over)
            if(.not.outstanding) call MPI_Irecv(mxv,1,MPI_COMPLEX16,MPI_ANY_SOURCE,TAVP_SCALAR_TAG,GLOBAL_MPI_COMM,req0,ierr)
+           if(.not.outstanding) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv pid:',getpid(), &
+                   &' count:',1,'source:',MPI_ANY_SOURCE,' tag:',TAVP_SCALAR_TAG,'; out req:',req0,' err:',ierr
            if(ierr.eq.MPI_SUCCESS) then
             outstanding=.TRUE.
             !write(CONS_OUT,'("#DEBUG(exatns_tensor_max): Driver is waiting for max value from any process ...")')
             call MPI_Test(req0,completed,stats,ierr)
+            write ( *, '(a,i8,a,i14,a,l,a,i8)' ) '>MPI_Test pid:',getpid(), &
+                   &' handle:',req0,' completed:',completed,' err:',ierr
             if(ierr.eq.MPI_SUCCESS) then
              if(completed) then
               outstanding=.FALSE.
@@ -2102,7 +2110,11 @@
               !write(CONS_OUT,'("#DEBUG(exatns_tensor_max): Driver received max value from process ",i8)') src_proc
               if(n.gt.0) then
                call MPI_Irecv(mlx,n,MPI_INTEGER8,src_proc,TAVP_MLNDX_TAG,GLOBAL_MPI_COMM,req1,ierr)
+               write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv pid:',getpid(), &
+                   &' count:',n,'source:',src_proc,' tag:',TAVP_MLNDX_TAG,'; out req:',req1,' err:',ierr
                if(ierr.eq.MPI_SUCCESS) then
+                write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_WAIT pid:',getpid(), &
+                   &' handle:',req1,' err:',ierr
                 call MPI_Wait(req1,stats,ierr)
                 if(ierr.eq.MPI_SUCCESS) then
                  !write(CONS_OUT,'("#DEBUG(exatns_tensor_max): Driver received multi-index from process ",i8)') src_proc

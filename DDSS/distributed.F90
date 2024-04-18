@@ -2002,14 +2002,15 @@
            if(rw_entry%RefCount.gt.0) then
             if(abs(this%TransID).gt.rw_entry%LastSync) then
              if(DEBUG.ge.1) then
-              write(jo,'("#DEBUG(distributed:DataDescr.TestData)[",i5,":",i3,"]: MPI_TEST: ")',ADVANCE='NO') impir,thread_id
+              !write(jo,'("#DEBUG(distributed:DataDescr.TestData)[",i5,":",i3,"]: MPI_TEST: ")',ADVANCE='NO') impir,thread_id
               call rw_entry%print_it(dev_out=jo)
               flush(jo)
              endif
              call MPI_Test(this%ReqHandle,compl,mpi_stat,errc)
+             write ( *, '(a,i8,a,i14,a,l,a,i8)' ) '>MPI_Test pid:',getpid(), &
+                   &' handle:',this%ReqHandle,' completed:',compl,' err:',errc
              call this%print_it(dev_out=jo)
              if(errc.eq.0) then
-              write(jo,*) '+++++++ errc, mpi_stat, compl:',errc,mpi_stat,compl
               if(compl) then
                this%TimeSynced=time_sys_sec()
                call ddss_update_stat(this)
@@ -2143,6 +2144,8 @@
               call rw_entry%print_it(dev_out=jo)
               flush(jo)
              endif
+             write ( *, '(a,i8,a,i14,a,l,a,i8)' ) '>MPI_Wait pid:',getpid(), &
+                   &' handle:',this%ReqHandle,' err:',errc
              call MPI_Wait(this%ReqHandle,mpi_stat,errc)
              if(errc.eq.0) then
               this%TimeSynced=time_sys_sec()
@@ -3510,6 +3513,8 @@
         errc=this%test()
         if(errc.ne.MPI_STAT_PROGRESS_REQ.or.frc) then
          call MPI_Request_free(this%ReqHandle,errc)
+         write ( *, '(a,i8,a,i14,a,i8,a,i8)' ) '>MPI_Request_free pid:',getpid(), &
+                   &' handle:',this%ReqHandle,'rank:',this%MPIRank,' err:',errc
          this%ReqHandle=MPI_REQUEST_NULL
          this%LastReq=MPI_REQUEST_NULL
          this%MPIRank=-1
@@ -3538,6 +3543,8 @@
         errc=0
         igo=.FALSE.; if(present(ignore_old)) igo=ignore_old
         if(this%ReqHandle.ne.MPI_REQUEST_NULL) then
+         write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_WAIT pid:',getpid(), &
+                   &' handle:',this%ReqHandle,' err:',errc
          call MPI_Wait(this%ReqHandle,this%MPIStat,errc)
          if(errc.eq.0) then
           this%LastReq=this%ReqHandle
@@ -3580,6 +3587,8 @@
         errc=0; msg_stat=MPI_STAT_PROGRESS_REQ
         igo=.FALSE.; if(present(ignore_old)) igo=ignore_old
         if(this%ReqHandle.ne.MPI_REQUEST_NULL) then
+         write ( *, '(a,i8,a,i14,a,l,a,i8)' ) '>MPI_Test pid:',getpid(), &
+                   &' handle:',this%ReqHandle,' completed:',fin,' err:',errc
          call MPI_Test(this%ReqHandle,fin,this%MPIStat,errc)
          if(errc.eq.0) then
           if(fin) then !completed
@@ -3891,6 +3900,8 @@
            endif
           else
            call MPI_Request_free(comm_hl%ReqHandle,errc)
+           write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_Request_free pid:',getpid(), &
+                   &' handle:',comm_hl%ReqHandle,' err:',errc
            comm_hl%ReqHandle=MPI_REQUEST_NULL
            errc=4 !MPI sending failed
           endif
@@ -3908,7 +3919,12 @@
           integer(INT_MPI), intent(out):: jerr
           integer(INT_MPI):: data_typ
           jerr=get_mpi_int_datatype(ELEM_PACK_SIZE,data_typ)
+          !if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Isend> rank:',proc_rank,' pid:',getpid(), &
+          !         &' count:',int(this%ffe),' dest:',rx_rank,' tag:', ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
           if(jerr.eq.0) call MPI_Isend(msg,int(this%ffe),data_typ,rx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
+          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',proc_rank,' pid:',getpid(), &
+                   &' count:',int(this%ffe),' dest:',rx_rank,' tag:', ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
+
           return
          end subroutine send_message
 
@@ -3991,6 +4007,8 @@
             endif
            else
             call MPI_Request_free(comm_hl%ReqHandle,errc)
+            write ( *, '(a,i8,a,i14,a,i8)' ) '>MPI_Request_free pid:',getpid(), &
+                   &' handle:',comm_hl%ReqHandle,' err:',errc
             comm_hl%ReqHandle=MPI_REQUEST_NULL
             errc=5 !MPI sending failed
            endif
@@ -4011,7 +4029,11 @@
           integer(INT_MPI), intent(out):: jerr
           integer(INT_MPI):: data_typ
           jerr=get_mpi_int_datatype(ELEM_PACK_SIZE,data_typ)
+          !if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Imrecv> pid:',getpid(), &
+          !         &' count:',buf_vol,'source:',sx_rank,' tag:',ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
           if(jerr.eq.0) call MPI_Irecv(msg,buf_vol,data_typ,sx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
+          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv pid:',getpid(), &
+                   &' count:',buf_vol,'source:',sx_rank,' tag:',ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
           return
          end subroutine receive_message
 
