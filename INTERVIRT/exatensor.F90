@@ -2427,28 +2427,45 @@
         check=tensor0%is_set(errc,num_dims=dest_rank); if(errc.ne.TEREC_SUCCESS.and.ierr.eq.EXA_SUCCESS) ierr=-13
         check=tensor1%is_set(errc).and.check; if(errc.ne.TEREC_SUCCESS.and.ierr.eq.EXA_SUCCESS) ierr=-12
         check=tensor2%is_set(errc).and.check; if(errc.ne.TEREC_SUCCESS.and.ierr.eq.EXA_SUCCESS) ierr=-11
+        write(6,'("fn exatns_tensor_contract_us: debug: aft check tensor[012] ierr=",i12)') ierr; flush(6)  !! HPE
         if(check.and.ierr.eq.EXA_SUCCESS) then
          if(dest_rank.lt.4) then
+          write(6,'("fn exatns_tensor_contract_us: debug: bef exatns_accumulate_remote")'); flush(6)  !! HPE
           errc=exatns_accumulate_remote()
+          write(6,'("fn exatns_tensor_contract_us: debug: aft exatns_accumulate_remote")'); flush(6)  !! HPE
          else
+          write(6,'("fn exatns_tensor_contract_us: debug: bef exatns_accumulate_local")'); flush(6)  !! HPE
           errc=exatns_accumulate_local()
+          write(6,'("fn exatns_tensor_contract_us: debug: aft exatns_accumulate_local")'); flush(6)  !! HPE
          endif
          if(errc.ne.EXA_SUCCESS) ierr=-10
 !Convert the symbolic tensor contraction pattern into a digital one used by TAL-SH:
+         write(6,'("fn exatns_tensor_contract_us: debug: bef get_contr_pattern_dig ierr=",i12)') ierr; flush(6)  !! HPE
          call get_contr_pattern_dig(pattern,drank,lrank,rrank,contr_ptrn,errc,conj_bits) !conj_bits: tensor conjugation bits {0:D,1:L,2:R}
+         write(6,'("fn exatns_tensor_contract_us: debug: aft get_contr_pattern_dig ierr,errc=",2i12)') ierr,errc; flush(6)  !! HPE
          if(errc.eq.0.and.ierr.eq.EXA_SUCCESS) then
           cpl=lrank+rrank
 !Construct the tensor operation object:
+          write(6,'("fn exatns_tensor_contract_us: debug: bef tens_contr%set_argument tensor0")'); flush(6)  !! HPE
           call tens_contr%set_argument(tensor0,ierr)
+          write(6,'("fn exatns_tensor_contract_us: debug: aft tens_contr%set_argument tensor0,ierr=",i12)') ierr; flush(6)  !! HPE
           if(ierr.eq.TEREC_SUCCESS) then
+           write(6,'("fn exatns_tensor_contract_us: debug: bef tens_contr%set_argument tensor1")'); flush(6)  !! HPE
            call tens_contr%set_argument(tensor1,ierr)
+           write(6,'("fn exatns_tensor_contract_us: debug: aft tens_contr%set_argument tensor1,ierr=",i12)') ierr; flush(6)  !! HPE
            if(ierr.eq.TEREC_SUCCESS) then
+            write(6,'("fn exatns_tensor_contract_us: debug: bef tens_contr%set_argument tensor2")'); flush(6)  !! HPE
             call tens_contr%set_argument(tensor2,ierr)
+            write(6,'("fn exatns_tensor_contract_us: debug: aft tens_contr%set_argument tensor2,ierr=",i12)') ierr; flush(6)  !! HPE
             if(ierr.eq.TEREC_SUCCESS) then
              if(present(prefactor)) then
+              write(6,'("fn exatns_tensor_contract_us: debug: bef tens_contr%set_contr_ptrn prefactor")'); flush(6)  !! HPE
               call tens_contr%set_contr_ptrn(contr_ptrn(1:cpl),ierr,prefactor,conjug=conj_bits)
+              write(6,'("fn exatns_tensor_contract_us: debug: aft tens_contr%set_contr_ptrn prefactor,ierr=",i12)') ierr; flush(6)  !! HPE
              else
+              write(6,'("fn exatns_tensor_contract_us: debug: bef tens_contr%set_contr_ptrn no prfctr")'); flush(6)  !! HPE
               call tens_contr%set_contr_ptrn(contr_ptrn(1:cpl),ierr,conjug=conj_bits)
+              write(6,'("fn exatns_tensor_contract_us: debug: aft tens_contr%set_contr_ptrn no prfctr,ierr=",i12)') ierr; flush(6)  !! HPE
              endif
              if(ierr.eq.TEREC_SUCCESS) then
               if(present(restrictions)) then
@@ -2508,6 +2525,7 @@
           ierr=exatns_sync()
          endif
         endif
+        write(6,'("fn exatns_tensor_contract_us: debug: bef return ierr=",i12)') ierr; flush(6)  !! HPE
         return
        end function exatns_tensor_contract_us
 !----------------------------------------------------------------------------------------------------------------------

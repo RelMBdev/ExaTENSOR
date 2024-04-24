@@ -90,7 +90,7 @@
  !General:
         integer, private:: CONS_OUT=6     !output device
         logical, private:: VERBOSE=.TRUE. !verbosity for errors
-        integer, private:: DEBUG=0        !debugging level (0:none)
+        integer, private:: DEBUG=1        !debugging level (0:none)
  !Integers:
         integer, parameter, private:: INT_MPI=INTD !4-byte default integer
  !Error codes:
@@ -1086,28 +1086,62 @@
            integer(INTD), intent(out):: jerr         !out: error code
            integer(INT_MPI):: jcnt,jcs,jer
            logical:: intercomm
+           integer(INT_MPI):: elen, ierror  ! HPE DEBUG
+           character(len=MPI_MAX_ERROR_STRING):: mpi_err_str  ! HPE DEBUG
 
            jerr=PACK_SUCCESS; jcnt=0
            call MPI_Comm_test_inter(jc,intercomm,jer)
+           if(jer .ne. MPI_SUCCESS) then  ! HPE DEBUG
+              call MPI_Error_string(jer, mpi_err_str, elen, ierror)  ! HPE DEBUG
+              write(CONS_OUT,'(a, i5, a, i4, 3a)') &
+              & "send_mpi_message error: MPI_Comm_test_inter failed for MPI-rank", jr, &
+              & " with error code", jer, ' = "', mpi_err_str(1:elen), '"'  ! HPE DEBUG
+           endif  ! HPE DEBUG
            if(jer.eq.MPI_SUCCESS) then
-            if(intercomm) then
-             call MPI_Comm_remote_size(jc,jcs,jer)
-            else
-             call MPI_Comm_size(jc,jcs,jer)
-            endif
-            if(jer.eq.MPI_SUCCESS.and.jr.ge.0.and.jr.lt.jcs) then
-             if(jl.le.int(huge(jcnt),INTL)) then
-              jcnt=int(jl,INT_MPI)
-              call MPI_Isend(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jreq,jer)
-              if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
-             else
-              jerr=PACK_OVERFLOW
-             endif
-            else
-             jerr=PACK_INVALID_ARGS
-            endif
+              if(intercomm) then
+                 call MPI_Comm_remote_size(jc,jcs,jer)
+                 if(jer .ne. MPI_SUCCESS) then  ! HPE DEBUG
+                    call MPI_Error_string(jer, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                    write(CONS_OUT,'(a, i5, a, i4, 3a)') &
+                    & "send_mpi_message error: MPI_Comm_remote_size failed for MPI-rank", jr, &
+                    & " with error code", jer, ' = "', mpi_err_str(1:elen), '"'  ! HPE DEBUG
+                 endif  ! HPE DEBUG
+              else
+                 call MPI_Comm_size(jc,jcs,jer)
+                 if(jer .ne. MPI_SUCCESS) then  ! HPE DEBUG
+                    call MPI_Error_string(jer, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                    write(CONS_OUT,'(a, i5, a, i4, 3a)') &
+                    & "send_mpi_message error: MPI_Comm_size failed for MPI-rank", jr, &
+                    & " with error code", jer, ' = "', mpi_err_str(1:elen), '"'  ! HPE DEBUG
+                 endif  ! HPE DEBUG
+              endif
+              if(jer.eq.MPI_SUCCESS.and.jr.ge.0.and.jr.lt.jcs) then
+                 if(jl.le.int(huge(jcnt),INTL)) then
+                    jcnt=int(jl,INT_MPI)
+                    call MPI_Isend(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jreq,jer)
+                    if(jer .ne. MPI_SUCCESS) then  ! HPE DEBUG
+                       call MPI_Error_string(jer, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                       write(CONS_OUT,'(a, i5, a, i4, 4a, i8, a, i8)') &
+                       & "send_mpi_message error: MPI_Isend failed for MPI-rank", jr, &
+                       & " with error code", jer, ' = "', mpi_err_str(1:elen), '"', &
+                       & " jtag", jtag, " jcnt", jcnt  ! HPE DEBUG
+                    endif  ! HPE DEBUG
+                    if(jer.ne.MPI_SUCCESS) then
+                       jerr=PACK_MPI_ERR
+                    endif
+                 else
+                    jerr=PACK_OVERFLOW
+                 endif
+              else
+                 jerr=PACK_INVALID_ARGS
+              endif
            else
-            jerr=PACK_MPI_ERR
+              jerr=PACK_MPI_ERR
+           endif
+           if(jerr .ne. PACK_SUCCESS) then  ! HPE DEBUG
+              write(CONS_OUT,'(a, i5, a, i4)') &
+              & "send_mpi_message error: failed for MPI-rank", jr, &
+              & " with jerr", jer  ! HPE DEBUG
            endif
            return
           end subroutine send_mpi_message
@@ -1131,52 +1165,82 @@
          integer(INTD):: errc
          integer(INTL):: cap
          integer(INT_MPI):: rk,tg,cm,rh,ml,hl,err_mpi
+         integer(INT_MPI):: elen, ierror  ! HPE DEBUG
+         character(len=MPI_MAX_ERROR_STRING):: mpi_err_str  ! HPE DEBUG
 
          delivered=.FALSE.; cap=this%get_capacity(errc)
          if(cap.gt.0.and.errc.eq.PACK_SUCCESS) then
-          if(this%get_length(errc).eq.0) then
-           if(this%get_num_packets(errc).eq.0) then
-            if(.not.this%is_busy(errc)) then
-             if(errc.eq.PACK_SUCCESS) then
-              if(.not.comm_handle%is_active(errc)) then
-               if(errc.eq.PACK_SUCCESS) then
-                call comm_handle%clean(errc) !clean the communication handle before usage
-                if(errc.eq.PACK_SUCCESS) then
-                 if(present(proc_rank)) then; rk=proc_rank; else; rk=MPI_ANY_SOURCE; endif
-                 if(present(tag)) then; tg=tag; else; tg=MPI_ANY_TAG; endif
-                 if(present(comm)) then; cm=comm; else; cm=MPI_COMM_WORLD; endif
-                 call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
-                 if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
-                  call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
-                  if(err_mpi.eq.MPI_SUCCESS) then
-                   if(cap.lt.int(ml,INTL)) call this%resize(errc,buf_size=int(ml,INTL))
-                   if(errc.eq.PACK_SUCCESS) then
-                    call receive_mpi_message(hl,ml,this%buffer,rh,errc)
-                    if(errc.eq.PACK_SUCCESS) call comm_handle%construct(cm,rh,errc,this)
-                   endif
+            if(this%get_length(errc).eq.0) then
+               if(this%get_num_packets(errc).eq.0) then
+                  if(.not.this%is_busy(errc)) then
+                     if(errc.eq.PACK_SUCCESS) then
+                        if(.not.comm_handle%is_active(errc)) then
+                           if(errc.eq.PACK_SUCCESS) then
+                              call comm_handle%clean(errc) !clean the communication handle before usage
+                              if(errc.eq.PACK_SUCCESS) then
+                                 if(present(proc_rank)) then; rk=proc_rank; else; rk=MPI_ANY_SOURCE; endif
+                                 if(present(tag)) then; tg=tag; else; tg=MPI_ANY_TAG; endif
+                                 if(present(comm)) then; cm=comm; else; cm=MPI_COMM_WORLD; endif
+                                 write(CONS_OUT,'(a,2i3,i12)') &
+                                 & "bef MPI_Improbe: rk,tg,cm=",rk,tg,cm  ! HPE DEBUG
+                                 flush(CONS_OUT)
+                                 call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
+                                 if(delivered) then
+                                    write(CONS_OUT,'(a,2i3,4i12)') &
+                                    & "aft MPI_Improbe: rk,tg,cm,st_src,st_tag,st_err=" &
+                                    & ,rk,tg,cm,comm_handle%stat(MPI_SOURCE),comm_handle%stat(MPI_TAG) &
+                                    & ,comm_handle%stat(MPI_ERROR)  ! HPE DEBUG
+                                 else
+                                    write(CONS_OUT,'(a,2i3,i12)') &
+                                    & "aft MPI_Improbe: rk,tg,cm=",rk,tg,cm  ! HPE DEBUG
+                                 endif
+                                 flush(CONS_OUT)  ! HPE DEBUG
+                                 if(err_mpi .ne. MPI_SUCCESS) then  ! HPE DEBUG
+                                    call MPI_Error_string(err_mpi, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                                    write(CONS_OUT,'(a, i5, a, i4, 4a, i12)') &
+                                    & "PackEnvReceive error: MPI_Improbe failed for MPI-rank", rk, &
+                                    & " with error code", err_mpi, ' = "', mpi_err_str(1:elen), '"', &
+                                    & " tg", tg  ! HPE DEBUG
+                                    flush(CONS_OUT)  ! HPE DEBUG
+                                 endif  ! HPE DEBUG
+                                 if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
+                                    call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
+                                    if(err_mpi .ne. MPI_SUCCESS) then  ! HPE DEBUG
+                                       call MPI_Error_string(err_mpi, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                                       write(CONS_OUT,'(a, i5, a, i4, 3a)') &
+                                       & "PackEnvReceive error: MPI_Get_Count failed for MPI-rank", rk, &
+                                       & " with error code", err_mpi, ' = "', mpi_err_str(1:elen), '"'  ! HPE DEBUG
+                                       flush(CONS_OUT)  ! HPE DEBUG
+                                    endif  ! HPE DEBUG
+                                    if(err_mpi.eq.MPI_SUCCESS) then
+                                       if(cap.lt.int(ml,INTL)) call this%resize(errc,buf_size=int(ml,INTL))
+                                       if(errc.eq.PACK_SUCCESS) then
+                                          call receive_mpi_message(hl,ml,this%buffer,rh,errc)
+                                          if(errc.eq.PACK_SUCCESS) call comm_handle%construct(cm,rh,errc,this)
+                                       endif
+                                    else
+                                       errc=PACK_MPI_ERR
+                                    endif
+                                 else
+                                    if(err_mpi.ne.MPI_SUCCESS) errc=PACK_MPI_ERR
+                                 endif
+                              endif
+                           endif
+                        else
+                           if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
+                        endif
+                     endif
                   else
-                   errc=PACK_MPI_ERR
+                     if(errc.eq.PACK_SUCCESS) errc=PACK_BUSY
                   endif
-                 else
-                  if(err_mpi.ne.MPI_SUCCESS) errc=PACK_MPI_ERR
-                 endif
-                endif
+               else
+                  if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
                endif
-              else
-               if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
-              endif
-             endif
             else
-             if(errc.eq.PACK_SUCCESS) errc=PACK_BUSY
+               if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
             endif
-           else
-            if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
-           endif
-          else
-           if(errc.eq.PACK_SUCCESS) errc=PACK_INVALID_ARGS
-          endif
          else
-          if(errc.eq.PACK_SUCCESS) errc=PACK_NULL
+            if(errc.eq.PACK_SUCCESS) errc=PACK_NULL
          endif
          if(present(ierr)) ierr=errc
          return
@@ -1191,13 +1255,22 @@
            integer(INT_MPI), intent(inout):: jreq      !MPI request handle
            integer(INTD), intent(out):: jerr           !error code
            integer(INT_MPI):: jer
+           integer(INT_MPI):: elen, ierror  ! HPE DEBUG
+           character(len=MPI_MAX_ERROR_STRING):: mpi_err_str  ! HPE DEBUG
 
            jerr=PACK_SUCCESS
            if(jl.ge.0) then
-            call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
-            if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
+              call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
+              if(jer.ne.MPI_SUCCESS) then
+                 jerr=PACK_MPI_ERR
+                 call MPI_Error_string(jer, mpi_err_str, elen, ierror)  ! HPE DEBUG
+                 write(CONS_OUT,'(a, i4, 3a)') &
+                 & "PackEnvReceive:receive_mpi_message error: MPI_Imrecv failed with error code", &
+                 & err_mpi, ' = "', mpi_err_str(1:elen), '"'  ! HPE DEBUG
+                 flush(CONS_OUT)  ! HPE DEBUG
+              endif
            else
-            jerr=PACK_OVERFLOW
+              jerr=PACK_OVERFLOW
            endif
            return
           end subroutine receive_mpi_message

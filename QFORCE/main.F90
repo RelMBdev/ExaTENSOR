@@ -367,7 +367,9 @@
  !Contract tensors:
            write(6,'("Contracting dtens+=ltens*rtens ... ")',ADVANCE='NO'); flush(6)
            tms=MPI_Wtime()
+           write(6,'("sr test_exatensor L370: debug: bef exatns_tensor_contract")'); flush(6) !! HPE
            ierr=exatns_tensor_contract(dtens,ltens,rtens,'D(a,b)+=L(c,a)*R(c,b)')
+           write(6,'("sr test_exatensor L372: debug: aft exatns_tensor_contract")'); flush(6) !! HPE
            if(ierr.ne.EXA_SUCCESS) call quit(ierr,'exatns_tensor_contract() failed!')
            !ierr=exatns_sync(); if(ierr.ne.EXA_SUCCESS) call quit(ierr,'exatns_sync() failed!')
            tmf=MPI_Wtime()
@@ -375,7 +377,9 @@
  !Contract tensors:
            write(6,'("Contracting dtens+=ltens*rtens ... ")',ADVANCE='NO'); flush(6)
            tms=MPI_Wtime()
+           write(6,'("sr test_exatensor L380: debug: bef exatns_tensor_contract")'); flush(6) !! HPE
            ierr=exatns_tensor_contract(dtens,ltens,rtens,'D(a,b)+=L(c,a)*R(c,b)')
+           write(6,'("sr test_exatensor L382: debug: aft exatns_tensor_contract")'); flush(6) !! HPE
            if(ierr.ne.EXA_SUCCESS) call quit(ierr,'exatns_tensor_contract() failed!')
            !ierr=exatns_sync(); if(ierr.ne.EXA_SUCCESS) call quit(ierr,'exatns_sync() failed!')
            tmf=MPI_Wtime()
@@ -1582,13 +1586,13 @@
         if(mpi_th_provided.eq.MPI_THREAD_MULTIPLE) then
          if(TEST_CORRECTNESS) then
           call test_exatensor()
-          call test_exatensor_slicing()
-          call benchmark_exatensor_skinny()
-          call benchmark_exatensor_fat()
+!         call test_exatensor_slicing()
+!         call benchmark_exatensor_skinny()
+!         call benchmark_exatensor_fat()
          endif
-         if(TEST_PERFORMANCE) then
-          call benchmark_exatensor_cc()
-         endif
+!        if(TEST_PERFORMANCE) then
+!         call benchmark_exatensor_cc()
+!        endif
         else
          write(6,*) 'Your MPI library does not support MPI_THREAD_MULTIPLE! Change it!'
         endif

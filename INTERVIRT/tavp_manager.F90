@@ -99,9 +99,9 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !default output device
-        integer(INTD), private:: DEBUG=0    !debugging mode
+        integer(INTD), private:: DEBUG=1    !debugging mode
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
-        integer(INTD), private:: LOGGING=0  !logging mode: 0 - none, 1 - instruction dispatch
+        integer(INTD), private:: LOGGING=1  !logging mode: 0 - none, 1 - instruction dispatch
  !Bytecode:
         integer(INTL), parameter, private:: MAX_BYTECODE_SIZE=64_INTL*(1024_INTL*1024_INTL) !max size of an incoming/outgoing bytecode envelope (bytes)
         integer(INTL), parameter, private:: MIN_BYTECODE_SPACE=1_INTL*(1024_INTL*1024_INTL) !min required free space (bytes) in the bytecode buffer (to check for potential overflow)
@@ -2537,7 +2537,7 @@
          implicit none
          class(tavp_mng_decoder_t), intent(inout):: this !inout: TAVP-MNG Decoder DSVU
          integer(INTD), intent(out), optional:: ierr     !out: error code
-         integer(INTD):: errc,ier,thid,num_packets,opcode,sts,port_id,i,j,uid,channel
+         integer(INTD):: errc,ier,thid,num_packets,opcode,sts,port_id,i,j,uid,channel , wloop_iter ! HPE
          logical:: active,stopping,new
          class(dsvp_t), pointer:: dsvp
          class(tavp_mng_t), pointer:: tavp
@@ -2578,11 +2578,21 @@
          ier=dumpi%init(dump_cache); if(ier.ne.GFC_SUCCESS.and.errc.eq.0) errc=-44
 !Work loop:
          active=((errc.eq.0).and.(this%source_comm.ne.MPI_COMM_NULL)); stopping=(.not.active)
+         wloop_iter=0  ! HPE
          wloop: do while(active)
+          wloop_iter=wloop_iter+1  ! HPE
           if(.not.stopping) then
  !Receive new bytecode (if posted):
            call comm_hl%clean(ier); if(ier.ne.0.and.errc.eq.0) then; errc=-43; exit wloop; endif
+           write(CONS_OUT,'(a,i3,i10,2i3,i12)') &
+           & "TAVPMNGDecoderStart bef bytecode%receive: thid,it,rk,tg,cm=", &
+           & thid,wloop_iter,this%source_rank,this%msg_tag,this%source_comm  ! HPE
+           flush(CONS_OUT)  ! HPE
            new=this%bytecode%receive(comm_hl,ier,proc_rank=this%source_rank,tag=this%msg_tag,comm=this%source_comm)
+           write(CONS_OUT,'(a,i3,i10,2i3,i12,l2,i5)') &
+           & "TAVPMNGDecoderStart aft bytecode%receive: thid,it,rk,tg,cm,new,ier=", &
+           & thid,wloop_iter,this%source_rank,this%msg_tag,this%source_comm,new,ier  ! HPE
+           flush(CONS_OUT)  ! HPE
            if(ier.ne.0.and.errc.eq.0) then; errc=-42; exit wloop; endif
            if(new) then !new bytecode is available
             call comm_hl%wait(ier); if(ier.ne.0.and.errc.eq.0) then; errc=-41; exit wloop; endif
@@ -2688,6 +2698,11 @@
             if(errc.eq.0) then; errc=-12; exit wloop; endif
            endif
            if(.not.this%port_empty(0,ier).and.errc.eq.0) then; errc=-11; exit wloop; endif !trap
+           write(CONS_OUT,'(a,i3,i10,2i3,i12,3i6)') &
+           & "TAVPMNGDecoderStart stopping: thid,it,rk,tg,cm,ier,errc,st=", &
+           & thid,wloop_iter,this%source_rank,this%msg_tag,this%source_comm, &
+           & ier,errc,this%iqueue%get_status()  ! HPE
+           flush(CONS_OUT)  ! HPE
           endif
  !Check own port for control instructions:
           ier=this%flush_port(0); if(ier.ne.DSVP_SUCCESS.and.errc.eq.0) then; errc=-10; exit wloop; endif
