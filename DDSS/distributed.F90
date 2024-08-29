@@ -3917,14 +3917,17 @@
          subroutine send_message(msg,jerr)
           integer(ELEM_PACK_SIZE), intent(in):: msg(1:*)
           integer(INT_MPI), intent(out):: jerr
-          integer(INT_MPI):: data_typ
+          integer(INT_MPI):: data_typ, hrank, htag
           jerr=get_mpi_int_datatype(ELEM_PACK_SIZE,data_typ)
           !if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Isend> rank:',proc_rank,' pid:',getpid(), &
           !         &' count:',int(this%ffe),' dest:',rx_rank,' tag:', ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
-          if(jerr.eq.0) call MPI_Isend(msg,int(this%ffe),data_typ,rx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
-          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',proc_rank,' pid:',getpid(), &
-                   &' count:',int(this%ffe),' dest:',rx_rank,' tag:', ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
-
+          hrank=rx_rank
+          htag=ctag
+          if(jerr.eq.0) then
+                  call MPI_Isend(msg,int(this%ffe),data_typ,rx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
+                  write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',proc_rank,' dest:',hrank, &
+                  & ' tag:', htag,' pid:',getpid(),' count:',int(this%ffe),'; out req:',comm_hl%ReqHandle,' err:',jerr
+          endif
           return
          end subroutine send_message
 
@@ -4027,13 +4030,15 @@
          subroutine receive_message(msg,jerr)
           integer(ELEM_PACK_SIZE), intent(inout):: msg(1:*)
           integer(INT_MPI), intent(out):: jerr
-          integer(INT_MPI):: data_typ
+          integer(INT_MPI):: data_typ, hsource, htag
           jerr=get_mpi_int_datatype(ELEM_PACK_SIZE,data_typ)
-          !if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Imrecv> pid:',getpid(), &
+          !if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Irecv> pid:',getpid(), &
           !         &' count:',buf_vol,'source:',sx_rank,' tag:',ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
+          hsource=sx_rank
+          htag=ctag
           if(jerr.eq.0) call MPI_Irecv(msg,buf_vol,data_typ,sx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
-          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv pid:',getpid(), &
-                   &' count:',buf_vol,'source:',sx_rank,' tag:',ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
+          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv source:',hsource, & 
+          &      ' tag:',htag,'pid:',getpid(),' count:',buf_vol,'; out req:',comm_hl%ReqHandle,' err:',jerr
           return
          end subroutine receive_message
 

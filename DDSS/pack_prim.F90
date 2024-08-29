@@ -1084,7 +1084,7 @@
            integer(INT_MPI), intent(in):: jtag       !in: tag
            integer(INT_MPI), intent(in):: jreq       !in: request handle
            integer(INTD), intent(out):: jerr         !out: error code
-           integer(INT_MPI):: jcnt,jcs,jer
+           integer(INT_MPI):: jcnt,jcs,jer,hrank,htag
            logical:: intercomm
            integer rank
            jerr=PACK_SUCCESS; jcnt=0
@@ -1099,18 +1099,14 @@
              if(jl.le.int(huge(jcnt),INTL)) then
               jcnt=int(jl,INT_MPI)
 
-           call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
-!int MPI_Isend(const void *buf, int count, MPI_Datatype datatype, int dest, int tag,
-!              MPI_Comm comm, MPI_Request *request)
-
-!int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
-
-           !write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Isend> rank:',rank,' pid:',getpid(), &
-           !        &' count:',jcnt,' dest:',jr,' tag:', jtag,'; out req:',jreq,' err:',jer
-           call MPI_Isend(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jreq,jer)
-           write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',rank,' pid:',getpid(), &
-                   &' count:',jcnt,' dest:',jr,' tag:', jtag,'; out req:',jreq,' err:',jer
-
+              call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
+              !write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Isend> rank:',rank,' pid:',getpid(), &
+              !        &' count:',jcnt,' dest:',jr,' tag:', jtag,'; out req:',jreq,' err:',jer
+              hrank=jr
+              htag=jtag
+              call MPI_Isend(jbuf,jcnt,MPI_CHARACTER,jr,jtag,jc,jreq,jer)
+              write ( *, '(a,i8,a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Isend rank:',rank,' dest:',hrank, &
+                   & ' tag:',htag,' pid:',getpid(),' count:',jcnt,'; out req:',jreq,' err:',jer
              if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
              else
               jerr=PACK_OVERFLOW
@@ -1142,7 +1138,7 @@
          integer(INT_MPI), intent(in), optional:: comm      !in: MPI communicator (defaults to MPI_COMM_WORLD)
          integer(INTD):: errc
          integer(INTL):: cap
-         integer(INT_MPI):: rk,tg,cm,rh,ml,hl,err_mpi
+         integer(INT_MPI):: rk,tg,cm,rh,ml,hl,err_mpi, hsource, htag
          integer jer, rank
 
 !         call MPI_Comm_rank(MPI_COMM_WORLD, rk, err_mpi)
@@ -1161,16 +1157,13 @@
                  if(present(tag)) then; tg=tag; else; tg=MPI_ANY_TAG; endif
                  if(present(comm)) then; cm=comm; else; cm=MPI_COMM_WORLD; endif
 
-           call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
-
-!int MPI_Improbe(int source, int tag, MPI_Comm comm,
-!    int *flag, MPI_Message *message, MPI_Status *status)
-
-                 call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
-!                 call MPI_Mprobe(rk,tg,cm,hl,comm_handle%stat,err_mpi)
-!            if(delivered)
-                 !write ( *, '(a,i8,a,i8,a,i8,a,i14,a,l,a,i14,a,i8)' ) '>MPI_Improbe rank:',rank,' pid:',getpid(),&
-                 !    &' source:',rk,' tag:',tg,'; out delivered:',delivered,' message:',hl,' err:', err_mpi
+                   call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
+                   hsource=rk
+                   htag=tg 
+                   call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
+                   !call MPI_Mprobe(rk,tg,cm,hl,comm_handle%stat,err_mpi)
+                   write ( *, '(a,i8,a,i8,a,i8,a,i14,a,l,a,i14,a,i8)' ) '>MPI_Improbe source:',hsource,'rank:',rank, &
+                         & ' tag:',htag,' pid:',getpid(),'; out delivered:',delivered,' message:',hl,' err:', err_mpi
                 if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
                   call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
                   if(err_mpi.eq.MPI_SUCCESS) then
@@ -1215,7 +1208,7 @@
            character(C_CHAR), intent(inout):: buf(1:*) !buffer
            integer(INT_MPI), intent(inout):: jreq      !MPI request handle
            integer(INTD), intent(out):: jerr           !error code
-           integer(INT_MPI):: jer
+           integer(INT_MPI):: jer, hmess
            integer rank
 
            jerr=PACK_SUCCESS
@@ -1223,9 +1216,10 @@
              call MPI_Comm_rank(MPI_COMM_WORLD, rank, jer)
              !write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) 'MPI_Imrecv> rank:',rank,' pid:',getpid(), &
              !      &' count:',jl,' message',jh,'; out req:',jreq,' err:',jer
+             hmess=jh
              call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
-             write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Imrecv> rank:',rank,' pid:',getpid(), &
-                   &' count:',jl,';out message',jh,' req:',jreq,' err:',jer
+             write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i8,a,i14,a,i8)' ) '>MPI_Imrecv> rank:',rank,' message in:',hmess, &
+               & ' message out:',jh,' pid:',getpid(),' count:',jl,' req:',jreq,' err:',jer
             if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
            else
             jerr=PACK_OVERFLOW
