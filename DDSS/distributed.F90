@@ -4036,9 +4036,11 @@
           !         &' count:',buf_vol,'source:',sx_rank,' tag:',ctag,'; out req:',comm_hl%ReqHandle,' err:',jerr
           hsource=sx_rank
           htag=ctag
-          if(jerr.eq.0) call MPI_Irecv(msg,buf_vol,data_typ,sx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
-          if(jerr.eq.0) write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv source:',hsource, & 
-          &      ' tag:',htag,'pid:',getpid(),' count:',buf_vol,'; out req:',comm_hl%ReqHandle,' err:',jerr
+          if(jerr.eq.0) then
+                  call MPI_Irecv(msg,buf_vol,data_typ,sx_rank,ctag,comm,comm_hl%ReqHandle,jerr)
+                   write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i14,a,i8)' ) '>MPI_Irecv source:',hsource, & 
+          &      ' tag:',htag,' pid:',getpid(),' count:',buf_vol,'; out req:',comm_hl%ReqHandle,' err:',jerr
+          endif
           return
          end subroutine receive_message
 

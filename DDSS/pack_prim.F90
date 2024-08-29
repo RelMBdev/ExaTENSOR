@@ -1162,7 +1162,7 @@
                    htag=tg 
                    call MPI_Improbe(rk,tg,cm,delivered,hl,comm_handle%stat,err_mpi)
                    !call MPI_Mprobe(rk,tg,cm,hl,comm_handle%stat,err_mpi)
-                   write ( *, '(a,i8,a,i8,a,i8,a,i14,a,l,a,i14,a,i8)' ) '>MPI_Improbe source:',hsource,'rank:',rank, &
+                   write ( *, '(a,i8,a,i8,a,i8,a,i14,a,l,a,i14,a,i8)' ) '>MPI_Improbe source:',hsource,' rank:',rank, &
                          & ' tag:',htag,' pid:',getpid(),'; out delivered:',delivered,' message:',hl,' err:', err_mpi
                 if(err_mpi.eq.MPI_SUCCESS.and.delivered) then
                   call MPI_Get_Count(comm_handle%stat,MPI_CHARACTER,ml,err_mpi)
@@ -1218,7 +1218,7 @@
              !      &' count:',jl,' message',jh,'; out req:',jreq,' err:',jer
              hmess=jh
              call MPI_Imrecv(buf,jl,MPI_CHARACTER,jh,jreq,jer)
-             write ( *, '(a,i8,a,i8,a,i8,a,i14,a,i8,a,i14,a,i8)' ) '>MPI_Imrecv> rank:',rank,' message in:',hmess, &
+             write ( *, '(a,i8,a,i14,a,i14,a,i8,a,i8,a,i14,a,i8)' ) '>MPI_Imrecv> rank:',rank,' message in:',hmess, &
                & ' message out:',jh,' pid:',getpid(),' count:',jl,' req:',jreq,' err:',jer
             if(jer.ne.MPI_SUCCESS) jerr=PACK_MPI_ERR
            else
