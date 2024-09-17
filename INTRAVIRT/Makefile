@@ -426,7 +426,7 @@ FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap 
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
 
-GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 >= 0')
 ifneq ($(GCC_VERSION_GE_100),)
     FFLAGS_GNU_DEV += -fallow-argument-mismatch
     FFLAGS_GNU_OPT += -fallow-argument-mismatch
@@ -459,7 +459,7 @@ endif
 OBJS = ./OBJ/subspaces.o ./OBJ/hardware.o ./OBJ/tensor_recursive.o ./OBJ/virta.o
 
 $(NAME): $(OBJS) ./OBJ/test_intra.o $(MY_LIB)
-	ar cr lib$(NAME).a $(OBJS) $(MY_LIB)
+	ar cr lib$(NAME).a $(OBJS) 
 	$(FCOMP) ./OBJ/test_intra.o lib$(NAME).a $(MY_LIB) $(LFLAGS) -o test_$(NAME).x
 
 ./OBJ/subspaces.o: subspaces.F90 ../UTILITY/OBJ/dil_basic.o ../UTILITY/OBJ/stsubs.o ../GFC/OBJ/gfc_base.o ../GFC/OBJ/gfc_list.o ../GFC/OBJ/gfc_vec_tree.o

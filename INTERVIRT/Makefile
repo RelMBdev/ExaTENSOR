@@ -391,7 +391,7 @@ FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap 
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
 
-GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 >= 0')
 ifneq ($(GCC_VERSION_GE_100),)
     FFLAGS_GNU_DEV += -fallow-argument-mismatch
     FFLAGS_GNU_OPT += -fallow-argument-mismatch
@@ -420,7 +420,7 @@ LFLAGS = $(LTHREAD) $(MPI_LINK) $(LA_LINK) $(CUDA_LINK) $(LIB)
 OBJS = ./OBJ/tavp_worker.o ./OBJ/tavp_manager.o ./OBJ/exatensor.o
 
 $(NAME): $(OBJS) $(MY_LIB)
-	ar cr lib$(NAME).a $(OBJS) $(MY_LIB)
+	ar cr lib$(NAME).a $(OBJS) 
 
 ./OBJ/tavp_worker.o: tavp_worker.F90 ../INTRAVIRT/OBJ/virta.o ../GFC/OBJ/gfc_base.o ../GFC/OBJ/gfc_list.o ../GFC/OBJ/gfc_vector.o ../GFC/OBJ/gfc_dictionary.o
 	mkdir -p ./OBJ

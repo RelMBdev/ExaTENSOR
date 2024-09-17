@@ -386,7 +386,7 @@ LFLAGS = $(LTHREAD) $(MPI_LINK) $(LA_LINK) $(CUDA_LINK) $(LIB)
 OBJS = ./OBJ/dsvp_base.o
 
 $(NAME): $(OBJS) $(MY_LIB)
-	ar cr lib$(NAME).a $(OBJS) $(MY_LIB)
+	ar cr lib$(NAME).a $(OBJS) 
 
 ./OBJ/dsvp_base.o: dsvp_base.F90 ../GFC/OBJ/gfc_base.o ../GFC/OBJ/gfc_list.o ../DDSS/OBJ/pack_prim.o ../UTILITY/OBJ/dil_basic.o ../UTILITY/OBJ/timers.o
 	mkdir -p ./OBJ
