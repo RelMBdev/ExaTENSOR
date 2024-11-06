@@ -98,6 +98,10 @@ export PRF_TOOLS ?= scorep
 export INTEL_MPI_WRAPPER_FC ?= mpiifort
 export INTEL_MPI_WRAPPER_CC ?= mpiicc
 export INTEL_MPI_WRAPPER_CPP ?= mpiicpc
+# toggles for definition of intel compiler before (ifort/icc/icpc) and after OneAPI 2025 (ifx/icx/icpx)
+export INTEL_FC_NAME ?= ifx
+export INTEL_CC_NAME ?= icx
+export INTEL_CPP_NAME ?= icpx
 
 #YOU ARE DONE! MAKE IT!
 
@@ -115,7 +119,7 @@ endif
 #Fortran compiler:
 FC_GNU = gfortran
 FC_PGI = pgf90
-FC_INTEL = ifort
+FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
 ifeq ($(TOOLKIT),INTEL)
@@ -135,7 +139,7 @@ FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 #C compiler:
 CC_GNU = gcc
 CC_PGI = pgcc
-CC_INTEL = icc
+CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
 ifeq ($(TOOLKIT),INTEL)
@@ -155,7 +159,7 @@ CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 #C++ compiler:
 CPP_GNU = g++
 CPP_PGI = pgc++
-CPP_INTEL = icc
+CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
 ifeq ($(TOOLKIT),INTEL)
