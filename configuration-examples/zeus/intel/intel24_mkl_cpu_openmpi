@@ -1,0 +1,26 @@
+#Alternatively you can export all relevant environment variables such that this
+#
+
+module purge
+module load intel/2024/compilers 
+module load intel/2024/openmpi/4.1.5 
+
+export WRAP=NOWRAP
+export TOOLKIT=INTEL
+export MPILIB=OPENMPI
+export PATH_OPENMPI=/share/compilers/intel/2024/openmpi/4.1.5
+export BUILD_TYPE=OPT
+export BLASLIB=MKL
+export EXA_OS=LINUX
+export PATH_BLAS_MKL=${MKLROOT}
+export PATH_CUDA=NONE
+export GPU_CUDA=NOCUDA
+export GPU_SM_ARCH=80
+export USE_HIP=NO
+export WITH_CUTT=NO
+export EXA_TALSH_ONLY=NO
+# using the intel compilers but not using intel MPI means we need to define the
+# following variables
+export INTEL_MPI_WRAPPER_FC=mpif90
+export INTEL_MPI_WRAPPER_CC=mpicc
+export INTEL_MPI_WRAPPER_CPP=mpicxx
