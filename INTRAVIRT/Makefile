@@ -115,6 +115,10 @@ export PRF_TOOLS ?= scorep
 export INTEL_MPI_WRAPPER_FC ?= mpiifort
 export INTEL_MPI_WRAPPER_CC ?= mpiicc
 export INTEL_MPI_WRAPPER_CPP ?= mpiicpc
+# toggles for definition of intel compiler before (ifort/icc/icpc) and after OneAPI 2025 (ifx/icx/icpx)
+export INTEL_FC_NAME ?= ifx
+export INTEL_CC_NAME ?= icx
+export INTEL_CPP_NAME ?= icpx
 
 #YOU ARE DONE! MAKE IT!
 
@@ -132,7 +136,7 @@ endif
 #Fortran compiler:
 FC_GNU = gfortran
 FC_PGI = pgf90
-FC_INTEL = ifort
+FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
 ifeq ($(TOOLKIT),INTEL)
@@ -152,7 +156,7 @@ FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 #C compiler:
 CC_GNU = gcc
 CC_PGI = pgcc
-CC_INTEL = icc
+CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
 ifeq ($(TOOLKIT),INTEL)
@@ -172,7 +176,7 @@ CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 #C++ compiler:
 CPP_GNU = g++
 CPP_PGI = pgc++
-CPP_INTEL = icc
+CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
 ifeq ($(TOOLKIT),INTEL)
@@ -426,7 +430,7 @@ FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap 
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
 
-GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 >= 0')
 ifneq ($(GCC_VERSION_GE_100),)
     FFLAGS_GNU_DEV += -fallow-argument-mismatch
     FFLAGS_GNU_OPT += -fallow-argument-mismatch
@@ -459,7 +463,7 @@ endif
 OBJS = ./OBJ/subspaces.o ./OBJ/hardware.o ./OBJ/tensor_recursive.o ./OBJ/virta.o
 
 $(NAME): $(OBJS) ./OBJ/test_intra.o $(MY_LIB)
-	ar cr lib$(NAME).a $(OBJS) $(MY_LIB)
+	ar cr lib$(NAME).a $(OBJS) 
 	$(FCOMP) ./OBJ/test_intra.o lib$(NAME).a $(MY_LIB) $(LFLAGS) -o test_$(NAME).x
 
 ./OBJ/subspaces.o: subspaces.F90 ../UTILITY/OBJ/dil_basic.o ../UTILITY/OBJ/stsubs.o ../GFC/OBJ/gfc_base.o ../GFC/OBJ/gfc_list.o ../GFC/OBJ/gfc_vec_tree.o

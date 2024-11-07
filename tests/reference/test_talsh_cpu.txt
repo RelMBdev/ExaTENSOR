@@ -1,0 +1,1112 @@
+Testing TAL-SH C/C++ API warm up ...
+Done: Status     0
+ 
+Testing TAL-SH C/C++ API ...
+Done: Status     0
+ 
+Testing TAL-SH C++11 API ...
+ Number of NVIDIA GPU found on node = 0
+ TAL-SH has been initialized: Status 0: Host buffer size = 1072693248
+ Three TAL-SH tensor blocks have been constructed: Volumes: 640000, 2560000, 640000: GFlops = 2.048000
+ Tensor contraction has been scheduled for execution: Status 0
+ Tensor contraction has completed successfully: Status 2000005: Time 0.547394 sec
+ Tensor contraction total time = 0.522791: GFlop/s = 3.917435
+ Tensor result was moved back to Host: Norm1 = 2.048000E+04: Correct = 2.048000E+04
+ Three external tensor blocks have been unregistered with TAL-SH
+ TAL-SH has been shut down: Status 0
+ Number of NVIDIA GPU found on node = 0
+ TAL-SH has been initialized: Status 0: Host buffer size = 1072693248
+ Three TAL-SH tensor blocks have been constructed: Volumes: 640000, 2560000, 640000: GFlops = 2.048000
+ Tensor contraction has been scheduled for execution: Status 0
+ Tensor contraction has completed successfully: Status 2000005: Time 0.162584 sec
+ Tensor contraction total time = 0.160770: GFlop/s = 12.738695
+ Tensor result was moved back to Host: Norm1 = 2.048000E+04: Correct = 2.048000E+04
+ Three external tensor blocks have been unregistered with TAL-SH
+ TAL-SH has been shut down: Status 0
+ Max buffer size on execution device = 2146959360
+ Max tensor size on execution device = 715653120
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1501948
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+First tensor contraction completion status = 1; Error 0
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1501948
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+Destination tensor first element value = 0.008 (reference = 0.008)
+Second tensor contraction completion status = 1; Error 0
+Destination tensor first element value = 0.016 (reference = 0.016)
+Destination tensor first element value via view = 0.016 (reference = 0.016)
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1501948
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+D(a,b,c,d)+=L(a,b,e,f)*R(e,f,c,d)
+Matrix multiplication completion status = 1; Error 0
+TAL-SH Tensor {1,2,3,4} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1501948
+ Tensor block shape:
+  Tensor block rank: 4
+  Tensor block dimension extents: 40 40 20 20
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|8|1]
+#END OF MESSAGE
+Slice extraction completion status = 1; Error 0
+Slice value reset completion status = 1; Error 0
+Slice insertion completion status = 1; Error 0
+Done: Status     0
+ 
+Testing TAL-SH C/C++ XL API ...
+ Max buffer size on execution device = 4293918720
+ Max tensor size on execution device = 1431306240
+ Created tensor arguments (45,90,45,90) of size 131220000
+ Destination tensor 1-norm = 1640.25
+ Tensor contraction completion status = 1; Time (s) = 1.6674; Error 0
+ Performance (GFlop/s) = 318.725
+ Destination tensor 1-norm = 333792
+ Reference 1-norm          = 333791: Difference = 0
+ Max elementwise norm difference = 5.40167e-08
+ Tensor reduction into scalar ...  Status = 1; Error 0
+TAL-SH Tensor {} [use=0]:
+#MESSAGE: Printing TAL-SH tensor info:
+ Tensor block address: 0x1501e48
+ Tensor block shape:
+  Tensor block rank: 0
+
+ Tensor block presence ([dev_kind,dev_id|data_kind|avail]): [0,0|14|1]
+#END OF MESSAGE
+#MESSAGE: Printing tensor body: Error code = 0
+(1.640250E+02,0.000000E+00)
+#END OF MESSAGE
+ Reference value = 164.025
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.54181222000000D+12
+ Average GEMM GFlop/s rate    :      0.79365930393964D+03
+ Number of Bytes permuted     :      0.29111200000000D+10
+ Average permute GB/s rate    :      0.22595082022588D+02
+ Average contract GFlop/s rate:      0.31382751700276D+03
+#END_MSG
+Done: Status     0
+ 
+Testing TAL-SH C/C++ hyper-contraction API ...
+ Max buffer size on execution device = 4293918720
+ Max tensor size on execution device = 1431306240
+ Tensor hyper-contraction completion status = 1; Time (s) = 0.00666547; Error 0
+ Destination tensor 1-norm = 42.892 VS correct = 42.892
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.54182283683200D+12
+ Average GEMM GFlop/s rate    :      0.79165242205670D+03
+ Number of Bytes permuted     :      0.29535873280000D+10
+ Average permute GB/s rate    :      0.22037970415987D+02
+ Average contract GFlop/s rate:      0.31263615135388D+03
+#END_MSG
+Done: Status     0
+ 
+Testing TAL-SH Fortran API ...
+ Initializing TALSH ... Status           0: Size (Bytes) =    1072693248: Max args in HAB =   12288
+ Tensor dimension extent =    47
+ Constructing tensor block  1 ... Status           0
+ Constructing tensor block  2 ... Status           0
+ Constructing tensor block  3 ... Status           0
+ Constructing tensor block  4 ... Status           0
+ Constructing tensor block  5 ... Status           0
+ Constructing tensor block  6 ... Status           0
+ Constructing tensor block  7 ... Status           0
+ Constructing tensor block  8 ... Status           0
+ Constructing tensor block  9 ... Status           0
+ Constructing tensor block 10 ... Status           0
+ Constructing tensor block 11 ... Status           0
+ Constructing tensor block 12 ... Status           0
+ Constructing tensor block 13 ... Status           0
+ Constructing tensor block 14 ... Status           0
+ Constructing tensor block 15 ... Status           0
+ Constructing tensor block 16 ... Status           0
+ Constructing tensor block 17 ... Status           0
+ Constructing tensor block 18 ... Status           0
+ Constructing tensor block 19 ... Status           0
+ Constructing tensor block 20 ... Status           0
+ Constructing tensor block 21 ... Status           0
+ Constructing tensor block 22 ... Status           0
+ Constructing tensor block 23 ... Status           0
+ Constructing tensor block 24 ... Status           0
+ Executing tensor contraction  1 on CPU ... Status           0
+ Waiting upon completion of tensor contractions on CPU ... Status           0 Completion =  2000005
+ Destructing TAL-SH task handle  1 ... Status           0
+ Destructing tensor block 24 ... Status           0
+ Destructing tensor block 23 ... Status           0
+ Destructing tensor block 22 ... Status           0
+ Destructing tensor block 21 ... Status           0
+ Destructing tensor block 20 ... Status           0
+ Destructing tensor block 19 ... Status           0
+ Destructing tensor block 18 ... Status           0
+ Destructing tensor block 17 ... Status           0
+ Destructing tensor block 16 ... Status           0
+ Destructing tensor block 15 ... Status           0
+ Destructing tensor block 14 ... Status           0
+ Destructing tensor block 13 ... Status           0
+ Destructing tensor block 12 ... Status           0
+ Destructing tensor block 11 ... Status           0
+ Destructing tensor block 10 ... Status           0
+ Destructing tensor block  9 ... Status           0
+ Destructing tensor block  8 ... Status           0
+ Destructing tensor block  7 ... Status           0
+ Destructing tensor block  6 ... Status           0
+ Destructing tensor block  5 ... Status           0
+ Destructing tensor block  4 ... Status           0
+ Destructing tensor block  3 ... Status           0
+ Destructing tensor block  2 ... Status           0
+ Destructing tensor block  1 ... Status           0
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.56338126749000D+12
+ Average GEMM GFlop/s rate    :      0.75504369674125D+03
+ Number of Bytes permuted     :      0.32658869120000D+10
+ Average permute GB/s rate    :      0.21558279764500D+02
+ Average contract GFlop/s rate:      0.31086126264789D+03
+#END_MSG
+ Shutting down TALSH ... Status           0
+Done: Status     0
+ 
+Testing TAL-SH Fortran XL API ...
+ Initializing TALSH ... Status           0: Size (Bytes) =    2146959360: Max args in HAB =   12288
+ Constructing tensor dtens ... Status           0
+ Constructing tensor ltens ... Status           0
+ Constructing tensor rtens ... Status           0
+ Executing XL tensor contraction on CPU ... Status           0
+ Getting access to the tensor-result ... Status           0
+ Max absolute difference =      0.47704895589362D-17
+ Destructing tensor rtens ... Status           0
+ Destructing tensor ltens ... Status           0
+ Destructing tensor dtens ... Status           0
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.56437744113000D+12
+ Average GEMM GFlop/s rate    :      0.75323212860132D+03
+ Number of Bytes permuted     :      0.33257906240000D+10
+ Average permute GB/s rate    :      0.21408193620734D+02
+ Average contract GFlop/s rate:      0.30348391078617D+03
+#END_MSG
+ Shutting down TALSH ... Status           0
+Done: Status     0
+ 
+Testing TAL-SH tensor contractions for QC ...
+ QC application initialized TAL-SH
+ QC application allocated tensor 0 of volume 1048576
+ QC application allocated tensor 1 of volume 1048576
+ QC application allocated tensor 2 of volume 1048576
+ QC application allocated tensor 3 of volume 1048576
+ QC application allocated tensor 4 of volume 1048576
+ QC application allocated tensor 5 of volume 1048576
+ QC application allocated tensor 6 of volume 1048576
+ QC application allocated tensor 7 of volume 1048576
+ QC application allocated tensor 8 of volume 1048576
+ QC application allocated tensor 9 of volume 1048576
+ QC application allocated tensor 10 of volume 1048576
+ QC application allocated tensor 11 of volume 1048576
+ QC application allocated tensor 12 of volume 1048576
+ QC application allocated tensor 13 of volume 1048576
+ QC application allocated tensor 14 of volume 1048576
+ QC application allocated tensor 15 of volume 1048576
+ QC application allocated tensor 16 of volume 1048576
+ QC application allocated tensor 17 of volume 1048576
+ QC application allocated tensor 18 of volume 1048576
+ QC application allocated tensor 19 of volume 1048576
+ QC application allocated tensor 20 of volume 1048576
+ QC application allocated tensor 21 of volume 1048576
+ QC application allocated tensor 22 of volume 1048576
+ QC application allocated tensor 23 of volume 1048576
+ QC application allocated tensor 24 of volume 1048576
+ QC application allocated tensor 25 of volume 1048576
+ QC application allocated tensor 26 of volume 1048576
+ QC application allocated tensor 27 of volume 1048576
+ QC application allocated tensor 28 of volume 1048576
+ QC application allocated tensor 29 of volume 1048576
+ QC application allocated tensor 30 of volume 1048576
+ QC application allocated tensor 31 of volume 1048576
+ QC application allocated tensor 32 of volume 1048576
+ QC application allocated tensor 33 of volume 1048576
+ QC application allocated tensor 34 of volume 1048576
+ QC application allocated tensor 35 of volume 1048576
+ QC application allocated tensor 36 of volume 1048576
+ QC application allocated tensor 37 of volume 1048576
+ QC application allocated tensor 38 of volume 1048576
+ QC application allocated tensor 39 of volume 1048576
+ QC application allocated tensor 40 of volume 1048576
+ QC application allocated tensor 41 of volume 1048576
+ QC application allocated tensor 42 of volume 1048576
+ QC application allocated tensor 43 of volume 1048576
+ QC application allocated tensor 44 of volume 1048576
+ QC application allocated tensor 45 of volume 1048576
+ QC application allocated tensor 46 of volume 1048576
+ QC application allocated tensor 47 of volume 1048576
+ QC application allocated tensor 48 of volume 1048576
+ QC application allocated tensor 49 of volume 1048576
+ QC application allocated tensor 50 of volume 1048576
+ QC application allocated tensor 51 of volume 1048576
+ QC application allocated tensor 52 of volume 1048576
+ QC application allocated tensor 53 of volume 1048576
+ QC application allocated tensor 54 of volume 1048576
+ QC application allocated tensor 55 of volume 1048576
+ QC application allocated tensor 56 of volume 1048576
+ QC application allocated tensor 57 of volume 1048576
+ QC application allocated tensor 58 of volume 1048576
+ QC application allocated tensor 59 of volume 1048576
+ QC application allocated tensor 60 of volume 1048576
+ QC application allocated tensor 61 of volume 1048576
+ QC application allocated tensor 62 of volume 1048576
+ QC application allocated tensor 63 of volume 1048576
+ QC application allocated tensor 64 of volume 1048576
+ QC application allocated tensor 65 of volume 1048576
+ QC application allocated tensor 66 of volume 1048576
+ QC application allocated tensor 67 of volume 1048576
+ QC application allocated tensor 68 of volume 1048576
+ QC application allocated tensor 69 of volume 1048576
+ QC application allocated tensor 70 of volume 1048576
+ QC application allocated tensor 71 of volume 1048576
+ QC application allocated tensor 72 of volume 1048576
+ QC application allocated tensor 73 of volume 1048576
+ QC application allocated tensor 74 of volume 1048576
+ QC application allocated tensor 75 of volume 1048576
+ QC application allocated tensor 76 of volume 1048576
+ QC application allocated tensor 77 of volume 1048576
+ QC application allocated tensor 78 of volume 1048576
+ QC application allocated tensor 79 of volume 1048576
+ QC application allocated tensor 80 of volume 1048576
+ QC application allocated tensor 81 of volume 1048576
+ QC application allocated tensor 82 of volume 1048576
+ QC application allocated tensor 83 of volume 1048576
+ QC application allocated tensor 84 of volume 1048576
+ QC application allocated tensor 85 of volume 1048576
+ QC application allocated tensor 86 of volume 1048576
+ QC application allocated tensor 87 of volume 1048576
+ QC application allocated tensor 88 of volume 1048576
+ QC application allocated tensor 89 of volume 1048576
+ QC application allocated tensor 90 of volume 1048576
+ QC application allocated tensor 91 of volume 1048576
+ QC application allocated tensor 92 of volume 1048576
+ QC application allocated tensor 93 of volume 1048576
+ QC application allocated tensor 94 of volume 1048576
+ QC application allocated tensor 95 of volume 1048576
+ QC application allocated tensor 96 of volume 1048576
+ QC application allocated tensor 97 of volume 1048576
+ QC application allocated tensor 98 of volume 1048576
+ QC application allocated tensor 99 of volume 1048576
+ QC application allocated tensor 100 of volume 1048576
+ QC application allocated tensor 101 of volume 1048576
+ QC application allocated tensor 102 of volume 1048576
+ QC application allocated tensor 103 of volume 1048576
+ QC application allocated tensor 104 of volume 1048576
+ QC application allocated tensor 105 of volume 1048576
+ QC application allocated tensor 106 of volume 1048576
+ QC application allocated tensor 107 of volume 1048576
+ QC application allocated tensor 108 of volume 1048576
+ QC application allocated tensor 109 of volume 1048576
+ QC application allocated tensor 110 of volume 1048576
+ QC application allocated tensor 111 of volume 1048576
+ QC application allocated tensor 112 of volume 1048576
+ QC application allocated tensor 113 of volume 1048576
+ QC application allocated tensor 114 of volume 1048576
+ QC application allocated tensor 115 of volume 1048576
+ QC application allocated tensor 116 of volume 1048576
+ QC application allocated tensor 117 of volume 1048576
+ QC application allocated tensor 118 of volume 1048576
+ QC application allocated tensor 119 of volume 1048576
+ QC application allocated tensor 120 of volume 1048576
+ QC application allocated tensor 121 of volume 1048576
+ QC application allocated tensor 122 of volume 1048576
+ QC application allocated tensor 123 of volume 1048576
+ QC application allocated tensor 124 of volume 1048576
+ QC application allocated tensor 125 of volume 1048576
+ QC application entered TAL-SH execution
+  QC application constructed TAL-SH tensor 0:
+  QC application constructed TAL-SH tensor 1:
+  QC application constructed TAL-SH tensor 2:
+  QC application constructed TAL-SH tensor 3:
+  QC application constructed TAL-SH tensor 4:
+  QC application constructed TAL-SH tensor 5:
+  QC application constructed TAL-SH tensor 6:
+  QC application constructed TAL-SH tensor 7:
+  QC application constructed TAL-SH tensor 8:
+  QC application constructed TAL-SH tensor 9:
+  QC application constructed TAL-SH tensor 10:
+  QC application constructed TAL-SH tensor 11:
+  QC application constructed TAL-SH tensor 12:
+  QC application constructed TAL-SH tensor 13:
+  QC application constructed TAL-SH tensor 14:
+  QC application constructed TAL-SH tensor 15:
+  QC application constructed TAL-SH tensor 16:
+  QC application constructed TAL-SH tensor 17:
+  QC application constructed TAL-SH tensor 18:
+  QC application constructed TAL-SH tensor 19:
+  QC application constructed TAL-SH tensor 20:
+  QC application constructed TAL-SH tensor 21:
+  QC application constructed TAL-SH tensor 22:
+  QC application constructed TAL-SH tensor 23:
+  QC application constructed TAL-SH tensor 24:
+  QC application constructed TAL-SH tensor 25:
+  QC application constructed TAL-SH tensor 26:
+  QC application constructed TAL-SH tensor 27:
+  QC application constructed TAL-SH tensor 28:
+  QC application constructed TAL-SH tensor 29:
+  QC application constructed TAL-SH tensor 30:
+  QC application constructed TAL-SH tensor 31:
+  QC application constructed TAL-SH tensor 32:
+  QC application constructed TAL-SH tensor 33:
+  QC application constructed TAL-SH tensor 34:
+  QC application constructed TAL-SH tensor 35:
+  QC application constructed TAL-SH tensor 36:
+  QC application constructed TAL-SH tensor 37:
+  QC application constructed TAL-SH tensor 38:
+  QC application constructed TAL-SH tensor 39:
+  QC application constructed TAL-SH tensor 40:
+  QC application constructed TAL-SH tensor 41:
+  QC application constructed TAL-SH tensor 42:
+  QC application constructed TAL-SH tensor 43:
+  QC application constructed TAL-SH tensor 44:
+  QC application constructed TAL-SH tensor 45:
+  QC application constructed TAL-SH tensor 46:
+  QC application constructed TAL-SH tensor 47:
+  QC application constructed TAL-SH tensor 48:
+  QC application constructed TAL-SH tensor 49:
+  QC application constructed TAL-SH tensor 50:
+  QC application constructed TAL-SH tensor 51:
+  QC application constructed TAL-SH tensor 52:
+  QC application constructed TAL-SH tensor 53:
+  QC application constructed TAL-SH tensor 54:
+  QC application constructed TAL-SH tensor 55:
+  QC application constructed TAL-SH tensor 56:
+  QC application constructed TAL-SH tensor 57:
+  QC application constructed TAL-SH tensor 58:
+  QC application constructed TAL-SH tensor 59:
+  QC application constructed TAL-SH tensor 60:
+  QC application constructed TAL-SH tensor 61:
+  QC application constructed TAL-SH tensor 62:
+  QC application constructed TAL-SH tensor 63:
+  QC application constructed TAL-SH tensor 64:
+  QC application constructed TAL-SH tensor 65:
+  QC application constructed TAL-SH tensor 66:
+  QC application constructed TAL-SH tensor 67:
+  QC application constructed TAL-SH tensor 68:
+  QC application constructed TAL-SH tensor 69:
+  QC application constructed TAL-SH tensor 70:
+  QC application constructed TAL-SH tensor 71:
+  QC application constructed TAL-SH tensor 72:
+  QC application constructed TAL-SH tensor 73:
+  QC application constructed TAL-SH tensor 74:
+  QC application constructed TAL-SH tensor 75:
+  QC application constructed TAL-SH tensor 76:
+  QC application constructed TAL-SH tensor 77:
+  QC application constructed TAL-SH tensor 78:
+  QC application constructed TAL-SH tensor 79:
+  QC application constructed TAL-SH tensor 80:
+  QC application constructed TAL-SH tensor 81:
+  QC application constructed TAL-SH tensor 82:
+  QC application constructed TAL-SH tensor 83:
+  QC application constructed TAL-SH tensor 84:
+  QC application constructed TAL-SH tensor 85:
+  QC application constructed TAL-SH tensor 86:
+  QC application constructed TAL-SH tensor 87:
+  QC application constructed TAL-SH tensor 88:
+  QC application constructed TAL-SH tensor 89:
+  QC application constructed TAL-SH tensor 90:
+  QC application constructed TAL-SH tensor 91:
+  QC application constructed TAL-SH tensor 92:
+  QC application constructed TAL-SH tensor 93:
+  QC application constructed TAL-SH tensor 94:
+  QC application constructed TAL-SH tensor 95:
+  QC application constructed TAL-SH tensor 96:
+  QC application constructed TAL-SH tensor 97:
+  QC application constructed TAL-SH tensor 98:
+  QC application constructed TAL-SH tensor 99:
+  QC application constructed TAL-SH tensor 100:
+  QC application constructed TAL-SH tensor 101:
+  QC application constructed TAL-SH tensor 102:
+  QC application constructed TAL-SH tensor 103:
+  QC application constructed TAL-SH tensor 104:
+  QC application constructed TAL-SH tensor 105:
+  QC application constructed TAL-SH tensor 106:
+  QC application constructed TAL-SH tensor 107:
+  QC application constructed TAL-SH tensor 108:
+  QC application constructed TAL-SH tensor 109:
+  QC application constructed TAL-SH tensor 110:
+  QC application constructed TAL-SH tensor 111:
+  QC application constructed TAL-SH tensor 112:
+  QC application constructed TAL-SH tensor 113:
+  QC application constructed TAL-SH tensor 114:
+  QC application constructed TAL-SH tensor 115:
+  QC application constructed TAL-SH tensor 116:
+  QC application constructed TAL-SH tensor 117:
+  QC application constructed TAL-SH tensor 118:
+  QC application constructed TAL-SH tensor 119:
+  QC application constructed TAL-SH tensor 120:
+  QC application constructed TAL-SH tensor 121:
+  QC application constructed TAL-SH tensor 122:
+  QC application constructed TAL-SH tensor 123:
+  QC application constructed TAL-SH tensor 124:
+  QC application constructed TAL-SH tensor 125:
+  QC application placed 2 tensor contractions into the CPU queue
+  QC application placed 40 tensor contractions into the GPU queue
+  QC application started GPU execution pipeline
+   40 tensor contractions remains
+    Scheduled tensor contraction 0
+    Scheduled tensor contraction 1
+    Scheduled tensor contraction 2
+    Scheduled tensor contraction 3
+    Scheduled tensor contraction 4
+    Scheduled tensor contraction 5
+    Scheduled tensor contraction 6
+    Scheduled tensor contraction 7
+    Scheduled tensor contraction 8
+    Scheduled tensor contraction 9
+    Scheduled tensor contraction 10
+    Scheduled tensor contraction 11
+    Scheduled tensor contraction 12
+    Scheduled tensor contraction 13
+    Scheduled tensor contraction 14
+    Scheduled tensor contraction 15
+    Scheduled tensor contraction 16
+    Scheduled tensor contraction 17
+    Scheduled tensor contraction 18
+    Scheduled tensor contraction 19
+    Scheduled tensor contraction 20
+    Scheduled tensor contraction 21
+    Scheduled tensor contraction 22
+    Scheduled tensor contraction 23
+    Scheduled tensor contraction 24
+    Scheduled tensor contraction 25
+    Scheduled tensor contraction 26
+    Scheduled tensor contraction 27
+    Scheduled tensor contraction 28
+    Scheduled tensor contraction 29
+    Scheduled tensor contraction 30
+    Scheduled tensor contraction 31
+    Scheduled tensor contraction 32
+    Scheduled tensor contraction 33
+    Scheduled tensor contraction 34
+    Scheduled tensor contraction 35
+    Scheduled tensor contraction 36
+    Scheduled tensor contraction 37
+    Scheduled tensor contraction 38
+    Scheduled tensor contraction 39
+    Completed tensor contraction 0
+   39 tensor contractions remains
+    Completed tensor contraction 1
+   38 tensor contractions remains
+    Completed tensor contraction 2
+   37 tensor contractions remains
+    Completed tensor contraction 3
+   36 tensor contractions remains
+    Completed tensor contraction 4
+   35 tensor contractions remains
+    Completed tensor contraction 5
+   34 tensor contractions remains
+    Completed tensor contraction 6
+   33 tensor contractions remains
+    Completed tensor contraction 7
+   32 tensor contractions remains
+    Completed tensor contraction 8
+   31 tensor contractions remains
+    Completed tensor contraction 9
+   30 tensor contractions remains
+    Completed tensor contraction 10
+   29 tensor contractions remains
+    Completed tensor contraction 11
+   28 tensor contractions remains
+    Completed tensor contraction 12
+   27 tensor contractions remains
+    Completed tensor contraction 13
+   26 tensor contractions remains
+    Completed tensor contraction 14
+   25 tensor contractions remains
+    Completed tensor contraction 15
+   24 tensor contractions remains
+    Completed tensor contraction 16
+   23 tensor contractions remains
+    Completed tensor contraction 17
+   22 tensor contractions remains
+    Completed tensor contraction 18
+   21 tensor contractions remains
+    Completed tensor contraction 19
+   20 tensor contractions remains
+    Completed tensor contraction 20
+   19 tensor contractions remains
+    Completed tensor contraction 21
+   18 tensor contractions remains
+    Completed tensor contraction 22
+   17 tensor contractions remains
+    Completed tensor contraction 23
+   16 tensor contractions remains
+    Completed tensor contraction 24
+   15 tensor contractions remains
+    Completed tensor contraction 25
+   14 tensor contractions remains
+    Completed tensor contraction 26
+   13 tensor contractions remains
+    Completed tensor contraction 27
+   12 tensor contractions remains
+    Completed tensor contraction 28
+   11 tensor contractions remains
+    Completed tensor contraction 29
+   10 tensor contractions remains
+    Completed tensor contraction 30
+   9 tensor contractions remains
+    Completed tensor contraction 31
+   8 tensor contractions remains
+    Completed tensor contraction 32
+   7 tensor contractions remains
+    Completed tensor contraction 33
+   6 tensor contractions remains
+    Completed tensor contraction 34
+   5 tensor contractions remains
+    Completed tensor contraction 35
+   4 tensor contractions remains
+    Completed tensor contraction 36
+   3 tensor contractions remains
+    Completed tensor contraction 37
+   2 tensor contractions remains
+    Completed tensor contraction 38
+   1 tensor contractions remains
+    Completed tensor contraction 39
+   0 tensor contractions remains
+  QC application executed 40 tensor contractions from the GPU queue
+  QC application started regular CPU execution
+  QC application executed 2 tensor contractions from the CPU queue
+ QC application exited TAL-SH execution
+ QC application deallocated all its tensors
+ QC application shut down TAL-SH
+Done: Status     0
+ 
+Testing TAL-SH tensor contractions for NWChem ...
+Done: Status     0
+ 
+Testing TAL-SH complex tensor operations ...
+ Initializing TALSH ... Status           0: Size (Bytes) =    1072693248: Max args in HAB =   12288
+ Constructing TAL-SH tensors: Statuses:           0          0          0          0          0          0
+ Initial tensor 1-norms:      0.11975750332901D+04      0.62214738001669D+04
+ Complex negative =     -0.10000000000000D+01      0.00000000000000D+00
+ Scheduling two tensor contractions on CPU: Statuses:           0           0
+ Waiting upon completion of tensor contraction 1 ... Status           0 Completion =  2000005
+ Waiting upon completion of tensor contraction 2 ... Status           0 Completion =  2000005
+ Destructing task handles: Statuses:           0          0
+ Resulting tensor 1-norms: 0.38765253347290D+04 0.38765253347290D+04
+ Getting access to ctens tensor body: Status           0: Element value = (-.14529717933500D-02 0.39380574906000D-02)
+ Getting access to dtens tensor body: Status           0: Element value = (-.14529717933500D-02 -.39380574906000D-02)
+ Reference value (2nd case) = (-.14529717933500D-02 -.39380574906000D-02)
+ Destructing tensors: Statuses:           0          0          0          0          0          0
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.93935475329000D+12
+ Average GEMM GFlop/s rate    :      0.74336515623045D+03
+ Number of Bytes permuted     :      0.63807874880000D+10
+ Average permute GB/s rate    :      0.13693974707989D+02
+ Average contract GFlop/s rate:      0.35233217522261D+03
+#END_MSG
+ Shutting down TALSH ... Status           0
+Done: Status     0
+ 
+Benchmarking tensor contraction performance (random) ...
+ Initializing TALSH ... Status           0: Size (Bytes) =      66060288: Max args in HAB =   12288
+ Max tensor volume (words) =      917504 (word size =  8)
+  Contraction        1: (      956      956 ) = (      956 ) * (      956): D(a,b)+=L(b)*R(a) ??? ??? 0.619D+08
+  Contraction        2: (      956      956 ) = (      956 ) * (      956): D(a,b)+=L(b)*R(a) ??? ??? 0.535D+08
+  Contraction        3: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(c)*R(a,b) ??? ??? 0.169D+09
+  Contraction        4: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(b)*R(a,c) ??? ??? 0.301D+09
+  Contraction        5: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(b)*R(a,c) ??? ??? 0.161D+09
+  Contraction        6: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(c)*R(a,b) ??? ??? 0.743D+08
+  Contraction        7: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(b)*R(c,a) ??? ??? 0.987D+08
+  Contraction        8: (       96       96       96 ) = (       96 ) * (       96       96): D(a,b,c)+=L(c)*R(a,b) ??? ??? 0.198D+09
+  Contraction        9: (      956 ) = (      956 ) * (      956      956): D(a)+=L(b)*R(a,b) ??? ??? 0.150D+09
+  Contraction       10: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(c,b)*R(d,a) ??? ??? 0.815D+08
+  Contraction       11: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,b)*R(d,c) ??? ??? 0.796D+08
+  Contraction       12: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,a)*R(c,d) ??? ??? 0.740D+08
+  Contraction       13: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,c)*R(b,d) ??? ??? 0.726D+08
+  Contraction       14: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,a)*R(c,d) ??? ??? 0.873D+10
+  Contraction       15: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,a)*R(c,d) ??? ??? 0.827D+10
+  Contraction       16: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(d,b)*R(c,a) ??? ??? 0.181D+09
+  Contraction       17: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,c)*R(d,b) ??? ??? 0.311D+09
+  Contraction       18: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,d)*R(a,c) ??? ??? 0.724D+08
+  Contraction       19: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(d,c)*R(a,b) ??? ??? 0.652D+08
+  Contraction       20: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,d)*R(a,c) ??? ??? 0.493D+08
+  Contraction       21: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(d,a)*R(b,c) ??? ??? 0.275D+10
+  Contraction       22: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(c,d)*R(b,a) ??? ??? 0.279D+09
+  Contraction       23: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,c)*R(a,d) ??? ??? 0.426D+10
+  Contraction       24: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,b)*R(d,c) ??? ??? 0.962D+10
+  Contraction       25: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,c)*R(d,b) ??? ??? 0.290D+09
+  Contraction       26: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(b,d)*R(a,c) ??? ??? 0.118D+10
+  Contraction       27: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,b)*R(d,c) ??? ??? 0.937D+10
+  Contraction       28: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(c,d)*R(b,a) ??? ??? 0.169D+09
+  Contraction       29: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(d,c)*R(a,b) ??? ??? 0.681D+08
+  Contraction       30: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(d,c)*R(a,b) ??? ??? 0.468D+08
+  Contraction       31: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(c,d)*R(a,b) ??? ??? 0.121D+09
+  Contraction       32: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,d)*R(c,b) ??? ??? 0.110D+09
+  Contraction       33: (       29       29       29       29 ) = (       29       29 ) * (       29       29): D(a,b,c,d)+=L(a,c)*R(d,b) ??? ??? 0.984D+08
+  Contraction       34: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(b,c)*R(a,c) ??? ??? 0.860D+10
+  Contraction       35: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(c,b)*R(c,a) ??? ??? 0.126D+11
+  Contraction       36: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(b,c)*R(c,a) ??? ??? 0.145D+11
+  Contraction       37: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(b,c)*R(a,c) ??? ??? 0.121D+11
+  Contraction       38: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(c,b)*R(a,c) ??? ??? 0.141D+11
+  Contraction       39: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(b,c)*R(c,a) ??? ??? 0.125D+11
+  Contraction       40: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(c,b)*R(a,c) ??? ??? 0.125D+11
+  Contraction       41: (      956      956 ) = (      956      956 ) * (      956      956): D(a,b)+=L(c,b)*R(c,a) ??? ??? 0.144D+11
+  Contraction       42: ( ) = (      956      956 ) * (      956      956): D()+=L(a,b)*R(b,a) ??? ??? 0.930D+08
+  Contraction       43: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(b,d,a) ??? ??? 0.144D+09
+  Contraction       44: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(b,c,a) ??? ??? 0.467D+10
+  Contraction       45: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(a)*R(b,d,c) ??? ??? 0.100D+11
+  Contraction       46: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(d,a,b) ??? ??? 0.216D+09
+  Contraction       47: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(a,d,b) ??? ??? 0.321D+09
+  Contraction       48: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(b)*R(c,d,a) ??? ??? 0.495D+10
+  Contraction       49: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(a)*R(b,d,c) ??? ??? 0.747D+08
+  Contraction       50: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(a)*R(d,b,c) ??? ??? 0.759D+08
+  Contraction       51: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(a,b,c) ??? ??? 0.742D+08
+  Contraction       52: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(d,b,a) ??? ??? 0.265D+09
+  Contraction       53: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(a)*R(c,b,d) ??? ??? 0.943D+10
+  Contraction       54: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(c,a,b) ??? ??? 0.411D+09
+  Contraction       55: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(b)*R(c,d,a) ??? ??? 0.302D+09
+  Contraction       56: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(a,b,c) ??? ??? 0.484D+10
+  Contraction       57: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(b)*R(c,d,a) ??? ??? 0.734D+08
+  Contraction       58: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(a,b,d) ??? ??? 0.738D+08
+  Contraction       59: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(c,a,b) ??? ??? 0.754D+08
+  Contraction       60: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(b)*R(c,d,a) ??? ??? 0.503D+10
+  Contraction       61: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(b,c,a) ??? ??? 0.164D+10
+  Contraction       62: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(a,b,d) ??? ??? 0.141D+10
+  Contraction       63: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(a,b,d) ??? ??? 0.274D+10
+  Contraction       64: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(c)*R(d,b,a) ??? ??? 0.241D+09
+  Contraction       65: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(d)*R(a,c,b) ??? ??? 0.768D+08
+  Contraction       66: (       29       29       29       29 ) = (       29 ) * (       29       29       29): D(a,b,c,d)+=L(a)*R(c,b,d) ??? ??? 0.813D+10
+  Contraction       67: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(b,a,c) ??? ??? 0.911D+08
+  Contraction       68: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(c,b,a) ??? ??? 0.797D+10
+  Contraction       69: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(b,c,a) ??? ??? 0.366D+09
+  Contraction       70: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(b,c,a) ??? ??? 0.912D+08
+  Contraction       71: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(c,b,a) ??? ??? 0.793D+10
+  Contraction       72: (       96       96 ) = (       96 ) * (       96       96       96): D(a,b)+=L(c)*R(b,a,c) ??? ??? 0.289D+09
+  Contraction       73: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(c,d,b) ??? ??? 0.795D+10
+  Contraction       74: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(a,c,d) ??? ??? 0.843D+10
+  Contraction       75: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(d,c,b) ??? ??? 0.870D+10
+  Contraction       76: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(c,d,a) ??? ??? 0.845D+10
+  Contraction       77: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(c,d,b) ??? ??? 0.287D+11
+  Contraction       78: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(b,d,a) ??? ??? 0.422D+10
+  Contraction       79: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(a,b,d) ??? ??? 0.781D+10
+  Contraction       80: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(b,d,a) ??? ??? 0.755D+10
+  Contraction       81: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(b,d,a) ??? ??? 0.739D+10
+  Contraction       82: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(c,a,d) ??? ??? 0.869D+10
+  Contraction       83: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,b)*R(c,a,d) ??? ??? 0.837D+10
+  Contraction       84: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(d,b,a) ??? ??? 0.536D+10
+  Contraction       85: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(b,d,a) ??? ??? 0.437D+10
+  Contraction       86: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(b,d,a) ??? ??? 0.427D+10
+  Contraction       87: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,b)*R(c,d,a) ??? ??? 0.845D+10
+  Contraction       88: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(a,b,d) ??? ??? 0.778D+10
+  Contraction       89: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(a,d)*R(c,d,b) ??? ??? 0.858D+10
+  Contraction       90: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(d,b,a) ??? ??? 0.426D+10
+  Contraction       91: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(d,b,a) ??? ??? 0.433D+10
+  Contraction       92: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(d,a,c) ??? ??? 0.502D+11
+  Contraction       93: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(a,d,b) ??? ??? 0.434D+10
+  Contraction       94: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(a,d,b) ??? ??? 0.430D+10
+  Contraction       95: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(b,a,d) ??? ??? 0.424D+10
+  Contraction       96: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(d,a,c) ??? ??? 0.857D+10
+  Contraction       97: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,b)*R(a,c,d) ??? ??? 0.805D+10
+  Contraction       98: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(d,b,a) ??? ??? 0.711D+10
+  Contraction       99: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,c)*R(d,b,a) ??? ??? 0.708D+10
+  Contraction      100: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(c,d,b) ??? ??? 0.840D+10
+  Contraction      101: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(a,d,b) ??? ??? 0.737D+10
+  Contraction      102: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(b,a,d) ??? ??? 0.433D+10
+  Contraction      103: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(c,b,d) ??? ??? 0.842D+10
+  Contraction      104: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(b,d)*R(a,c,d) ??? ??? 0.541D+10
+  Contraction      105: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(d,a,b) ??? ??? 0.749D+10
+  Contraction      106: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,b)*R(c,a,d) ??? ??? 0.813D+10
+  Contraction      107: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(d,a)*R(c,d,b) ??? ??? 0.853D+10
+  Contraction      108: (       96       96       96 ) = (       96       96 ) * (       96       96       96): D(a,b,c)+=L(c,d)*R(b,d,a) ??? ??? 0.717D+10
+  Contraction      109: (       96 ) = (       96       96 ) * (       96       96       96): D(a)+=L(b,c)*R(b,a,c) ??? ??? 0.337D+09
+  Contraction      110: (       96 ) = (       96       96 ) * (       96       96       96): D(a)+=L(b,c)*R(a,c,b) ??? ??? 0.249D+09
+  Contraction      111: (       96 ) = (       96       96 ) * (       96       96       96): D(a)+=L(b,c)*R(b,a,c) ??? ??? 0.526D+09
+  Contraction      112: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,d,e)*R(b,e,a) ??? ??? 0.111D+11
+  Contraction      113: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,d)*R(a,e,b) ??? ??? 0.208D+10
+  Contraction      114: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(c,a,e) ??? ??? 0.208D+10
+  Contraction      115: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,b)*R(d,e,c) ??? ??? 0.213D+10
+  Contraction      116: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,d)*R(a,e,c) ??? ??? 0.209D+10
+  Contraction      117: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,b)*R(d,a,e) ??? ??? 0.210D+10
+  Contraction      118: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,b,e)*R(e,a,d) ??? ??? 0.210D+10
+  Contraction      119: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,c,b)*R(e,a,d) ??? ??? 0.487D+11
+  Contraction      120: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,c,e)*R(e,d,a) ??? ??? 0.211D+10
+  Contraction      121: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,a)*R(d,e,c) ??? ??? 0.212D+10
+  Contraction      122: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,b,c)*R(d,e,a) ??? ??? 0.548D+11
+  Contraction      123: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,d,e)*R(b,e,a) ??? ??? 0.208D+10
+  Contraction      124: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,d)*R(c,b,e) ??? ??? 0.183D+10
+  Contraction      125: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,d,e)*R(c,b,e) ??? ??? 0.206D+10
+  Contraction      126: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,c)*R(e,d,b) ??? ??? 0.217D+10
+  Contraction      127: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,d)*R(e,a,c) ??? ??? 0.595D+11
+  Contraction      128: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,d,e)*R(a,b,e) ??? ??? 0.207D+10
+  Contraction      129: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,d)*R(b,e,c) ??? ??? 0.209D+10
+  Contraction      130: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,c)*R(b,d,e) ??? ??? 0.211D+10
+  Contraction      131: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,d,e)*R(b,e,c) ??? ??? 0.848D+10
+  Contraction      132: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,b,e)*R(c,a,e) ??? ??? 0.209D+10
+  Contraction      133: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,d)*R(c,b,e) ??? ??? 0.166D+11
+  Contraction      134: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,a,e)*R(e,d,c) ??? ??? 0.121D+12
+  Contraction      135: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,d)*R(c,b,e) ??? ??? 0.189D+10
+  Contraction      136: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,d)*R(e,a,c) ??? ??? 0.208D+10
+  Contraction      137: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,d)*R(e,c,b) ??? ??? 0.204D+10
+  Contraction      138: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,c)*R(a,b,e) ??? ??? 0.207D+10
+  Contraction      139: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,a,e)*R(c,d,e) ??? ??? 0.217D+10
+  Contraction      140: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,d)*R(e,c,b) ??? ??? 0.191D+10
+  Contraction      141: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(c,e,a) ??? ??? 0.209D+10
+  Contraction      142: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,a)*R(b,c,e) ??? ??? 0.178D+10
+  Contraction      143: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,c)*R(d,e,b) ??? ??? 0.211D+10
+  Contraction      144: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(c,e,a) ??? ??? 0.208D+10
+  Contraction      145: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,a)*R(b,c,e) ??? ??? 0.549D+11
+  Contraction      146: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,a)*R(c,d,e) ??? ??? 0.219D+10
+  Contraction      147: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,a)*R(d,e,c) ??? ??? 0.215D+10
+  Contraction      148: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,e,d)*R(c,e,b) ??? ??? 0.128D+11
+  Contraction      149: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(e,a,c) ??? ??? 0.206D+10
+  Contraction      150: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,b,e)*R(a,d,e) ??? ??? 0.678D+11
+  Contraction      151: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(a,d,e)*R(e,c,b) ??? ??? 0.207D+10
+  Contraction      152: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,d)*R(c,e,b) ??? ??? 0.198D+10
+  Contraction      153: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,d)*R(c,e,b) ??? ??? 0.211D+10
+  Contraction      154: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,d,e)*R(e,c,a) ??? ??? 0.210D+10
+  Contraction      155: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,a,c)*R(e,d,b) ??? ??? 0.151D+11
+  Contraction      156: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(e,c,a) ??? ??? 0.205D+10
+  Contraction      157: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,b,e)*R(e,d,a) ??? ??? 0.681D+11
+  Contraction      158: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,c,e)*R(a,e,d) ??? ??? 0.210D+10
+  Contraction      159: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,c,a)*R(b,e,d) ??? ??? 0.201D+10
+  Contraction      160: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,b,a)*R(e,d,c) ??? ??? 0.124D+12
+  Contraction      161: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,a)*R(b,e,c) ??? ??? 0.208D+10
+  Contraction      162: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,a)*R(b,e,d) ??? ??? 0.210D+10
+  Contraction      163: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,a,e)*R(d,b,e) ??? ??? 0.312D+11
+  Contraction      164: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,c)*R(a,e,d) ??? ??? 0.211D+10
+  Contraction      165: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,b)*R(a,d,e) ??? ??? 0.209D+10
+  Contraction      166: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,a)*R(d,e,b) ??? ??? 0.122D+11
+  Contraction      167: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,c)*R(e,a,b) ??? ??? 0.208D+10
+  Contraction      168: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,b,e)*R(a,e,d) ??? ??? 0.272D+11
+  Contraction      169: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,b,c)*R(e,d,a) ??? ??? 0.211D+10
+  Contraction      170: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(e,d,b)*R(c,a,e) ??? ??? 0.215D+10
+  Contraction      171: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,b)*R(a,e,c) ??? ??? 0.208D+10
+  Contraction      172: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,e,b)*R(a,e,d) ??? ??? 0.210D+10
+  Contraction      173: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(c,d,e)*R(e,a,b) ??? ??? 0.530D+11
+  Contraction      174: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(d,e,b)*R(c,e,a) ??? ??? 0.208D+10
+  Contraction      175: (       29       29       29       29 ) = (       29       29       29 ) * (       29       29       29): D(a,b,c,d)+=L(b,e,d)*R(e,a,c) ??? ??? 0.252D+11
+  Contraction      176: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(a,d,c) ??? ??? 0.707D+10
+  Contraction      177: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(a,c,d) ??? ??? 0.436D+10
+  Contraction      178: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(a,c,d) ??? ??? 0.834D+10
+  Contraction      179: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(b,c,d)*R(d,c,a) ??? ??? 0.802D+10
+  Contraction      180: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(c,d,a) ??? ??? 0.837D+10
+  Contraction      181: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(d,a,c) ??? ??? 0.851D+10
+  Contraction      182: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(c,a,d) ??? ??? 0.854D+10
+  Contraction      183: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(c,d,a) ??? ??? 0.234D+12
+  Contraction      184: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(c,a,d) ??? ??? 0.853D+10
+  Contraction      185: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(d,a,c) ??? ??? 0.841D+10
+  Contraction      186: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(a,c,d) ??? ??? 0.853D+10
+  Contraction      187: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(d,c,a) ??? ??? 0.841D+10
+  Contraction      188: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(a,c,d) ??? ??? 0.434D+10
+  Contraction      189: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(d,c,a) ??? ??? 0.821D+10
+  Contraction      190: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(a,d,c) ??? ??? 0.704D+10
+  Contraction      191: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(a,c,d) ??? ??? 0.880D+10
+  Contraction      192: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,b,d)*R(d,c,a) ??? ??? 0.838D+10
+  Contraction      193: (       96       96 ) = (       96       96       96 ) * (       96       96       96): D(a,b)+=L(c,d,b)*R(d,c,a) ??? ??? 0.852D+10
+  Contraction      194: ( ) = (       96       96       96 ) * (       96       96       96): D()+=L(a,b,c)*R(b,a,c) ??? ??? 0.602D+09
+  Contraction      195: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(c,d,b,a) ??? ??? 0.202D+10
+  Contraction      196: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(c,d,b,a) ??? ??? 0.397D+10
+  Contraction      197: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(c,d,b,a) ??? ??? 0.734D+08
+  Contraction      198: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,a,c,d) ??? ??? 0.745D+08
+  Contraction      199: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,b,a,c) ??? ??? 0.788D+09
+  Contraction      200: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,a,c,d) ??? ??? 0.142D+09
+  Contraction      201: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,c,d,b) ??? ??? 0.295D+09
+  Contraction      202: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,c,d,a) ??? ??? 0.450D+09
+  Contraction      203: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,c,b,d) ??? ??? 0.922D+08
+  Contraction      204: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,c,d,a) ??? ??? 0.759D+08
+  Contraction      205: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,d,c,b) ??? ??? 0.996D+10
+  Contraction      206: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,c,d,b) ??? ??? 0.195D+10
+  Contraction      207: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(c,a,d,b) ??? ??? 0.711D+08
+  Contraction      208: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,c,a,d) ??? ??? 0.734D+08
+  Contraction      209: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,b,a,c) ??? ??? 0.106D+11
+  Contraction      210: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,c,a,b) ??? ??? 0.398D+09
+  Contraction      211: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,b,a,c) ??? ??? 0.919D+10
+  Contraction      212: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(b,c,a,d) ??? ??? 0.725D+08
+  Contraction      213: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,d,c,b) ??? ??? 0.989D+10
+  Contraction      214: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,b,a,c) ??? ??? 0.170D+10
+  Contraction      215: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(c,b,d,a) ??? ??? 0.381D+10
+  Contraction      216: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,c,a,b) ??? ??? 0.206D+10
+  Contraction      217: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(a,d,c,b) ??? ??? 0.760D+08
+  Contraction      218: (       29       29       29 ) = (       29 ) * (       29       29       29       29): D(a,b,c)+=L(d)*R(d,b,a,c) ??? ??? 0.729D+10
+  Contraction      219: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(c,b,e,a) ??? ??? 0.206D+10
+  Contraction      220: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(d,e,a,b) ??? ??? 0.363D+11
+  Contraction      221: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e)*R(b,d,c,e) ??? ??? 0.762D+10
+  Contraction      222: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(a,c,e,b) ??? ??? 0.226D+10
+  Contraction      223: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(e,c,d,a) ??? ??? 0.749D+11
+  Contraction      224: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,a,e,c) ??? ??? 0.208D+10
+  Contraction      225: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,c,e,d) ??? ??? 0.216D+10
+  Contraction      226: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(e,b,a,d) ??? ??? 0.320D+10
+  Contraction      227: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(e,d,a,c) ??? ??? 0.209D+10
+  Contraction      228: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(c,e,a,b) ??? ??? 0.671D+11
+  Contraction      229: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,e,c,a) ??? ??? 0.210D+10
+  Contraction      230: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(d,a,e,b) ??? ??? 0.183D+10
+  Contraction      231: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(d,e,c,a) ??? ??? 0.210D+10
+  Contraction      232: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(d,e,a,c) ??? ??? 0.211D+10
+  Contraction      233: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(d,b,c,e) ??? ??? 0.177D+11
+  Contraction      234: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(e,d,a,b) ??? ??? 0.208D+10
+  Contraction      235: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(c,a,e,b) ??? ??? 0.128D+11
+  Contraction      236: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(d,a,e,b) ??? ??? 0.208D+10
+  Contraction      237: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(a,b,e,c) ??? ??? 0.270D+11
+  Contraction      238: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(d,b,e,a) ??? ??? 0.209D+10
+  Contraction      239: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,a,c,e) ??? ??? 0.210D+10
+  Contraction      240: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,c,a,e) ??? ??? 0.138D+11
+  Contraction      241: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(e,a,c,b) ??? ??? 0.211D+10
+  Contraction      242: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(e,a,c,b) ??? ??? 0.211D+10
+  Contraction      243: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,a,e,c) ??? ??? 0.999D+10
+  Contraction      244: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(c,a,e,b) ??? ??? 0.209D+10
+  Contraction      245: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(b,a,e,d) ??? ??? 0.912D+10
+  Contraction      246: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(c,d,a,e) ??? ??? 0.210D+10
+  Contraction      247: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,d,e,c) ??? ??? 0.232D+11
+  Contraction      248: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,e,d,c) ??? ??? 0.211D+10
+  Contraction      249: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(d,b,c,e) ??? ??? 0.212D+10
+  Contraction      250: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(c,a,e,d) ??? ??? 0.675D+10
+  Contraction      251: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(b,e,d,c) ??? ??? 0.124D+12
+  Contraction      252: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(e,d,c,b) ??? ??? 0.212D+10
+  Contraction      253: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,e,a,c) ??? ??? 0.380D+11
+  Contraction      254: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(c,d,e,a) ??? ??? 0.209D+10
+  Contraction      255: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,c,d,e) ??? ??? 0.210D+10
+  Contraction      256: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(b,e,a,d) ??? ??? 0.754D+11
+  Contraction      257: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(e,d,a,b) ??? ??? 0.218D+10
+  Contraction      258: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e)*R(c,d,e,b) ??? ??? 0.127D+11
+  Contraction      259: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(b,e,d,c) ??? ??? 0.128D+12
+  Contraction      260: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,d,e,c) ??? ??? 0.210D+10
+  Contraction      261: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(c,d,e,a) ??? ??? 0.179D+11
+  Contraction      262: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(a,b,c,e) ??? ??? 0.778D+11
+  Contraction      263: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(d,c,a,e) ??? ??? 0.208D+10
+  Contraction      264: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(d,a,e,b) ??? ??? 0.571D+10
+  Contraction      265: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(e,d,c,b) ??? ??? 0.241D+10
+  Contraction      266: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(a,e,d,b) ??? ??? 0.354D+11
+  Contraction      267: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(c,d,e,b) ??? ??? 0.597D+10
+  Contraction      268: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(a,c,e,b) ??? ??? 0.210D+10
+  Contraction      269: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e)*R(c,b,d,e) ??? ??? 0.937D+11
+  Contraction      270: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(e,d,a,c) ??? ??? 0.195D+10
+  Contraction      271: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(c,d,a,e) ??? ??? 0.216D+10
+  Contraction      272: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(b,a,d,e) ??? ??? 0.646D+11
+  Contraction      273: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a)*R(d,c,b,e) ??? ??? 0.209D+10
+  Contraction      274: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,a,e,c) ??? ??? 0.670D+10
+  Contraction      275: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e)*R(e,b,c,a) ??? ??? 0.211D+10
+  Contraction      276: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c)*R(e,d,b,a) ??? ??? 0.202D+10
+  Contraction      277: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(d,e,a,c) ??? ??? 0.689D+11
+  Contraction      278: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(e,c,a,b) ??? ??? 0.209D+10
+  Contraction      279: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d)*R(b,c,a,e) ??? ??? 0.848D+10
+  Contraction      280: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b)*R(d,e,a,c) ??? ??? 0.209D+10
+  Contraction      281: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e)*R(d,b,a,e) ??? ??? 0.747D+10
+  Contraction      282: (       29       29       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e)*R(a,c,d,e) ??? ??? 0.211D+10
+  Contraction      283: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,d,c,a) ??? ??? 0.724D+08
+  Contraction      284: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,c,d,a) ??? ??? 0.737D+08
+  Contraction      285: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,c,a,d) ??? ??? 0.401D+10
+  Contraction      286: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,c,d,a) ??? ??? 0.414D+10
+  Contraction      287: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,c,a,d) ??? ??? 0.410D+10
+  Contraction      288: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,a,c,d) ??? ??? 0.334D+10
+  Contraction      289: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,d,c,a) ??? ??? 0.268D+09
+  Contraction      290: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(c,d,b,a) ??? ??? 0.722D+10
+  Contraction      291: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,d,c,a) ??? ??? 0.732D+08
+  Contraction      292: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(c,d,b,a) ??? ??? 0.782D+10
+  Contraction      293: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,d,c,a) ??? ??? 0.413D+09
+  Contraction      294: (       29       29 ) = (       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d)*R(b,c,a,d) ??? ??? 0.872D+08
+  Contraction      295: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(b,e,a,d) ??? ??? 0.199D+10
+  Contraction      296: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(c,b,e,d) ??? ??? 0.656D+10
+  Contraction      297: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(c,d,e,a) ??? ??? 0.212D+10
+  Contraction      298: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(e,c,a,d) ??? ??? 0.196D+10
+  Contraction      299: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,a)*R(e,c,b,d) ??? ??? 0.415D+10
+  Contraction      300: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(a,d,e)*R(c,b,d,e) ??? ??? 0.118D+11
+  Contraction      301: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(d,a,b,e) ??? ??? 0.210D+10
+  Contraction      302: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(d,a,b,e) ??? ??? 0.199D+10
+  Contraction      303: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(b,d,a,e) ??? ??? 0.199D+10
+  Contraction      304: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(e,a,b,d) ??? ??? 0.364D+10
+  Contraction      305: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(b,e,d,a) ??? ??? 0.957D+10
+  Contraction      306: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(e,d,a,b) ??? ??? 0.194D+10
+  Contraction      307: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(e,d,c,a) ??? ??? 0.174D+10
+  Contraction      308: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(a,d,e,b) ??? ??? 0.849D+10
+  Contraction      309: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(d,c,e,a) ??? ??? 0.317D+10
+  Contraction      310: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(a,d,e,b) ??? ??? 0.587D+10
+  Contraction      311: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(a,d,c,e) ??? ??? 0.212D+10
+  Contraction      312: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(a,d,e)*R(e,d,c,b) ??? ??? 0.201D+10
+  Contraction      313: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(a,c,d,e) ??? ??? 0.702D+10
+  Contraction      314: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(c,e,d,a) ??? ??? 0.483D+10
+  Contraction      315: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(e,a,b,d) ??? ??? 0.210D+10
+  Contraction      316: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(a,c,e,d) ??? ??? 0.182D+10
+  Contraction      317: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(e,a,b,d) ??? ??? 0.476D+10
+  Contraction      318: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(d,c,e,b) ??? ??? 0.113D+11
+  Contraction      319: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(c,e,d,a) ??? ??? 0.210D+10
+  Contraction      320: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(e,c,a,d) ??? ??? 0.187D+10
+  Contraction      321: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(a,d,b,e) ??? ??? 0.683D+10
+  Contraction      322: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(b,e,a,d) ??? ??? 0.747D+11
+  Contraction      323: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(d,c,e,a) ??? ??? 0.211D+10
+  Contraction      324: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(c,e,d,b) ??? ??? 0.210D+10
+  Contraction      325: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(e,c,b,d) ??? ??? 0.187D+10
+  Contraction      326: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(e,a,d,c) ??? ??? 0.331D+10
+  Contraction      327: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(b,a,e,d) ??? ??? 0.194D+10
+  Contraction      328: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(d,a,b,e) ??? ??? 0.187D+10
+  Contraction      329: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(a,d,e,c) ??? ??? 0.844D+10
+  Contraction      330: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(d,c,b,e) ??? ??? 0.405D+10
+  Contraction      331: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(c,e,a,d) ??? ??? 0.103D+11
+  Contraction      332: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(b,e,d,a) ??? ??? 0.174D+10
+  Contraction      333: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(a,d,e)*R(c,e,b,d) ??? ??? 0.138D+11
+  Contraction      334: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(a,d,e,c) ??? ??? 0.370D+10
+  Contraction      335: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(d,e,a,c) ??? ??? 0.126D+12
+  Contraction      336: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(b,d,e)*R(e,d,a,c) ??? ??? 0.211D+10
+  Contraction      337: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(b,e,d,a) ??? ??? 0.165D+10
+  Contraction      338: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(e,b,a,d) ??? ??? 0.731D+10
+  Contraction      339: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(d,a,b,e) ??? ??? 0.455D+11
+  Contraction      340: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(a,e,d,c) ??? ??? 0.339D+10
+  Contraction      341: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(c,d,e,b) ??? ??? 0.213D+10
+  Contraction      342: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(d,e,a,c) ??? ??? 0.214D+10
+  Contraction      343: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,c,e)*R(a,d,e,b) ??? ??? 0.159D+10
+  Contraction      344: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,a)*R(d,c,e,b) ??? ??? 0.167D+11
+  Contraction      345: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,a)*R(d,c,b,e) ??? ??? 0.115D+11
+  Contraction      346: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(a,c,e,d) ??? ??? 0.210D+10
+  Contraction      347: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(c,d,a,e) ??? ??? 0.211D+10
+  Contraction      348: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(a,d,e)*R(e,d,c,b) ??? ??? 0.154D+10
+  Contraction      349: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,a)*R(d,c,e,b) ??? ??? 0.393D+10
+  Contraction      350: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(e,d,c,a) ??? ??? 0.455D+10
+  Contraction      351: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(d,a,e,c) ??? ??? 0.211D+10
+  Contraction      352: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(c,d,a,e) ??? ??? 0.212D+10
+  Contraction      353: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,b)*R(a,d,c,e) ??? ??? 0.190D+10
+  Contraction      354: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,a,e)*R(d,c,e,b) ??? ??? 0.504D+10
+  Contraction      355: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(a,d,e,b) ??? ??? 0.325D+10
+  Contraction      356: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(c,d,e)*R(e,b,d,a) ??? ??? 0.208D+10
+  Contraction      357: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,e,c)*R(b,d,a,e) ??? ??? 0.164D+10
+  Contraction      358: (       29       29       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a,b,c)+=L(d,b,e)*R(e,a,c,d) ??? ??? 0.849D+10
+  Contraction      359: (       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a)+=L(b,c,d)*R(d,b,c,a) ??? ??? 0.303D+09
+  Contraction      360: (       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a)+=L(b,c,d)*R(b,d,c,a) ??? ??? 0.232D+10
+  Contraction      361: (       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a)+=L(b,c,d)*R(c,a,d,b) ??? ??? 0.692D+08
+  Contraction      362: (       29 ) = (       29       29       29 ) * (       29       29       29       29): D(a)+=L(b,c,d)*R(c,d,a,b) ??? ??? 0.781D+08
+  Contraction      363: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,c,f)*R(f,d,b,e) ??? ??? 0.119D+11
+  Contraction      364: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,f,d)*R(c,b,e,f) ??? ??? 0.139D+11
+  Contraction      365: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,c,b)*R(a,e,d,f) ??? ??? 0.135D+11
+  Contraction      366: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,a,e,f)*R(f,e,c,d) ??? ??? 0.149D+11
+  Contraction      367: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,b,e,f)*R(f,d,e,c) ??? ??? 0.142D+11
+  Contraction      368: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,a,e,f)*R(b,f,e,d) ??? ??? 0.136D+11
+  Contraction      369: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,a,e,f)*R(c,f,e,b) ??? ??? 0.120D+11
+  Contraction      370: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c,f,a)*R(d,b,e,f) ??? ??? 0.136D+11
+  Contraction      371: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e,f,c)*R(f,d,a,e) ??? ??? 0.120D+11
+  Contraction      372: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,c,e,f)*R(d,a,e,f) ??? ??? 0.138D+11
+  Contraction      373: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,b,f)*R(a,f,e,c) ??? ??? 0.120D+11
+  Contraction      374: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,c,e,f)*R(f,a,d,e) ??? ??? 0.140D+11
+  Contraction      375: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,f,d)*R(c,e,b,f) ??? ??? 0.134D+11
+  Contraction      376: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e,f,c)*R(d,a,f,e) ??? ??? 0.119D+11
+  Contraction      377: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,f,c)*R(a,d,e,f) ??? ??? 0.139D+11
+  Contraction      378: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e,f,b)*R(c,a,f,e) ??? ??? 0.121D+11
+  Contraction      379: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,b,a)*R(c,e,f,d) ??? ??? 0.149D+11
+  Contraction      380: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,d,b)*R(f,a,c,e) ??? ??? 0.146D+11
+  Contraction      381: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,f,a)*R(d,e,c,f) ??? ??? 0.143D+11
+  Contraction      382: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,c,f)*R(f,a,b,e) ??? ??? 0.133D+11
+  Contraction      383: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,a,d)*R(b,f,c,e) ??? ??? 0.120D+11
+  Contraction      384: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,c,b,f)*R(e,d,a,f) ??? ??? 0.136D+11
+  Contraction      385: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,f,b)*R(d,c,f,e) ??? ??? 0.129D+11
+  Contraction      386: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,a,c)*R(f,b,e,d) ??? ??? 0.137D+11
+  Contraction      387: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,b,f)*R(f,c,a,e) ??? ??? 0.120D+11
+  Contraction      388: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e,f,c)*R(f,e,d,a) ??? ??? 0.142D+11
+  Contraction      389: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,c,f)*R(b,f,e,d) ??? ??? 0.136D+11
+  Contraction      390: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,d,e,f)*R(a,f,c,e) ??? ??? 0.142D+11
+  Contraction      391: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,a,f)*R(e,c,f,d) ??? ??? 0.138D+11
+  Contraction      392: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,c,f)*R(b,d,f,e) ??? ??? 0.134D+11
+  Contraction      393: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e,f,d)*R(f,e,a,c) ??? ??? 0.146D+11
+  Contraction      394: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,b,f)*R(d,f,e,c) ??? ??? 0.142D+11
+  Contraction      395: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,f,c)*R(f,b,e,d) ??? ??? 0.142D+11
+  Contraction      396: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,a,d)*R(c,b,e,f) ??? ??? 0.136D+11
+  Contraction      397: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,f,a)*R(c,f,b,e) ??? ??? 0.120D+11
+  Contraction      398: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e,f,b)*R(e,f,a,c) ??? ??? 0.143D+11
+  Contraction      399: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,d,c)*R(f,e,a,b) ??? ??? 0.135D+11
+  Contraction      400: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,f,b)*R(c,e,f,a) ??? ??? 0.119D+11
+  Contraction      401: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,a,e,f)*R(b,f,e,c) ??? ??? 0.135D+11
+  Contraction      402: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,f,d)*R(c,f,a,e) ??? ??? 0.120D+11
+  Contraction      403: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,c,b)*R(f,d,e,a) ??? ??? 0.138D+11
+  Contraction      404: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,f,a)*R(f,e,c,b) ??? ??? 0.116D+11
+  Contraction      405: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,c,f)*R(f,a,d,e) ??? ??? 0.143D+11
+  Contraction      406: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,b,e,f)*R(e,c,f,a) ??? ??? 0.127D+11
+  Contraction      407: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,c,f)*R(d,a,e,f) ??? ??? 0.118D+11
+  Contraction      408: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e,a,f)*R(d,f,b,e) ??? ??? 0.138D+11
+  Contraction      409: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,d,f)*R(e,f,b,c) ??? ??? 0.135D+11
+  Contraction      410: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,c,f)*R(a,f,e,b) ??? ??? 0.117D+11
+  Contraction      411: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,a,e,f)*R(c,e,f,b) ??? ??? 0.133D+11
+  Contraction      412: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,c,f)*R(b,e,a,f) ??? ??? 0.142D+11
+  Contraction      413: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,b,f)*R(e,d,f,c) ??? ??? 0.138D+11
+  Contraction      414: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,d,f)*R(a,c,f,e) ??? ??? 0.133D+11
+  Contraction      415: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,b,c)*R(e,a,f,d) ??? ??? 0.121D+11
+  Contraction      416: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e,f,a)*R(b,e,f,d) ??? ??? 0.147D+11
+  Contraction      417: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,c,d)*R(f,a,b,e) ??? ??? 0.142D+11
+  Contraction      418: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,b,c,f)*R(a,e,d,f) ??? ??? 0.129D+11
+  Contraction      419: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(a,e,f,c)*R(b,f,d,e) ??? ??? 0.146D+11
+  Contraction      420: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,e,f,a)*R(f,c,b,e) ??? ??? 0.136D+11
+  Contraction      421: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(c,e,a,f)*R(b,e,f,d) ??? ??? 0.120D+11
+  Contraction      422: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(d,a,e,f)*R(c,e,b,f) ??? ??? 0.142D+11
+  Contraction      423: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,d,b,f)*R(a,c,f,e) ??? ??? 0.119D+11
+  Contraction      424: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,f,a,b)*R(f,d,e,c) ??? ??? 0.165D+11
+  Contraction      425: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(e,a,f,c)*R(e,b,f,d) ??? ??? 0.120D+11
+  Contraction      426: (       29       29       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b,c,d)+=L(b,e,f,d)*R(c,e,f,a) ??? ??? 0.142D+11
+  Contraction      427: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(e,d,a,c) ??? ??? 0.208D+10
+  Contraction      428: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(e,c,d,a) ??? ??? 0.210D+10
+  Contraction      429: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(d,a,e,c) ??? ??? 0.630D+10
+  Contraction      430: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(e,d,c,a) ??? ??? 0.185D+10
+  Contraction      431: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(e,a,d,c) ??? ??? 0.207D+10
+  Contraction      432: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(a,e,d,c) ??? ??? 0.193D+10
+  Contraction      433: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(d,c,e,a) ??? ??? 0.186D+11
+  Contraction      434: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(d,c,e,a) ??? ??? 0.208D+10
+  Contraction      435: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(d,c,e,a) ??? ??? 0.506D+11
+  Contraction      436: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(d,c,a,e) ??? ??? 0.224D+11
+  Contraction      437: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(c,d,a,e) ??? ??? 0.209D+10
+  Contraction      438: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(a,e,d,c) ??? ??? 0.204D+10
+  Contraction      439: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(d,e,c,a) ??? ??? 0.207D+10
+  Contraction      440: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(d,e,c,a) ??? ??? 0.209D+10
+  Contraction      441: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(d,e,c,a) ??? ??? 0.827D+10
+  Contraction      442: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(d,c,a,e) ??? ??? 0.210D+10
+  Contraction      443: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(c,e,a,d) ??? ??? 0.214D+10
+  Contraction      444: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(a,c,e,d) ??? ??? 0.210D+10
+  Contraction      445: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(c,d,a,e) ??? ??? 0.702D+11
+  Contraction      446: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(c,d,a,e) ??? ??? 0.208D+10
+  Contraction      447: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(a,e,d,c) ??? ??? 0.202D+10
+  Contraction      448: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(e,c,a,d) ??? ??? 0.571D+11
+  Contraction      449: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(a,c,d,e) ??? ??? 0.221D+10
+  Contraction      450: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(d,a,c,e) ??? ??? 0.178D+10
+  Contraction      451: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(d,a,e,c) ??? ??? 0.207D+10
+  Contraction      452: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(a,d,c,e) ??? ??? 0.983D+10
+  Contraction      453: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(c,d,a,e) ??? ??? 0.209D+10
+  Contraction      454: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,b,e)*R(d,e,a,c) ??? ??? 0.209D+10
+  Contraction      455: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,b,d,e)*R(c,a,d,e) ??? ??? 0.207D+10
+  Contraction      456: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(a,c,d,e) ??? ??? 0.212D+10
+  Contraction      457: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(c,d,e,b)*R(a,d,c,e) ??? ??? 0.193D+10
+  Contraction      458: (       29       29 ) = (       29       29       29       29 ) * (       29       29       29       29): D(a,b)+=L(b,c,d,e)*R(c,a,d,e) ??? ??? 0.842D+10
+  Contraction      459: ( ) = (       29       29       29       29 ) * (       29       29       29       29): D()+=L(a,b,c,d)*R(d,b,a,c) ??? ??? 0.241D+09
+    459 tensor contractions processed.
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.10479951600920D+13
+ Average GEMM GFlop/s rate    :      0.64454929852926D+03
+ Number of Bytes permuted     :      0.17295367312000D+11
+ Average permute GB/s rate    :      0.25195258908586D+02
+ Average contract GFlop/s rate:      0.32351090587879D+03
+#END_MSG
+ Shutting down TALSH ... Status           0
+Done: Status     0
+ 
+Benchmarking tensor contraction performance (custom) ...
+ Initializing TALSH ... Status           0: Size (Bytes) =    1072693248: Max args in HAB =   12288
+#MSG(TAL-SH::CP-TAL): Statistics on CPU:
+ Number of Flops processed    :      0.10479951600920D+13
+ Average GEMM GFlop/s rate    :      0.64454929852926D+03
+ Number of Bytes permuted     :      0.17295367312000D+11
+ Average permute GB/s rate    :      0.25195258908586D+02
+ Average contract GFlop/s rate:      0.32351090587879D+03
+#END_MSG
+ Shutting down TALSH ... Status           0
+Done: Status     0
+ 
+ Number of NVIDIA GPU found on node = 0
+ TAL-SH has been initialized: Status 0: Host buffer size = 1072693248
+ Left tensor norm1        = 1.694154e-02
+ Right tensor norm1       = 4.247939e-02
+ Tensor contraction has completed successfully
+ Destination tensor norm1 = 1.305532e-04
+ Tensor contraction has completed successfully
+ Destination tensor norm1 = 6.527662e-05
+ Destination tensor norm1 error = 6.868908e-21
+ Three external tensor blocks have been unregistered with TAL-SH
+ TAL-SH has been shut down: Status 0
