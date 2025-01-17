@@ -135,7 +135,7 @@ else
 endif
 #Fortran compiler:
 FC_GNU = gfortran
-FC_NVHPC = pgf90
+FC_NVHPC = nvfortran
 FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
@@ -155,7 +155,7 @@ FC_WRAP = ftn
 FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 #C compiler:
 CC_GNU = gcc
-CC_NVHPC = pgcc
+CC_NVHPC = nvc
 CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
@@ -175,7 +175,7 @@ CC_WRAP = cc
 CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 #C++ compiler:
 CPP_GNU = g++
-CPP_NVHPC = pgc++
+CPP_NVHPC = nvc++
 CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
