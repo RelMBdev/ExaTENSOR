@@ -4,7 +4,7 @@ NAME = Qforce
 
 #Cray cross-compiling wrappers (only for Cray): [WRAP|NOWRAP]:
 export WRAP ?= NOWRAP
-#Compiler: [GNU|INTEL|CRAY|IBM|PGI]:
+#Compiler: [GNU|INTEL|CRAY|IBM|NVHPC]:
 export TOOLKIT ?= GNU
 #Optimization: [DEV|OPT|PRF]:
 export BUILD_TYPE ?= OPT
@@ -135,7 +135,7 @@ else
 endif
 #Fortran compiler:
 FC_GNU = gfortran
-FC_PGI = pgf90
+FC_NVHPC = nvfortran
 FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM  = xlf2008_r
@@ -155,7 +155,7 @@ FC_WRAP = ftn
 FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 #C compiler:
 CC_GNU = gcc
-CC_PGI = pgcc
+CC_NVHPC = nvc
 CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
@@ -175,7 +175,7 @@ CC_WRAP = cc
 CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 #C++ compiler:
 CPP_GNU = g++
-CPP_PGI = pgc++
+CPP_NVHPC = nvc++
 CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
@@ -199,7 +199,7 @@ HIP_COMP = hipcc
 
 #COMPILER INCLUDES:
 INC_GNU = -I.
-INC_PGI = -I.
+INC_NVHPC = -I.
 INC_INTEL = -I.
 INC_CRAY = -I.
 INC_IBM = -I.
@@ -209,7 +209,7 @@ INC = $(INC_$(WRAP))
 
 #COMPILER LIBS:
 LIB_GNU = -L.
-LIB_PGI = -L.
+LIB_NVHPC = -L.
 LIB_INTEL = -L.
 LIB_CRAY = -L.
 LIB_IBM = -L.
@@ -387,7 +387,7 @@ CUDA_LINK += $(HIP_LINK)
 
 #Platform independence:
 PIC_FLAG_GNU = -fPIC
-PIC_FLAG_PGI = -fpic
+PIC_FLAG_NVHPC = -fpic
 PIC_FLAG_INTEL = -fpic
 PIC_FLAG_IBM = -qpic=large
 PIC_FLAG_CRAY = -fpic
@@ -403,9 +403,9 @@ CFLAGS_CRAY_PRF = -c -g -O3 -fopenmp
 CFLAGS_GNU_DEV = -c -g -O0 -fopenmp -D_DEBUG $(ASAN_COMPILE)
 CFLAGS_GNU_OPT = -c -O3 -fopenmp
 CFLAGS_GNU_PRF = -c -g -O3 -fopenmp
-CFLAGS_PGI_DEV = -c -g -O0 -D_DEBUG -silent -w
-CFLAGS_PGI_OPT = -c -O3 -silent -w -Mnovect
-CFLAGS_PGI_PRF = -c -g -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_DEV = -c -g -O0 -D_DEBUG -silent -w
+CFLAGS_NVHPC_OPT = -c -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_PRF = -c -g -O3 -silent -w -Mnovect
 CFLAGS_IBM_DEV = -c -g -O0 -qsmp=omp -D_DEBUG
 CFLAGS_IBM_OPT = -c -O3 -qsmp=omp
 CFLAGS_IBM_PRF = -c -g -O3 -qsmp=omp
@@ -424,9 +424,9 @@ FFLAGS_CRAY_PRF = -c -g -O3 -fopenmp -J OBJ
 FFLAGS_GNU_DEV = -c -fopenmp -g -Og -fbacktrace -fcheck=bounds -fcheck=array-temps -fcheck=pointer -ffpe-trap=invalid,zero,overflow $(ASAN_COMPILE)
 FFLAGS_GNU_OPT = -c -fopenmp -O3
 FFLAGS_GNU_PRF = -c -fopenmp -g -O3
-FFLAGS_PGI_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0
-FFLAGS_PGI_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3
-FFLAGS_PGI_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3
+FFLAGS_NVHPC_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0
+FFLAGS_NVHPC_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3
+FFLAGS_NVHPC_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3
 FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap -qstackprotect=all
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
@@ -440,7 +440,7 @@ MY_LIB = ../INTERVIRT/libintervirt.a ../INTRAVIRT/libintravirt.a ../DSVP/libdsvp
 
 #THREADS:
 LTHREAD_GNU   = -fopenmp $(ASAN_COMPILE)
-LTHREAD_PGI   = -mp -lpthread
+LTHREAD_NVHPC   = -mp -lpthread
 LTHREAD_INTEL = -liomp5
 LTHREAD_CRAY  = -fopenmp
 LTHREAD_IBM   = -lxlsmp
