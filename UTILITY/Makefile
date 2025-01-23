@@ -38,10 +38,10 @@ export PRF_TOOLS ?= scorep
 # toggles for definition of  intel parallel compiler wrapper names
 # some versions of intelmpi use the names below, other mpif90/mpicc/mpicxx
 # but it may also be we are using intel compilers as backends to mpich/openmpi 
-# and then mpiifort/mpiicc/mpiicp will be incorrect 
-export INTEL_MPI_WRAPPER_FC ?= mpiifort
-export INTEL_MPI_WRAPPER_CC ?= mpiicc
-export INTEL_MPI_WRAPPER_CPP ?= mpiicpc
+# and then mpiifx/mpiicx/mpiicpx will be incorrect
+export INTEL_MPI_WRAPPER_FC ?= mpiifx
+export INTEL_MPI_WRAPPER_CC ?= mpiicx
+export INTEL_MPI_WRAPPER_CPP ?= mpiicpx
 # toggles for definition of intel compiler before (ifort/icc/icpc) and after OneAPI 2025 (ifx/icx/icpx)
 export INTEL_FC_NAME ?= ifx
 export INTEL_CC_NAME ?= icx
