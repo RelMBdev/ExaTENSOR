@@ -8,7 +8,7 @@ NAME = ExaTensor
 
 #Cray cross-compiling wrappers (only for Cray): [WRAP|NOWRAP]:
 export WRAP ?= NOWRAP
-#Compiler: [GNU|INTEL|CRAY|IBM|PGI]:
+#Compiler: [GNU|INTEL|CRAY|IBM|NVHPC]:
 export TOOLKIT ?= GNU
 #Optimization: [DEV|OPT|PRF]:
 export BUILD_TYPE ?= OPT

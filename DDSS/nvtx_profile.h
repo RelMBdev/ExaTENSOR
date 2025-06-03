@@ -3,7 +3,8 @@
 #ifndef NVTX_PROFILE_H_
 #define NVTX_PROFILE_H_
 
-#ifndef NO_GPU
+#ifndef NO_GPU 
+#ifndef USE_HIP
 
 #include "nvToolsExt.h"
 
@@ -24,6 +25,12 @@ const int num_colors = sizeof(colors)/sizeof(uint32_t);
 }
 
 #define POP_RANGE nvtxRangePop();
+
+#else 
+
+#define PUSH_RANGE(name,cid)
+#define POP_RANGE
+#endif // USE_HIP
 
 #else
 
