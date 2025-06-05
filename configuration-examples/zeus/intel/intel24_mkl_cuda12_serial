@@ -1,0 +1,26 @@
+#Alternatively you can export all relevant environment variables such that this
+#
+
+module purge
+module load nvidia/cuda/12.0/compilers
+module load intel/2024/compilers 
+
+export EXA_TALSH_ONLY=YES
+export WRAP=NOWRAP
+export TOOLKIT=INTEL
+export MPILIB=NONE
+export BUILD_TYPE=OPT
+export BLASLIB=MKL
+export EXA_OS=LINUX
+export PATH_BLAS_MKL=${MKLROOT}
+export PATH_CUDA=/share/compilers/nvidia/cuda/12.0/
+export GPU_CUDA=CUDA
+export GPU_SM_ARCH=80
+export USE_HIP=NO
+export WITH_CUTT=NO
+#
+# because we're building only TAL-SH, need to specify the CMAKE_* variables as well
+export EXA_TALSH_ONLY=YES
+export CMAKE_Fortran_COMPILER=ifx
+export CMAKE_C_COMPILER=icx
+export CMAKE_CXX_COMPILER=icpx

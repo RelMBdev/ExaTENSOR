@@ -8,20 +8,20 @@
         program main
         use, intrinsic:: ISO_C_BINDING
         implicit none
-        logical, parameter:: TEST_NVTAL=.FALSE.
+        logical, parameter:: TEST_NVTAL=.TRUE. ! FALSE.
         logical, parameter:: TEST_C_TALSH=.TRUE.
         logical, parameter:: TEST_CXX_TALSH=.TRUE.
         logical, parameter:: TEST_XL_TALSH=.TRUE.
         logical, parameter:: TEST_HYPER_TALSH=.TRUE.
-        logical, parameter:: TEST_SVD_TALSH=.TRUE.
+        logical, parameter:: TEST_SVD_TALSH=.FALSE. ! .TRUE.
         logical, parameter:: TEST_F_TALSH=.TRUE.
         logical, parameter:: TEST_XLF_TALSH=.TRUE.
         logical, parameter:: TEST_QC_TALSH=.TRUE.
-        logical, parameter:: TEST_QC_TALSH_XL=.FALSE.
+        logical, parameter:: TEST_QC_TALSH_XL=.FALSE. ! .TRUE. 
         logical, parameter:: TEST_NWCHEM=.TRUE.
         logical, parameter:: TEST_COMPLEX=.TRUE.
-        logical, parameter:: BENCH_TALSH_RND=.FALSE.
-        logical, parameter:: BENCH_TALSH_CUSTOM=.FALSE.
+        logical, parameter:: BENCH_TALSH_RND=.TRUE. ! FALSE.
+        logical, parameter:: BENCH_TALSH_CUSTOM=.TRUE. ! FALSE.
 
         interface
 

@@ -8,7 +8,7 @@
 !However, different specializations always have different microcodes, even for the same instruction codes.
 
 !AUTHOR: Dmitry I. Lyakh (Liakh): quant4me@gmail.com
-!REVISION: 2021/05/07
+!REVISION: 2020/05/15
 
 !Copyright (C) 2014-2022 Dmitry I. Lyakh (Liakh)
 !Copyright (C) 2014-2022 Oak Ridge National Laboratory (UT-Battelle)
@@ -142,12 +142,10 @@
    !NOOP:
         integer(INTD), parameter, public:: TAVP_INSTR_NOOP=DS_INSTR_NOOP !no operation (empty instruction): Negative opcode
    !General control [0-15]:
-        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_RESUME=0     !resumes TAVP execution (used for special purposes or has no effect)
-        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_STOP=1       !stops TAVP (completes all current instructions and shuts down TAVP)
+        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_RESUME=0     !resume TAVP execution (used for special purposes or has no effect)
+        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_STOP=1       !stop TAVP (finishes current instructions and shuts down TAVP)
         integer(INTD), parameter, public:: TAVP_INSTR_CTRL_DUMP_CACHE=2 !dumps the cache of each TAVP into the log file
         integer(INTD), parameter, public:: TAVP_INSTR_CTRL_FLUSH=3      !flushes all unfinished MPI communications
-        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_ACC_LOCAL=4  !activates local accumulates and dispatch affinity based on the destination tensor argument
-        integer(INTD), parameter, public:: TAVP_INSTR_CTRL_ACC_REMOTE=5 !activates remote accumulates and dispatch affinity based on all tensor arguments + load balance
    !Auxiliary space definitions [16-63]:
         integer(INTD), parameter, public:: TAVP_INSTR_SPACE_CREATE=16   !create a (hierarchical) vector space
         integer(INTD), parameter, public:: TAVP_INSTR_SPACE_DESTROY=17  !destroy a (hierarchical) vector space

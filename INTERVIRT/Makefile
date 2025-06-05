@@ -4,7 +4,7 @@ NAME = intervirt
 
 #Cray cross-compiling wrappers (only for Cray): [WRAP|NOWRAP]:
 export WRAP ?= NOWRAP
-#Compiler: [GNU|INTEL|CRAY|IBM|PGI]:
+#Compiler: [GNU|INTEL|CRAY|IBM|NVHPC]:
 export TOOLKIT ?= GNU
 #Optimization: [DEV|OPT|PRF]:
 export BUILD_TYPE ?= OPT
@@ -88,23 +88,47 @@ export PATH_CUTT ?= /home/dima/src/cutt
 # cuTensor path (only if you use cuTensor library):
 export PATH_CUTENSOR ?= /home/dima/src/cutensor
 
+# profiling tools
+export PRF_TOOLS ?= scorep
+
+# toggles for definition of  intel parallel compiler wrapper names
+# some versions of intelmpi use the names below, other mpif90/mpicc/mpicxx
+# but it may also be we are using intel compilers as backends to mpich/openmpi 
+# and then mpiifx/mpiicx/mpiicpx will be incorrect
+export INTEL_MPI_WRAPPER_FC ?= mpiifx
+export INTEL_MPI_WRAPPER_CC ?= mpiicx
+export INTEL_MPI_WRAPPER_CPP ?= mpiicpx
+# toggles for definition of intel compiler before (ifort/icc/icpc) and after OneAPI 2025 (ifx/icx/icpx)
+export INTEL_FC_NAME ?= ifx
+export INTEL_CC_NAME ?= icx
+export INTEL_CPP_NAME ?= icpx
+
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif
 #Fortran compiler:
 FC_GNU = gfortran
-FC_PGI = pgf90
-FC_INTEL = ifort
+FC_NVHPC = nvfortran
+FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
+ifeq ($(TOOLKIT),INTEL)
+FC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_FC)
+FC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_FC)
+else
 FC_MPICH = $(PATH_MPICH_BIN)/mpif90
 FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpifort
+endif
 ifeq ($(MPILIB),NONE)
 FC_NOWRAP = $(FC_$(TOOLKIT))
 else
@@ -114,12 +138,17 @@ FC_WRAP = ftn
 FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 #C compiler:
 CC_GNU = gcc
-CC_PGI = pgcc
-CC_INTEL = icc
+CC_NVHPC = nvc
+CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
+ifeq ($(TOOLKIT),INTEL)
+CC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CC)
+CC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CC)
+else
 CC_MPICH = $(PATH_MPICH_BIN)/mpicc
 CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpicc
+endif
 ifeq ($(MPILIB),NONE)
 CC_NOWRAP = $(CC_$(TOOLKIT))
 else
@@ -129,12 +158,17 @@ CC_WRAP = cc
 CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 #C++ compiler:
 CPP_GNU = g++
-CPP_PGI = pgc++
-CPP_INTEL = icc
+CPP_NVHPC = nvc++
+CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
+ifeq ($(TOOLKIT),INTEL)
+CPP_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CPP)
+CPP_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CPP)
+else
 CPP_MPICH = $(PATH_MPICH_BIN)/mpicxx
 CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpicxx
+endif
 ifeq ($(MPILIB),NONE)
 CPP_NOWRAP = $(CPP_$(TOOLKIT))
 else
@@ -147,7 +181,7 @@ CUDA_COMP = nvcc
 
 #COMPILER INCLUDES:
 INC_GNU = -I.
-INC_PGI = -I.
+INC_NVHPC = -I.
 INC_INTEL = -I.
 INC_CRAY = -I.
 INC_IBM = -I.
@@ -157,7 +191,7 @@ INC = $(INC_$(WRAP))
 
 #COMPILER LIBS:
 LIB_GNU = -L.
-LIB_PGI = -L.
+LIB_NVHPC = -L.
 LIB_INTEL = -L.
 LIB_CRAY = -L.
 LIB_IBM = -L.
@@ -317,7 +351,7 @@ NO_PHI = -DNO_PHI
 
 #Platform independence:
 PIC_FLAG_GNU = -fPIC
-PIC_FLAG_PGI = -fpic
+PIC_FLAG_NVHPC = -fpic
 PIC_FLAG_INTEL = -fpic
 PIC_FLAG_IBM = -qpic=large
 PIC_FLAG_CRAY = -fpic
@@ -333,9 +367,9 @@ CFLAGS_CRAY_PRF = -c -g -O3 -fopenmp
 CFLAGS_GNU_DEV = -c -g -O0 -fopenmp -D_DEBUG $(ASAN_COMPILE)
 CFLAGS_GNU_OPT = -c -O3 -fopenmp
 CFLAGS_GNU_PRF = -c -g -O3 -fopenmp
-CFLAGS_PGI_DEV = -c -g -O0 -D_DEBUG -silent -w
-CFLAGS_PGI_OPT = -c -O3 -silent -w -Mnovect
-CFLAGS_PGI_PRF = -c -g -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_DEV = -c -g -O0 -D_DEBUG -silent -w
+CFLAGS_NVHPC_OPT = -c -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_PRF = -c -g -O3 -silent -w -Mnovect
 CFLAGS_IBM_DEV = -c -g -O0 -qsmp=omp -D_DEBUG
 CFLAGS_IBM_OPT = -c -O3 -qsmp=omp
 CFLAGS_IBM_PRF = -c -g -O3 -qsmp=omp
@@ -345,23 +379,23 @@ CFLAGS = $(CFLAGS_$(TOOLKIT)_$(BUILD_TYPE)) $(NO_GPU) $(NO_AMD) $(NO_PHI) $(NO_B
 CPPFLAGS = $(CFLAGS) -std=c++11 $(ASAN_CXX)
 
 #FORTRAN FLAGS:
-FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel
-FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel
-FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel
+FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel
+FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel
+FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel
 FFLAGS_CRAY_DEV = -c -g -fopenmp -J OBJ
 FFLAGS_CRAY_OPT = -c -O3 -fopenmp -J OBJ
 FFLAGS_CRAY_PRF = -c -g -O3 -fopenmp -J OBJ
 FFLAGS_GNU_DEV = -c -fopenmp -g -Og -fbacktrace -fcheck=bounds -fcheck=array-temps -fcheck=pointer -ffpe-trap=invalid,zero,overflow $(ASAN_COMPILE) 
 FFLAGS_GNU_OPT = -c -fopenmp -O3 
 FFLAGS_GNU_PRF = -c -fopenmp -g -O3 
-FFLAGS_PGI_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0
-FFLAGS_PGI_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3
-FFLAGS_PGI_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3
+FFLAGS_NVHPC_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0
+FFLAGS_NVHPC_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3
+FFLAGS_NVHPC_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3
 FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap -qstackprotect=all
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
 
-GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 > 0')
+GCC_VERSION_GE_100 = $(shell gcc -dumpfullversion -dumpversion | awk -F. '$$1 >= 10 && $$2 >= 0')
 ifneq ($(GCC_VERSION_GE_100),)
     FFLAGS_GNU_DEV += -fallow-argument-mismatch
     FFLAGS_GNU_OPT += -fallow-argument-mismatch
@@ -378,7 +412,7 @@ MY_LIB = ../INTRAVIRT/libintravirt.a ../DSVP/libdsvp.a ../TALSH/libtalsh.a ../DD
 
 #THREADS:
 LTHREAD_GNU   = -fopenmp $(ASAN_COMPILE)
-LTHREAD_PGI   = -mp -lpthread
+LTHREAD_NVHPC   = -mp -lpthread
 LTHREAD_INTEL = -liomp5
 LTHREAD_CRAY  = -fopenmp
 LTHREAD_IBM   = -lxlsmp
@@ -390,7 +424,7 @@ LFLAGS = $(LTHREAD) $(MPI_LINK) $(LA_LINK) $(CUDA_LINK) $(LIB)
 OBJS = ./OBJ/tavp_worker.o ./OBJ/tavp_manager.o ./OBJ/exatensor.o
 
 $(NAME): $(OBJS) $(MY_LIB)
-	ar cr lib$(NAME).a $(OBJS) $(MY_LIB)
+	ar cr lib$(NAME).a $(OBJS) 
 
 ./OBJ/tavp_worker.o: tavp_worker.F90 ../INTRAVIRT/OBJ/virta.o ../GFC/OBJ/gfc_base.o ../GFC/OBJ/gfc_list.o ../GFC/OBJ/gfc_vector.o ../GFC/OBJ/gfc_dictionary.o
 	mkdir -p ./OBJ

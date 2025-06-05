@@ -1,6 +1,6 @@
 !ExaTENSOR: TAVP-Worker (TAVP-WRK) implementation
 !AUTHOR: Dmitry I. Lyakh (Liakh): quant4me@gmail.com
-!REVISION: 2021/05/07
+!REVISION: 2021/02/26
 
 !Copyright (C) 2014-2022 Dmitry I. Lyakh (Liakh)
 !Copyright (C) 2014-2022 Oak Ridge National Laboratory (UT-Battelle)
@@ -3582,9 +3582,7 @@
            case(TAVP_INSTR_CTRL_RESUME,&
                &TAVP_INSTR_CTRL_STOP,&
                &TAVP_INSTR_CTRL_DUMP_CACHE,&
-               &TAVP_INSTR_CTRL_FLUSH,&
-               &TAVP_INSTR_CTRL_ACC_LOCAL,&
-               &TAVP_INSTR_CTRL_ACC_REMOTE)
+               &TAVP_INSTR_CTRL_FLUSH)
             call construct_instr_ctrl(errc); if(errc.ne.0) errc=-13
            case(TAVP_INSTR_TENS_CREATE,&
                &TAVP_INSTR_TENS_DESTROY)
@@ -3975,9 +3973,7 @@
                  case(TAVP_INSTR_CTRL_RESUME,&
                      &TAVP_INSTR_CTRL_STOP,&
                      &TAVP_INSTR_CTRL_DUMP_CACHE,&
-                     &TAVP_INSTR_CTRL_FLUSH,&
-                     &TAVP_INSTR_CTRL_ACC_LOCAL,&
-                     &TAVP_INSTR_CTRL_ACC_REMOTE)
+                     &TAVP_INSTR_CTRL_FLUSH)
                   call encode_instr_ctrl(errc); if(errc.ne.0) errc=-13
                  case(TAVP_INSTR_TENS_CREATE,&
                      &TAVP_INSTR_TENS_DESTROY)
@@ -5782,9 +5778,7 @@
                  case(TAVP_INSTR_CTRL_RESUME,&
                      &TAVP_INSTR_CTRL_STOP,&
                      &TAVP_INSTR_CTRL_DUMP_CACHE,&
-                     &TAVP_INSTR_CTRL_FLUSH,&
-                     &TAVP_INSTR_CTRL_ACC_LOCAL,&
-                     &TAVP_INSTR_CTRL_ACC_REMOTE)
+                     &TAVP_INSTR_CTRL_FLUSH)
                  case(TAVP_INSTR_TENS_CREATE,&
                      &TAVP_INSTR_TENS_DESTROY)
                   call decode_instr_tens_create_destroy(errc); if(errc.ne.0) errc=-13
@@ -8656,12 +8650,6 @@
             tens_instr%timings%time_dispatched=time_sys_sec()
             if(opcode.eq.TAVP_INSTR_CTRL_STOP) then
              stopping=.TRUE.
-            elseif(opcode.eq.TAVP_INSTR_CTRL_ACC_LOCAL) then
-             call tavp_wrk_local_updates(.TRUE.)
-             call ddss_reconfigure(.TRUE.,.FALSE.,.TRUE.,.FALSE.)
-            elseif(opcode.eq.TAVP_INSTR_CTRL_ACC_REMOTE) then
-             call tavp_wrk_local_updates(.FALSE.)
-             call ddss_reconfigure(.TRUE.,.FALSE.,.FALSE.,.FALSE.)
             elseif(opcode.eq.TAVP_INSTR_CTRL_DUMP_CACHE) then
 !$OMP CRITICAL (IO)
              write(jo,'("#DEBUG(TAVP-WRK): TENSOR CACHE DUMP:")')

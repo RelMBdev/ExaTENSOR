@@ -8,7 +8,7 @@ NAME = talsh
 
 #Cray cross-compiling wrappers (only for Cray): [WRAP|NOWRAP]:
 export WRAP ?= NOWRAP
-#Compiler: [GNU|INTEL|CRAY|IBM|PGI]:
+#Compiler: [GNU|INTEL|CRAY|IBM|NVHPC]:
 export TOOLKIT ?= GNU
 #Optimization: [DEV|OPT|PRF]:
 export BUILD_TYPE ?= OPT
@@ -104,29 +104,58 @@ export PATH_CUTENSOR ?= /usr/local/cutensor
 #export PATH_ROCM ?= /sw/spock/spack-envs/views/rocm-4.2.0
 export PATH_ROCM ?= /opt/rocm
 # Only reset these if HIP files are spread in system directories:
- export PATH_HIP_INC ?= $(PATH_ROCM)/hip/include
- export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
- export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
- export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
- export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
+export PATH_HIP_INC ?= $(PATH_ROCM)/include
+export PATH_HIPBLAS_INC ?= $(PATH_ROCM)/hipblas/include
+export PATH_HIP_LIB ?= $(PATH_ROCM)/hip/lib
+export PATH_HIPBLAS_LIB ?= $(PATH_ROCM)/hipblas/lib
+export PATH_HIP_BIN ?= $(PATH_ROCM)/hip/bin
+
+#YOU ARE DONE! MAKE IT!
+ifeq ($(USE_HIP),YES)
+PATH_CUDA_INC = .
+endif
+
+# profiling tools
+export PRF_TOOLS ?= scorep
+
+# toggles for definition of  intel parallel compiler wrapper names
+# some versions of intelmpi use the names below, other mpif90/mpicc/mpicxx
+# but it may also be we are using intel compilers as backends to mpich/openmpi 
+# and then mpiifx/mpiicx/mpiicpx will be incorrect
+export INTEL_MPI_WRAPPER_FC ?= mpiifx
+export INTEL_MPI_WRAPPER_CC ?= mpiicx
+export INTEL_MPI_WRAPPER_CPP ?= mpiicpx
+# toggles for definition of intel compiler before (ifort/icc/icpc) and after OneAPI 2025 (ifx/icx/icpx)
+export INTEL_FC_NAME ?= ifx
+export INTEL_CC_NAME ?= icx
+export INTEL_CPP_NAME ?= icpx
 
 #YOU ARE DONE! MAKE IT!
 
 
 #=======================
 ifeq ($(BUILD_TYPE),PRF)
+ ifeq ($(PRF_TOOLS),scorep)
  COMP_PREF = scorep --thread=omp --cuda
+ else
+ COMP_PREF =
+ endif
 else
  COMP_PREF =
 endif
 #Fortran compiler:
 FC_GNU = gfortran
-FC_PGI = pgf90
-FC_INTEL = ifort
+FC_NVHPC = nvfortran
+FC_INTEL =$(INTEL_FC_NAME)
 FC_CRAY = ftn
 FC_IBM = xlf2008_r
+ifeq ($(TOOLKIT),INTEL)
+FC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_FC)
+FC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_FC)
+else
 FC_MPICH = $(PATH_MPICH_BIN)/mpif90
 FC_OPENMPI = $(PATH_OPENMPI_BIN)/mpifort
+endif
 ifeq ($(MPILIB),NONE)
 FC_NOWRAP = $(FC_$(TOOLKIT))
 else
@@ -140,12 +169,17 @@ FCOMP = $(COMP_PREF) $(FC_$(WRAP))
 endif
 #C compiler:
 CC_GNU = gcc
-CC_PGI = pgcc
-CC_INTEL = icc
+CC_NVHPC = nvc
+CC_INTEL =$(INTEL_CC_NAME)
 CC_CRAY = cc
 CC_IBM = xlc_r
+ifeq ($(TOOLKIT),INTEL)
+CC_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CC)
+CC_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CC)
+else
 CC_MPICH = $(PATH_MPICH_BIN)/mpicc
 CC_OPENMPI = $(PATH_OPENMPI_BIN)/mpicc
+endif
 ifeq ($(MPILIB),NONE)
 CC_NOWRAP = $(CC_$(TOOLKIT))
 else
@@ -159,12 +193,17 @@ CCOMP = $(COMP_PREF) $(CC_$(WRAP))
 endif
 #C++ compiler:
 CPP_GNU = g++
-CPP_PGI = pgc++
-CPP_INTEL = icc
+CPP_NVHPC = nvc++
+CPP_INTEL =$(INTEL_CPP_NAME)
 CPP_CRAY = CC
 CPP_IBM = xlC_r
+ifeq ($(TOOLKIT),INTEL)
+CPP_MPICH = $(PATH_MPICH_BIN)/$(INTEL_MPI_WRAPPER_CPP)
+CPP_OPENMPI = $(PATH_OPENMPI_BIN)/$(INTEL_MPI_WRAPPER_CPP)
+else
 CPP_MPICH = $(PATH_MPICH_BIN)/mpicxx
 CPP_OPENMPI = $(PATH_OPENMPI_BIN)/mpicxx
+endif
 ifeq ($(MPILIB),NONE)
 CPP_NOWRAP = $(CPP_$(TOOLKIT))
 else
@@ -182,7 +221,7 @@ HIP_COMP = hipcc
 
 #COMPILER INCLUDES:
 INC_GNU = -I.
-INC_PGI = -I.
+INC_NVHPC = -I.
 INC_INTEL = -I.
 INC_CRAY = -I.
 INC_IBM = -I.
@@ -192,7 +231,7 @@ INC = $(INC_$(WRAP))
 
 #COMPILER LIBS:
 LIB_GNU = -L.
-LIB_PGI = -L.
+LIB_NVHPC = -L.
 LIB_INTEL = -L.
 LIB_CRAY = -L.
 LIB_IBM = -L.
@@ -333,7 +372,7 @@ CUDA_LINK += $(HIP_LINK)
 
 #Platform independence:
 PIC_FLAG_GNU = -fPIC
-PIC_FLAG_PGI = -fpic
+PIC_FLAG_NVHPC = -fpic
 PIC_FLAG_INTEL = -fpic
 PIC_FLAG_IBM = -qpic=large
 PIC_FLAG_CRAY = -fpic
@@ -371,7 +410,12 @@ else
 CUDA_FLAGS = -D_FORCE_INLINES
 endif
 
-HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --amdgpu-target=gfx906,gfx908 #-fopenmp
+ifdef CRAY_ACCEL_TARGET
+HIP_TARGET=$(shell echo $(CRAY_ACCEL_TARGET) | sed -e s/amd_//g )
+HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=$(HIP_TARGET)
+else
+HIP_FLAGS = -c -g -O3 -D_FORCE_INLINES -fno-gpu-rdc -fPIC --offload-arch=gfx90a,gfx906,gfx908 #-fopenmp
+endif
 
 #Accelerator support:
 ifeq ($(TOOLKIT),IBM)
@@ -389,7 +433,12 @@ NO_GPU = -DCUDA_ARCH=$(GPU_ARCH)
 else
 NO_GPU = -DNO_GPU
 endif
+ifeq ($(GPU_CUDA),HIP)
+NO_GPU = 
+NO_AMD = 
+else
 NO_AMD = -DNO_AMD
+endif
 NO_PHI = -DNO_PHI
 
 #C FLAGS:
@@ -402,9 +451,9 @@ CFLAGS_CRAY_PRF = -c -g -O3 -fopenmp
 CFLAGS_GNU_DEV = -c -g -O0 -fopenmp -D_DEBUG $(ASAN_COMPILE)
 CFLAGS_GNU_OPT = -c -O3 -fopenmp
 CFLAGS_GNU_PRF = -c -g -O3 -fopenmp
-CFLAGS_PGI_DEV = -c -g -O0 -D_DEBUG -silent -w
-CFLAGS_PGI_OPT = -c -O3 -silent -w -Mnovect
-CFLAGS_PGI_PRF = -c -g -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_DEV = -c -g -O0 -D_DEBUG -silent -w
+CFLAGS_NVHPC_OPT = -c -O3 -silent -w -Mnovect
+CFLAGS_NVHPC_PRF = -c -g -O3 -silent -w -Mnovect
 CFLAGS_IBM_DEV = -c -g -O0 -qsmp=omp -D_DEBUG
 CFLAGS_IBM_OPT = -c -O3 -qsmp=omp
 CFLAGS_IBM_PRF = -c -g -O3 -qsmp=omp
@@ -429,18 +478,18 @@ endif
 CPPFLAGS = $(CFLAGS) -std=c++11 $(ASAN_CXX)
 
 #FORTRAN FLAGS:
-FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
-FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
-FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -mkl=parallel $(LA_INC)
+FFLAGS_INTEL_DEV = -c -g -O0 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
+FFLAGS_INTEL_OPT = -c -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
+FFLAGS_INTEL_PRF = -c -g -O3 -fpp -vec-threshold4 -traceback -qopenmp -qmkl=parallel $(LA_INC)
 FFLAGS_CRAY_DEV = -c -g -fopenmp -J OBJ $(LA_INC)
 FFLAGS_CRAY_OPT = -c -O3 -fopenmp -J OBJ $(LA_INC)
 FFLAGS_CRAY_PRF = -c -g -O3 -fopenmp -J OBJ $(LA_INC)
 FFLAGS_GNU_DEV = -c -fopenmp -g -Og -fbacktrace -fcheck=bounds -fcheck=array-temps -fcheck=pointer -ffpe-trap=invalid,zero,overflow $(ASAN_COMPILE) $(LA_INC)
 FFLAGS_GNU_OPT = -c -fopenmp -O3 $(LA_INC)
 FFLAGS_GNU_PRF = -c -fopenmp -g -O3 $(LA_INC)
-FFLAGS_PGI_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0 $(LA_INC)
-FFLAGS_PGI_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3 $(LA_INC)
-FFLAGS_PGI_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3 $(LA_INC)
+FFLAGS_NVHPC_DEV = -c -mp -Mcache_align -Mbounds -Mchkptr -Mstandard -Mallocatable=03 -g -O0 $(LA_INC)
+FFLAGS_NVHPC_OPT = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -O3 $(LA_INC)
+FFLAGS_NVHPC_PRF = -c -mp -Mcache_align -Mstandard -Mallocatable=03 -g -O3 $(LA_INC)
 FFLAGS_IBM_DEV = -c -qsmp=noopt -g9 -O0 -qfullpath -qkeepparm -qcheck -qsigtrap -qstackprotect=all
 FFLAGS_IBM_OPT = -c -qsmp=omp -O3
 FFLAGS_IBM_PRF = -c -qsmp=omp -g -O3
@@ -448,7 +497,7 @@ FFLAGS = $(FFLAGS_$(TOOLKIT)_$(BUILD_TYPE)) $(DF)$(NO_GPU) $(DF)$(NO_AMD) $(DF)$
 
 #THREADS:
 LTHREAD_GNU   = -fopenmp $(ASAN_COMPILE)
-LTHREAD_PGI   = -mp -lpthread
+LTHREAD_NVHPC   = -mp -lpthread
 LTHREAD_INTEL = -liomp5
 LTHREAD_CRAY  = -fopenmp
 LTHREAD_IBM   = -lxlsmp
@@ -517,7 +566,7 @@ endif
 	$(FCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(FFLAGS) timers.F90 -o ./OBJ/timers.o
 
 ./OBJ/nvtx_profile.o: nvtx_profile.c nvtx_profile.h
-	$(CPPCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CPPFLAGS) nvtx_profile.c -o ./OBJ/nvtx_profile.o
+	$(CCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CFLAGS) nvtx_profile.c -o ./OBJ/nvtx_profile.o
 
 ./OBJ/byte_packet.o: byte_packet.cpp byte_packet.h
 	$(CPPCOMP) $(INC) $(MPI_INC) $(CUDA_INC) $(CPPFLAGS) byte_packet.cpp -o ./OBJ/byte_packet.o
