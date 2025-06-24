@@ -51,7 +51,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !output device
-        integer(INTD), private:: DEBUG=0    !debugging level
+        integer(INTD), private:: DEBUG=1    !debugging level
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
  !Error codes:
         integer(INTD), parameter, public:: TEREC_SUCCESS=SUCCESS
@@ -6646,8 +6646,10 @@
                  vol=layout%get_volume()
                  if(vol.gt.1) then
                   call body_range%gfc_range_ctor(dims(1:n),ierr)
+                  write(*,*) "TensPrinterApply: gfc_range_ctor", dims(1:n), ierr
                   if(ierr.eq.GFC_SUCCESS) then
                    call briter%init(body_range,ierr)
+                   write(*,*) "TensPrinterApply: gfc_range_iter_t", ierr
                    if(ierr.eq.GFC_SUCCESS) then
                     select case(layout%get_data_type())
                     case(R4)
@@ -6712,7 +6714,9 @@
            jerr=GFC_SUCCESS
            call c_f_pointer(body_p,body,(/vol/)) !body(1:vol)
            do while(jerr.eq.GFC_SUCCESS)
-            call briter%get_offsets(offset,jn,jerr); if(jerr.ne.GFC_SUCCESS) exit
+            call briter%get_offsets(offset,jn,jerr);
+            write(*,*) "TensPrinterApply: gfc_briter1", offset,jn,jerr
+            if(jerr.ne.GFC_SUCCESS) exit
             addr=1_INTL+layout%map(offset(1:jn),ind_base=0_INTL)
             if(real(abs(body(addr)),8).ge.this%print_thresh)&
             &write(this%print_dev,'(1x,D16.7,1x,64(1x,i6))') body(addr),bases(1:jn)+offset(1:jn)
@@ -6735,7 +6739,9 @@
            jerr=GFC_SUCCESS
            call c_f_pointer(body_p,body,(/vol/)) !body(1:vol)
            do while(jerr.eq.GFC_SUCCESS)
-            call briter%get_offsets(offset,jn,jerr); if(jerr.ne.GFC_SUCCESS) exit
+            call briter%get_offsets(offset,jn,jerr);
+            write(*,*) "TensPrinterApply: gfc_briter2", offset,jn,jerr
+            if(jerr.ne.GFC_SUCCESS) exit
             addr=1_INTL+layout%map(offset(1:jn),ind_base=0_INTL)
             if(abs(body(addr)).ge.this%print_thresh)&
             &write(this%print_dev,'(1x,D23.14,1x,64(1x,i6))') body(addr),bases(1:jn)+offset(1:jn)
@@ -6758,7 +6764,9 @@
            jerr=GFC_SUCCESS
            call c_f_pointer(body_p,body,(/vol/)) !body(1:vol)
            do while(jerr.eq.GFC_SUCCESS)
-            call briter%get_offsets(offset,jn,jerr); if(jerr.ne.GFC_SUCCESS) exit
+            call briter%get_offsets(offset,jn,jerr);
+            write(*,*) "TensPrinterApply: gfc_briter3", offset,jn,jerr
+            if(jerr.ne.GFC_SUCCESS) exit
             addr=1_INTL+layout%map(offset(1:jn),ind_base=0_INTL)
             if(real(abs(body(addr)),8).ge.this%print_thresh)&
             &write(this%print_dev,'(1x,(D16.7,1x,D16.7),1x,64(1x,i6))') body(addr),bases(1:jn)+offset(1:jn)
@@ -6781,7 +6789,9 @@
            jerr=GFC_SUCCESS
            call c_f_pointer(body_p,body,(/vol/)) !body(1:vol)
            do while(jerr.eq.GFC_SUCCESS)
-            call briter%get_offsets(offset,jn,jerr); if(jerr.ne.GFC_SUCCESS) exit
+            call briter%get_offsets(offset,jn,jerr);
+            write(*,*) "TensPrinterApply: gfc_briter4", offset,jn,jerr
+            if(jerr.ne.GFC_SUCCESS) exit
             addr=1_INTL+layout%map(offset(1:jn),ind_base=0_INTL)
             if(abs(body(addr)).ge.this%print_thresh)&
             &write(this%print_dev,'(1x,(D23.14,1x,D23.14),1x,64(1x,i6))') body(addr),bases(1:jn)+offset(1:jn)

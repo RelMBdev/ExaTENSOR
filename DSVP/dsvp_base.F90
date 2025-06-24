@@ -57,7 +57,7 @@
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !default output for this module
-        integer(INTD), private:: DEBUG=0    !debugging mode
+        integer(INTD), private:: DEBUG=1    !debugging mode
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
  !Error codes:
         integer(INTD), parameter, public:: DSVP_SUCCESS=SUCCESS        !success
@@ -1242,12 +1242,14 @@
            if(present(max_items)) then
             if(present(stop_predicate)) then
              ierr=this%iqueue%move_list(dsvu_queue_it,stop_predicate,max_elems=max_items,num_elems_moved=n)
+             write(*,*) "DSUnitPortAbsorb1", max_items, n
             else
              ierr=this%iqueue%move_list(dsvu_queue_it,max_elems=max_items,num_elems_moved=n)
             endif
            else
             if(present(stop_predicate)) then
              ierr=this%iqueue%move_list(dsvu_queue_it,stop_predicate,num_elems_moved=n)
+             write(*,*) "DSUnitPortAbsorb2", max_items, n
             else
              ierr=this%iqueue%move_list(dsvu_queue_it,num_elems_moved=n)
             endif
@@ -1429,12 +1431,14 @@
          if(present(max_items)) then
           if(present(stop_predicate)) then
            ierr=this%port(port_id)%absorb(out_list,max_items,stop_predicate,num_moved=n) !up to <max_items> DS instructions will be moved from this port into the <out_list>
+           write(*,*) "DSUnitUnloadPort1", max_items, n
           else
            ierr=this%port(port_id)%absorb(out_list,max_items,num_moved=n) !up to <max_items> DS instructions will be moved from this port into the <out_list>
           endif
          else
           if(present(stop_predicate)) then
            ierr=this%port(port_id)%absorb(out_list,stop_predicate=stop_predicate,num_moved=n) !all DS instructions will be moved from this port into the <out_list>
+            write(*,*) "DSUnitUnloadPort2", max_items, n
           else
            ierr=this%port(port_id)%absorb(out_list,num_moved=n) !all DS instructions will be moved from this port into the <out_list>
           endif

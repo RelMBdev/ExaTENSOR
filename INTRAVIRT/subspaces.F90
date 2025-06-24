@@ -52,7 +52,7 @@
 !PARAMETERS:
  !Output:
         integer, private:: CONS_OUT=6     !default output for this module
-        integer, private:: DEBUG=0        !debugging mode level (0:none)
+        integer, private:: DEBUG=1        !debugging mode level (0:none)
         logical, private:: VERBOSE=.TRUE. !verbosity for errors
  !Basis set kind:
         integer(INTD), parameter, public:: BASIS_NONE=0      !no basis set
@@ -2025,11 +2025,13 @@
             if(errc.eq.GFC_SUCCESS) then
              if(present(bas_pred_f)) then
               ier=basis_it%scanf(return_each=.TRUE.,predicate_f=bas_pred_f)
+              write(*,*) " SubspaceResolve: bas_pred_f", ier
              else
               ier=basis_it%scanf(return_each=.TRUE.)
              endif
              if(ier.eq.GFC_IT_ACTIVE) then !found
               cont_elem=>basis_it%pointee(errc)
+              write(*,*) " SubspaceResolve: cont_elem", errc
               if(errc.eq.GFC_SUCCESS) then
                elem_value=>cont_elem%get_value(errc)
                if(errc.eq.GFC_SUCCESS) then

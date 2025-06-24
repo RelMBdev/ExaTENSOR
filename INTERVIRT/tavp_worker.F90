@@ -69,16 +69,16 @@
 !       deferred queue.
 
         use virta
-        use gfc_base
-        use gfc_list
-        use gfc_vector
-        use gfc_dictionary
+        !use gfc_base
+        !use gfc_list
+        !use gfc_vector
+        !use gfc_dictionary
         implicit none
         private
 !PARAMETERS:
  !Basic:
         integer(INTD), private:: CONS_OUT=6 !default console output
-        integer(INTD), private:: DEBUG=0    !debugging mode
+        integer(INTD), private:: DEBUG=1    !debugging mode
         logical, private:: VERBOSE=.TRUE.   !verbosity for errors
         integer(INTD), private:: LOGGING=0  !logging mode: 0 - none, 1 - instruction info, 2 - instruction progress, 3 - details
  !Distributed memory space:
