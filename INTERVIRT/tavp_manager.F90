@@ -91,9 +91,9 @@
 ! # Cloning <tens_instr_t> when calling container.append(tens_instr_t): Check clonability.
 
         use virta
-        !use gfc_base
-        !use gfc_list
-        !use gfc_dictionary
+        use gfc_base
+        use gfc_list
+        use gfc_dictionary
         implicit none
         private
 !PARAMETERS:

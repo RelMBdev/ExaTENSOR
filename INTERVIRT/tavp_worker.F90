@@ -69,10 +69,10 @@
 !       deferred queue.
 
         use virta
-        !use gfc_base
-        !use gfc_list
-        !use gfc_vector
-        !use gfc_dictionary
+        use gfc_base
+        use gfc_list
+        use gfc_vector
+        use gfc_dictionary
         implicit none
         private
 !PARAMETERS:
