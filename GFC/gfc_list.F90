@@ -216,7 +216,7 @@
          implicit none
          class(list_pos_t), intent(inout):: this !inout: list position
 
-         this%elem_p=>NULL()
+         nullify(this%elem_p)
          return
         end subroutine ListPosClean
 !---------------------------------------------
@@ -453,7 +453,7 @@
           endif
           call this%reset_count() !reset all iteration counters
          else
-          this%current=>NULL()
+          nullify(this%current)
           ierr=this%set_status_(GFC_IT_NULL)
           ierr=GFC_IT_NULL
          endif
@@ -476,7 +476,7 @@
           endif
           call this%reset_count() !reset all iteration counters
          else
-          this%current=>NULL()
+          nullify(this%current)
           ierr=this%set_status_(GFC_IT_NULL)
           ierr=GFC_IT_NULL
          endif
@@ -489,7 +489,8 @@
          integer(INTD):: ierr                     !out: error code (0:success)
          class(list_iter_t), intent(inout):: this !inout: iterator
 
-         this%current=>NULL(); this%container=>NULL()
+         nullify(this%current)
+         nullify(this%container)
          call this%reset_count(); ierr=this%set_status_(GFC_IT_NULL)
          return
         end function ListIterRelease
@@ -506,7 +507,7 @@
          if(errc.eq.GFC_IT_ACTIVE) then
           pntee=>this%current; errc=GFC_SUCCESS
          else
-          pntee=>NULL()
+          nullify(pntee)
          endif
          if(present(ierr)) ierr=errc
          return
@@ -521,6 +522,7 @@
          class(gfc_cont_elem_t), pointer, intent(out), optional:: elem_p !out: pointer to the container element
          class(list_elem_t), pointer:: lep
 
+         if(present(elem_p)) nullify(elem_p)
          ierr=this%get_status()
          if(ierr.eq.GFC_IT_ACTIVE) then
           if(associated(this%current)) then
@@ -533,11 +535,11 @@
              this%current=>lep
             endif
            else
-            this%current=>NULL()
+            nullify(this%current)
             ierr=this%set_status_(GFC_IT_DONE)
-            lep=>NULL()
+            nullify(lep)
            endif
-           if(.not.associated(lep)) then; ierr=GFC_NO_MOVE; else; lep=>NULL(); endif
+           if(.not.associated(lep)) then; ierr=GFC_NO_MOVE; else; nullify(lep); endif
           else
            ierr=GFC_CORRUPTED_CONT
           endif
@@ -554,6 +556,7 @@
          class(gfc_cont_elem_t), pointer, intent(out), optional:: elem_p !out: pointer to the container element
          class(list_elem_t), pointer:: lep
 
+         if(present(elem_p)) nullify(elem_p)
          ierr=this%get_status()
          if(ierr.eq.GFC_IT_ACTIVE) then
           if(associated(this%current)) then
@@ -566,11 +569,11 @@
              this%current=>lep
             endif
            else
-            this%current=>NULL()
+            nullify(this%current)
             ierr=this%set_status_(GFC_IT_DONE)
-            lep=>NULL()
+            nullify(lep)
            endif
-           if(.not.associated(lep)) then; ierr=GFC_NO_MOVE; else; lep=>NULL(); endif
+           if(.not.associated(lep)) then; ierr=GFC_NO_MOVE; else; nullify(lep); endif
           else
            ierr=GFC_CORRUPTED_CONT
           endif
@@ -681,7 +684,7 @@
               endif
               ierr=GFC_ERROR
              endif
-             lep=>NULL()
+             nullify(lep)
             else
              if(top) then
               this%container%first_elem%prev_elem=>oep
@@ -690,7 +693,7 @@
              endif
              ierr=GFC_MEM_ALLOC_FAILED
             endif
-            oep=>NULL()
+            nullify(oep)
            else
             ierr=GFC_CORRUPTED_CONT
            endif
@@ -714,19 +717,19 @@
              endif
 #endif
              if(ierr.eq.GFC_SUCCESS) then
-              this%container%first_elem%prev_elem=>NULL()
-              this%container%first_elem%next_elem=>NULL()
+              nullify(this%container%first_elem%prev_elem)
+              nullify(this%container%first_elem%next_elem)
               this%container%last_elem=>this%container%first_elem
               ierr=this%reset() !reset the iterator to GFC_IT_ACTIVE
               if(this%container%num_elems_().ge.0) then !quick counting is on
                nelems=this%container%update_num_elems_(1_INTL,ierr); if(ierr.ne.GFC_SUCCESS) ierr=GFC_CORRUPTED_CONT
               endif
              else
-              deallocate(this%container%first_elem); this%container%first_elem=>NULL()
+              deallocate(this%container%first_elem); nullify(this%container%first_elem)
               ierr=GFC_ERROR
              endif
             else
-             this%container%first_elem=>NULL()
+             nullify(this%container%first_elem)
              ierr=GFC_MEM_ALLOC_FAILED
             endif
            else
@@ -805,7 +808,7 @@
             else
              ierr=GFC_MEM_ALLOC_FAILED
             endif
-            lep=>NULL()
+            nullify(lep)
            else
             ierr=GFC_CORRUPTED_CONT
            endif
@@ -829,19 +832,19 @@
              endif
 #endif
              if(ierr.eq.GFC_SUCCESS) then
-              this%container%first_elem%prev_elem=>NULL()
-              this%container%first_elem%next_elem=>NULL()
+              nullify(this%container%first_elem%prev_elem)
+              nullify(this%container%first_elem%next_elem)
               this%container%last_elem=>this%container%first_elem
               ierr=this%reset() !reset the iterator to GFC_IT_ACTIVE (regardless of <no_move>)
               if(this%container%num_elems_().ge.0) then !quick counting is on
                nelems=this%container%update_num_elems_(1_INTL,ierr); if(ierr.ne.GFC_SUCCESS) ierr=GFC_CORRUPTED_CONT
               endif
              else
-              deallocate(this%container%first_elem); this%container%first_elem=>NULL()
+              deallocate(this%container%first_elem); nullify(this%container%first_elem)
               ierr=GFC_ERROR
              endif
             else
-             this%container%first_elem=>NULL()
+             nullify(this%container%first_elem)
              ierr=GFC_MEM_ALLOC_FAILED
             endif
            else
@@ -937,7 +940,7 @@
              another%current%next_elem=>list_elem
              if(associated(another%current,another%container%last_elem)) another%container%last_elem=>list_elem
             endif
-            call another%jump_(list_elem); list_elem=>NULL()
+            call another%jump_(list_elem); nullify(list_elem)
             if(another%container%num_elems_().ge.0) then !quick counting is on
              nelems=another%container%update_num_elems_(1_INTL,ierr); if(ierr.ne.GFC_SUCCESS) ierr=GFC_CORRUPTED_CONT
             endif
@@ -947,7 +950,7 @@
            if(ierr.eq.GFC_SUCCESS) then
             another%container%first_elem=>list_elem
             another%container%last_elem=>list_elem
-            call another%jump_(list_elem); list_elem=>NULL()
+            call another%jump_(list_elem); nullify(list_elem)
             if(another%container%num_elems_().ge.0) then !quick counting is on
              nelems=another%container%update_num_elems_(1_INTL,ierr); if(ierr.ne.GFC_SUCCESS) ierr=GFC_CORRUPTED_CONT
             endif
@@ -1092,9 +1095,9 @@
                homo=>this%current
                lumo=>this%current%next_elem
                if(associated(lumo)) then
-                new_list%first_elem=>lumo; new_list%first_elem%prev_elem=>NULL()
+                new_list%first_elem=>lumo; nullify(new_list%first_elem%prev_elem)
                 new_list%last_elem=>this%container%last_elem
-                this%container%last_elem=>homo; this%container%last_elem%next_elem=>NULL()
+                this%container%last_elem=>homo; nullify(this%container%last_elem%next_elem)
                else
                 ierr=GFC_INVALID_ARGS
                endif
@@ -1103,8 +1106,8 @@
                lumo=>this%current
                if(associated(homo)) then
                 new_list%first_elem=>this%container%first_elem
-                new_list%last_elem=>homo; new_list%last_elem%next_elem=>NULL()
-                this%container%first_elem=>lumo; this%container%first_elem%prev_elem=>NULL()
+                new_list%last_elem=>homo; nullify(new_list%last_elem%next_elem)
+                this%container%first_elem=>lumo; nullify(this%container%first_elem%prev_elem)
                else
                 ierr=GFC_INVALID_ARGS
                endif
@@ -1113,7 +1116,7 @@
                call this%container%quick_counting_off_() !turn off quick element counting
                call new_list%quick_counting_off_() !turn off quick element counting
               endif
-              homo=>NULL(); lumo=>NULL()
+              nullify(homo); nullify(lumo)
              else
               ierr=GFC_INVALID_ARGS
              endif
@@ -1147,6 +1150,8 @@
          integer(INTL):: nelems
          logical:: first,last
          character(256):: errmesg !debug
+         
+         if(present(value_out)) nullify(value_out)
 
          ierr=this%get_status()
          if(ierr.eq.GFC_IT_ACTIVE) then
@@ -1160,13 +1165,15 @@
              this%current%next_elem%prev_elem=>this%current%prev_elem
             endif
            else
-            if(associated(this%current%next_elem)) this%current%next_elem%prev_elem=>NULL()
+            if(associated(this%current%next_elem)) nullify(this%current%next_elem%prev_elem)
            endif
            if(this%container%num_elems_().ge.0) then !quick counting is on
             nelems=this%container%update_num_elems_(-1_INTL,errc); if(errc.ne.GFC_SUCCESS) ierr=NOT_CLEAN
            endif
            if(first.and.last) then !the only element
-            this%current=>NULL(); this%container%first_elem=>NULL(); this%container%last_elem=>NULL()
+            nullify(this%current);
+            nullify(this%container%first_elem);
+            nullify(this%container%last_elem)
             errc=this%reset(); if(errc.ne.GFC_SUCCESS) ierr=NOT_CLEAN
            else
             if(first) then
@@ -1178,11 +1185,14 @@
             endif
            endif
            if(present(value_out)) then
+            write(*,*) "ListIterDelete: destruct1"
             call lep%destruct(errc,value_out=value_out)
            else
             if(present(dtor_f)) then
+             write(*,*) "ListIterDelete: destruct2"
              call lep%destruct(errc,dtor_f)
             else
+             write(*,*) "ListIterDelete: destruct3"
              call lep%destruct(errc)
             endif
            endif
@@ -1237,7 +1247,7 @@
              enddo
              errc=this%delete(); if(errc.ne.GFC_SUCCESS) ierr=NOT_CLEAN
             endif
-            lep=>NULL()
+            nullify(lep)
            else
             ierr=GFC_CORRUPTED_CONT
            endif
@@ -1339,7 +1349,7 @@
          integer(INTL):: nelems
          logical:: prev
 
-         elem=>NULL(); errc=this%get_status()
+         nullify(elem); errc=this%get_status()
          if(errc.eq.GFC_IT_ACTIVE) then
           prev=.FALSE.; if(present(to_prev)) prev=to_prev
           errc=GFC_SUCCESS; elem=>this%current
@@ -1348,7 +1358,8 @@
             this%container%first_elem=>elem%next_elem
             call this%jump_(elem%next_elem)
            else
-            this%container%first_elem=>NULL(); this%container%last_elem=>NULL()
+            nullify(this%container%first_elem);
+            nullify(this%container%last_elem)
             call this%jump_(list_elem_null); errc=this%reset()
            endif
           else
@@ -1365,7 +1376,8 @@
           endif
           if(associated(elem%prev_elem)) elem%prev_elem%next_elem=>elem%next_elem
           if(associated(elem%next_elem)) elem%next_elem%prev_elem=>elem%prev_elem
-          elem%prev_elem=>NULL(); elem%next_elem=>NULL()
+          nullify(elem%prev_elem);
+          nullify(elem%next_elem)
           if(errc.eq.GFC_SUCCESS.and.this%container%num_elems_().ge.0) then !quick counting is on
            nelems=this%container%update_num_elems_(-1_INTL,errc); if(errc.ne.GFC_SUCCESS) errc=GFC_CORRUPTED_CONT
           endif

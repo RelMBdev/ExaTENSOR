@@ -451,6 +451,7 @@
          integer:: errcode
          logical:: lckd,lck
 
+         if(present(value_out)) nullify(value_out)
          errc=GFC_SUCCESS
          if(present(locked)) then; lckd=locked; else; lckd=.FALSE.; endif; lck=lckd
          if(.not.this%is_empty()) then
@@ -459,17 +460,21 @@
            if(errc.eq.GFC_SUCCESS) then
             if(.not.present(value_out)) then
              if(this%alloc.eq.GFC_TRUE) then
+             if (associated(this%value_p)) then
               if(present(dtor_f)) then
                errc=dtor_f(this%value_p)
                if(errc.ne.0) errc=GFC_MEM_FREE_FAILED
               endif
               deallocate(this%value_p,STAT=errcode)
               if(errcode.ne.0.and.errc.eq.GFC_SUCCESS) errc=GFC_MEM_FREE_FAILED
+             else
+               STOP "destruct"
+             end if
              endif
             else
              value_out=>this%value_p
             endif
-            this%value_p=>NULL()
+            nullify(this%value_p)
             this%alloc=GFC_FALSE
            endif
            if(.not.lckd) then
