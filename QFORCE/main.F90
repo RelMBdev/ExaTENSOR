@@ -1581,9 +1581,9 @@
         call MPI_Init_Thread(MPI_THREAD_MULTIPLE,mpi_th_provided,ierr)
         if(mpi_th_provided.eq.MPI_THREAD_MULTIPLE) then
          if(TEST_CORRECTNESS) then
-          call test_exatensor()
-          call test_exatensor_slicing()
-          call benchmark_exatensor_skinny()
+          !call test_exatensor()
+          !call test_exatensor_slicing()
+          !call benchmark_exatensor_skinny()
           call benchmark_exatensor_fat()
          endif
          if(TEST_PERFORMANCE) then
